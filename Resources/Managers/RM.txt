@@ -1,0 +1,76 @@
+#Models: 6
+ID 0
+FILE ../Resources/Models/Woman1.nfg
+ID 1
+FILE ../Resources/Models/Woman2.nfg
+ID 2
+FILE ../Resources/Models/cube.nfg
+ID 3
+FILE ../Resources/Models/Terrain.nfg
+ID 4
+FILE ../Resources/Models/House.nfg
+ID 5
+FILE ../Resources/Models/fire.nfg
+
+#2D Textures: 11
+ID 0
+FILE ../Resources/Textures/Woman1.tga
+TILING REPEAT
+ID 1
+FILE ../Resources/Textures/Woman2.tga
+TILING REPEAT
+ID 2
+FILE ../Resources/Textures/Dirt.tga
+TILING REPEAT
+ID 3
+FILE ../Resources/Textures/Grass.tga
+TILING REPEAT
+ID 4
+FILE ../Resources/Textures/Rock.tga
+TILING REPEAT
+ID 5
+FILE ../Resources/Textures/House.tga
+TILING REPEAT
+ID 6
+FILE ../Resources/Textures/fire3.tga
+TILING REPEAT
+ID 7
+FILE ../Resources/Textures/DisplacementMap.tga
+TILING REPEAT
+ID 8
+FILE ../Resources/Textures/fire_mask.tga
+TILING REPEAT
+ID 9
+FILE ../Resources/Textures/Terrain_blendmap_1.tga
+TILING REPEAT
+ID 10
+FILE ../Resources/Textures/Terrain_blendmap_2.tga
+TILING REPEAT
+
+#Height Map: 1
+ID 0
+FILE ../Resources/Textures/heightmap.tga
+
+#Cube Textures: 1
+ID 0
+FILE ../Resources/Textures/Cube/right.tga
+FILE ../Resources/Textures/Cube/left.tga
+FILE ../Resources/Textures/Cube/top.tga
+FILE ../Resources/Textures/Cube/bottom.tga
+FILE ../Resources/Textures/Cube/back.tga
+FILE ../Resources/Textures/Cube/front.tga
+TILING CLAMP
+
+#Shaders: 4
+ID 0
+VS ../Resources/Shaders/2DShaderVS.vs
+FS ../Resources/Shaders/2DShaderFS.fs
+ID 1
+VS ../Resources/Shaders/CubeShaderVS.vs
+FS ../Resources/Shaders/CubeShaderFS.fs
+ID 2
+VS ../Resources/Shaders/TerrainShaderVS.vs
+FS ../Resources/Shaders/TerrainShaderFS.fs
+ID 3
+VS ../Resources/Shaders/UVdisplacementVS.vs
+FS ../Resources/Shaders/UVdisplacementFS.fs
