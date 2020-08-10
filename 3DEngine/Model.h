@@ -1,7 +1,6 @@
 #pragma once
 #include "../Utilities/utilities.h" // if you use STL, please include this line AFTER all other include
 #include "Vertex.h"
-#include<vector>
 #include "HeightMap.h"
 
 class Model {
@@ -9,8 +8,7 @@ class Model {
 	int m_iID;
 	GLuint m_iVBOID;
 	GLuint m_iIBOID;
-	int m_iNVertices;
-	int m_iNIndices;
+	GLuint m_iNIndices;
 
 public:
 	Model();
@@ -20,8 +18,8 @@ public:
 	int getID() { return m_iID; }
 	GLuint* getVBO() { return &m_iVBOID; }
 	GLuint* getIBO() { return &m_iIBOID; }
-	int getNVertices() { return m_iNVertices; }
-	int getNIndices() { return m_iNIndices; }
+	GLuint getNIndices() { return m_iNIndices; }
 
 	void loadModel(HeightMap* heightmap = NULL);
+	void Init(int nVertices, Vertex* verticesData, int nIndices, GLuint* indicesData);
 };

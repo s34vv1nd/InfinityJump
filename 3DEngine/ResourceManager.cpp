@@ -38,15 +38,6 @@ Texture * ResourceManager::getCubeTextureByID(int id)
 	return nullptr;
 }
 
-//Texture * ResourceManager::getBlendMapByID(int id)
-//{
-//	for (Texture* p : m_textureList)
-//		if (p && p->getType() == TEXTURE_BLEND) {
-//			if (p->getID() == id) return p;
-//		}
-//	return nullptr;
-//}
-
 HeightMap * ResourceManager::getHeightMapByID(int id)
 {
 	for (HeightMap* p : m_heightmapList)

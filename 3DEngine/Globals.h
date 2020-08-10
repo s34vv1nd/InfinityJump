@@ -1,5 +1,7 @@
 #pragma once
 
+#define GAME_2D
+
 #define LIMIT_FPS			30
 
 // define variable
@@ -15,7 +17,7 @@
 
 // File
 #define RM_TXT_FILE			"../Resources/Managers/RM.txt"
-#define SM_TXT_FILE			"../Resources/Managers/SM.txt"
+#define SM_TXT_FILE			"../Resources/Managers/SM2.txt"
 
 // BUTTONS
 #define BIT_MOVE_FORWARD	(1<<0)
@@ -26,6 +28,8 @@
 #define BIT_ROTATE_DOWN		(1<<5)
 #define BIT_ROTATE_LEFT		(1<<6)
 #define BIT_ROTATE_RIGHT	(1<<7)
+#define BIT_MOVE_UP			(1<<8)
+#define BIT_MOVE_DOWN		(1<<9)
 
 class Globals
 {

@@ -1,9 +1,9 @@
 #include "stdafx.h"
 #include "Object.h"
-#include <string>
 
 
-Object::Object():
+Object::Object(int id):
+	m_iID(id),
 	m_model(NULL),
 	m_heightMap(NULL),
 	m_textures(vector<Texture*>(0)), 
@@ -19,33 +19,6 @@ Object::Object():
 	m_worldMtr.SetIdentity();
 	m_WVPmtr.SetIdentity();
 }
-
-//Object::Object(int id, 
-//	Model * model, 
-//	vector<Texture*> textures, 
-//	HeightMap * heightmap, 
-//	Texture * dispTexture,
-//	Texture * maskTexture,
-//	Shaders * shaders,
-//	Vector3 position, 
-//	Vector3 rotation, 
-//	Vector3 scale
-//):
-//	m_iID(id), 
-//	m_model(model), 
-//	m_textures(textures), 
-//	m_heightMap(heightmap), 
-//	m_dispTexture(dispTexture),
-//	m_maskTexture(maskTexture),
-//	m_shaders(shaders),
-//	m_position(position), 
-//	m_rotation(rotation), 
-//	m_scale(scale),
-//	m_fTime(0)
-//{
-//	m_worldMtr.SetIdentity();
-//	m_model->loadModel(heightmap);
-//}
 
 Object::~Object()
 {
@@ -67,8 +40,6 @@ Matrix Object::calculateWVPmatrix()
 
 int Object::loadFromFile(FILE* fi)
 {
-	fscanf(fi, "ID %d\n", &m_iID);
-
 	int modelID;
 	fscanf(fi, "MODEL %d\n", &modelID);
 	m_model = Singleton<ResourceManager>::GetInstance()->getModelByID(modelID);
@@ -129,12 +100,11 @@ int Object::loadFromFile(FILE* fi)
 	fscanf(fi, "SHADER %d\n", &shadersID);
 	m_shaders = Singleton<ResourceManager>::GetInstance()->getShadersByID(shadersID);
 
-	fscanf(fi, "POSITION %f, %f, %f\n", &m_position.x, &m_position.y, &m_position.z);
-	fscanf(fi, "ROTATION %f, %f, %f\n", &m_rotation.x, &m_rotation.y, &m_rotation.z);
+	fscanf(fi, "POSITION %f %f %f\n", &m_position.x, &m_position.y, &m_position.z);
+	fscanf(fi, "ROTATION %f %f %f\n", &m_rotation.x, &m_rotation.y, &m_rotation.z);
 	m_rotation = m_rotation / 180.0f * PI;
-	fscanf(fi, "SCALE %f, %f, %f\n", &m_scale.x, &m_scale.y, &m_scale.z);
+	fscanf(fi, "SCALE %f %f %f\n", &m_scale.x, &m_scale.y, &m_scale.z);
 
-	m_worldMtr.SetIdentity();
 	m_model->loadModel(m_heightMap);
 	return 0;
 }

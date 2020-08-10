@@ -541,6 +541,36 @@ Matrix & Matrix::SetPerspective(GLfloat fovY, GLfloat aspect, GLfloat nearPlane,
 	return *this;
 }
 
+Matrix& Matrix::SetOrthographic(GLfloat fovY, GLfloat aspect, GLfloat nearPlane, GLfloat farPlane)
+{
+	GLfloat height = 2.0f * nearPlane * tanf(fovY * 0.5f);
+	GLfloat width = height * aspect;
+	GLfloat n2 = 2.0f * nearPlane;
+	GLfloat rcpnmf = 1.f / (nearPlane - farPlane);
+
+	m[0][0] = 2.0f / width;
+	m[1][0] = 0;
+	m[2][0] = 0;
+	m[3][0] = 0;
+
+	m[0][1] = 0;
+	m[1][1] = 2.0f / height;
+	m[2][1] = 0;
+	m[3][1] = 0;
+
+	m[0][2] = 0;
+	m[1][2] = 0;
+	m[2][2] = 2.0f * rcpnmf;
+	m[3][2] = (farPlane + nearPlane) * rcpnmf;
+
+	m[0][3] = 0;
+	m[1][3] = 0;
+	m[2][3] = 0;
+	m[3][3] = 1.0f;
+
+	return *this;
+}
+
 Matrix Matrix::Transpose()
 {
 	Matrix res;

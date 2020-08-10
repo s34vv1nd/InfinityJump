@@ -1,8 +1,6 @@
 #pragma once
-#include <vector>
 #include "../Utilities/utilities.h"
 #include "Math.h"
-#include "define.h"
 #include "Model.h"
 #include "Texture.h"
 #include "Shaders.h"
@@ -11,6 +9,7 @@
 
 class Object
 {
+protected:
 	int m_iID;
 	Model* m_model;
 	HeightMap* m_heightMap;
@@ -27,33 +26,25 @@ class Object
 	GLfloat m_fTime;
 
 public:
-	Object();
-	//Object(int id,
-	//	Model* model,
-	//	std::vector<Texture*> textures,
-	//	HeightMap* heightmap,
-	//	Texture * dispTexture,
-	//	Texture * maskTexture,
-	//	Shaders * shaders, 
-	//	Vector3 position, 
-	//	Vector3 rotation, 
-	//	Vector3 scale
-	//);
+	Object(int id);
 	virtual ~Object();
 
 	int getID() { return m_iID; }
 
-	Matrix calculateWVPmatrix();
+	virtual Matrix calculateWVPmatrix();
 
-	int loadFromFile(FILE* fi);
+	virtual int loadFromFile(FILE* fi);
 	
-	int Init();
+	virtual int Init();
 
-	void addTexture(GLint textureID, GLint textureLoc, GLint textureUnit);
-	int Draw();
+	virtual void Init(int spriteX, int spriteY, int spriteW, int spriteH, int textureW, int textureH, Vector2 origin) {};
+
+	virtual void addTexture(GLint textureID, GLint textureLoc, GLint textureUnit);
+
+	virtual int Draw();
 	
-	void Update(float dt);
+	virtual void Update(float dt);
 	
-	void CleanUp();
+	virtual void CleanUp();
 };
 

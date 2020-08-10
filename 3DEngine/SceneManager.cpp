@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "SceneManager.h"
+#include "Sprite.h"
 
 
 SceneManager::SceneManager():
@@ -24,13 +25,18 @@ int SceneManager::Init(const char* srcFile)
 	m_objList.resize(m_iNObjects, NULL);
 	for (int i = 0; i < m_iNObjects; ++i) {
 		int id;
+		char type[16];
 		fscanf(fi, "ID %d\n", &id);
-		m_objList[i] = new Object();
-		m_objList[i]->loadFromFile(fi);
-		if (m_objList[i]->Init() != 0) {
-			printf("FAILED TO LOAD OBJECT %d\n", i);
-			return 2;
+		fscanf(fi, "TYPE %s\n", type);
+		if (strcmp(type, "SPRITE") == 0) {
+			m_objList[i] = new Sprite(id);
+			m_objList[i]->loadFromFile(fi);
 		}
+		else {
+			m_objList[i] = new Object(id);
+			m_objList[i]->loadFromFile(fi);
+		}
+		m_objList[i]->Init();
 	}
 	fscanf(fi, "\n");
 
@@ -43,7 +49,12 @@ int SceneManager::Init(const char* srcFile)
 	fscanf(fi, "ROTATIONSPEED %f\n", &_rotspeed);
 	Matrix P;
 	GLfloat _aspect = Globals::screenWidth * 1.0f / Globals::screenHeight;
+
+#ifdef GAME_2D
+	m_camera = new Camera(_speed, _rotspeed, P.SetOrthographic(_fov, _aspect, _near, _far));
+#else
 	m_camera = new Camera(_speed, _rotspeed, P.SetPerspective(_fov, _aspect, _near, _far));
+#endif
 
 	fscanf(fi, "#FOG\n");
 	fscanf(fi, "COLOR %f, %f, %f, %f\n", &m_fogColor.x, &m_fogColor.y, &m_fogColor.z, &m_fogColor.w);
@@ -82,16 +93,16 @@ void SceneManager::Key(unsigned char key, bool bIsPressed)
 	switch (key) {
 	case VK_UP:	//MOVE UP
 		if (bIsPressed) 
-			m_pressedBtns |= BIT_MOVE_FORWARD;
+			m_pressedBtns |= BIT_MOVE_UP;
 		else
-			m_pressedBtns &= ~BIT_MOVE_FORWARD;
+			m_pressedBtns &= ~BIT_MOVE_UP;
 		break;
 	
 	case VK_DOWN:	//MOVE DOWN
 		if (bIsPressed) 
-			m_pressedBtns |= BIT_MOVE_BACKWARD; 
+			m_pressedBtns |= BIT_MOVE_DOWN; 
 		else 
-			m_pressedBtns ^= BIT_MOVE_BACKWARD;
+			m_pressedBtns ^= BIT_MOVE_DOWN;
 		break;
 
 	case VK_LEFT:	//MOVE LEFT

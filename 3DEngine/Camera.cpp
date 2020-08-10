@@ -4,8 +4,8 @@
 
 Camera::Camera()
 {
-	m_position = Vector3(30, 30, 0);
-	m_target = Vector3(0, 0, 20);
+	m_position = Vector3(0, 0, 50);
+	m_target = Vector3(0, 0, 0);
 	m_up = Vector3(0, 1, 0);
 }
 
@@ -86,6 +86,20 @@ void Camera::moveRight(GLfloat dt)
 	m_target += d;
 }
 
+void Camera::moveUp(GLfloat dt)
+{
+	Vector3 d = m_up * dt * m_fSpeed;
+	m_position += d;
+	m_target += d;
+}
+
+void Camera::moveDown(GLfloat dt)
+{
+	Vector3 d = m_up * dt * m_fSpeed;
+	m_position -= d;
+	m_target -= d;
+}
+
 void Camera::rotateUp(GLfloat dt)
 {
 	Vector4 localTarget(0, 0, -(m_position - m_target).Length(), 1);
@@ -139,6 +153,8 @@ void Camera::update(GLfloat dt, GLuint bitmask)
 
 	if (bitmask & BIT_MOVE_FORWARD) moveForward(dt);
 	if (bitmask & BIT_MOVE_BACKWARD) moveBackward(dt);
+	if (bitmask & BIT_MOVE_UP) moveUp(dt);
+	if (bitmask & BIT_MOVE_DOWN) moveDown(dt);
 	if (bitmask & BIT_MOVE_LEFT) moveLeft(dt);
 	if (bitmask & BIT_MOVE_RIGHT) moveRight(dt);
 }

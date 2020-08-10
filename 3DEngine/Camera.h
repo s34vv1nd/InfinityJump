@@ -1,8 +1,7 @@
 #pragma once
 #include "../Utilities/utilities.h"
 #include "Math.h"
-#include "define.h"
-
+#include "Globals.h"
 
 class Camera
 {
@@ -26,6 +25,8 @@ public:
 	void moveBackward(GLfloat dt);
 	void moveLeft(GLfloat dt);
 	void moveRight(GLfloat dt);
+	void moveUp(GLfloat dt);
+	void moveDown(GLfloat dt);
 	void rotateUp(GLfloat dt);
 	void rotateDown(GLfloat dt);
 	void rotateLeft(GLfloat dt);

@@ -3,7 +3,6 @@
 #include "../Utilities/utilities.h"
 #include "Math.h"
 #include "Object.h"
-#include "define.h"
 #include "Singleton.h"
 #include "ResourceManager.h"
 #include "Camera.h"
@@ -13,6 +12,7 @@
 using namespace std;
 
 class Object;
+class Sprite;
 
 class SceneManager
 {

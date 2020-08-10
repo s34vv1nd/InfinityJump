@@ -2,7 +2,6 @@
 //
 
 #include "stdafx.h"
-#include <conio.h>
 #include "../Utilities/utilities.h" // if you use STL, please include this line AFTER all other include
 #include "../3DEngine/3DEngine.h"
 

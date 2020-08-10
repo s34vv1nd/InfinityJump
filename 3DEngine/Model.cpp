@@ -24,9 +24,10 @@ void Model::loadModel(HeightMap* heightmap)
 		return;
 	}
 	
-	fscanf(fi, "NrVertices: %d%*c", &m_iNVertices);
-	Vertex* verticesData = new Vertex[m_iNVertices];
-	for (int i = 0; i < m_iNVertices; ++i) {
+	int nVertices;
+	fscanf(fi, "NrVertices: %d%*c", &nVertices);
+	Vertex* verticesData = new Vertex[nVertices];
+	for (int i = 0; i < nVertices; ++i) {
 		fscanf(fi, "%*s pos:[%f, %f, %f]; ", &verticesData[i].pos.x, &verticesData[i].pos.y, &verticesData[i].pos.z);
 		fscanf(fi, "norm:[%f, %f, %f]; ", &verticesData[i].normal.x, &verticesData[i].normal.y, &verticesData[i].normal.z);
 		fscanf(fi, "binorm:[%f, %f, %f]; ", &verticesData[i].binormal.x, &verticesData[i].binormal.y, &verticesData[i].binormal.z);
@@ -38,19 +39,26 @@ void Model::loadModel(HeightMap* heightmap)
 		}
 	}
 
-	fscanf(fi, "NrIndices: %d%*c", &m_iNIndices);
-	GLuint *indicesData = new GLuint[m_iNIndices];
-	for (int i = 0; i < m_iNIndices; i += 3) {
+	int nIndices;
+	fscanf(fi, "NrIndices: %d%*c", &nIndices);
+	GLuint *indicesData = new GLuint[nIndices];
+	for (int i = 0; i < nIndices; i += 3) {
 		fscanf(fi, "%*s %d, %d, %d%*c", &indicesData[i], &indicesData[i + 1], &indicesData[i + 2]);
 	}
 
+	Init(nVertices, verticesData, nIndices, indicesData);
+}
+
+void Model::Init(int nVertices, Vertex* verticesData, int nIndices, GLuint* indicesData)
+{
 	glGenBuffers(1, &m_iVBOID);
 	glBindBuffer(GL_ARRAY_BUFFER, m_iVBOID);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * m_iNVertices, verticesData, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * nVertices, verticesData, GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	glGenBuffers(1, &m_iIBOID);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_iIBOID);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * m_iNIndices, indicesData, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * nIndices, indicesData, GL_STATIC_DRAW);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	m_iNIndices = nIndices;
 }

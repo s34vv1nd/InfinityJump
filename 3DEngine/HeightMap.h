@@ -1,5 +1,4 @@
 #pragma once
-#include <vector>
 #include "../Utilities/utilities.h"
 
 class HeightMap

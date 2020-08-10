@@ -1,11 +1,10 @@
 #pragma once
-#include <vector>
 #include "../Utilities/utilities.h"
 #include "Model.h"
 #include "Texture.h"
 #include "Shaders.h"
-#include "define.h"
 #include "HeightMap.h"
+#include "Globals.h"
 
 using namespace std;
 
