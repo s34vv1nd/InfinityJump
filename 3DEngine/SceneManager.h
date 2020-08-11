@@ -22,6 +22,10 @@ class SceneManager
 	GLuint m_pressedBtns = 0;
 	Vector4 m_fogColor;
 	GLfloat m_fogMinDist = 0, m_fogMaxDist = 0;
+
+	void loadSpriteFromFile(int id, int index, FILE* fi);
+	void loadAnimSpriteFromFile(int id, int index, FILE* fi);
+	void loadObjectFromFile(int id, int index, FILE* fi);
 public:
 	SceneManager();
 	~SceneManager();

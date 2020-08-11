@@ -26,22 +26,34 @@ protected:
 	GLfloat m_fTime;
 
 public:
-	Object(int id);
+	Object(int id = 0);
 	virtual ~Object();
 
+	void setModel(Model* model);
+	void setTextures(std::vector<Texture*> textures);
+	void setBlendMap(Texture* blendMap);
+	void setDispTexture(Texture* dispTexture);
+	void setMaskTexture(Texture* maskTexture);
+	void setShaders(Shaders* shaders);
+
 	int getID() { return m_iID; }
+	void setID(int id) { m_iID = id; }
+	Vector3 getPosition() { return m_position; }
+	void setPosition(Vector3 position) { m_position = position; }
+	Vector3 getRotation() { return m_rotation; }
+	void setRotation(Vector3 rotation) { m_rotation = rotation; }
+	Vector3 getScale() { return m_scale; }
+	void setScale(Vector3 scale) { m_scale = scale; }
 
 	virtual Matrix calculateWVPmatrix();
-
-	virtual int loadFromFile(FILE* fi);
 	
-	virtual int Init();
+	virtual void Init();
 
 	virtual void Init(int spriteX, int spriteY, int spriteW, int spriteH, int textureW, int textureH, Vector2 origin) {};
 
 	virtual void addTexture(GLint textureID, GLint textureLoc, GLint textureUnit);
 
-	virtual int Draw();
+	virtual void Draw();
 	
 	virtual void Update(float dt);
 	

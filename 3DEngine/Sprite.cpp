@@ -1,33 +1,13 @@
 #include "stdafx.h"
 #include "Sprite.h"
 
-Sprite::Sprite(int id) : Object(id) {
-
+Sprite::Sprite(int id) : 
+	Object(id) 
+{
 }
 
 Sprite::~Sprite()
 {
-}
-
-int Sprite::loadFromFile(FILE* fi)
-{
-	GLint spriteX, spriteY, spriteW, spriteH, textureW, textureH;
-	fscanf(fi, "COORD %d %d %d %d %d %d\n", &spriteX, &spriteY, &spriteW, &spriteH, &textureW, &textureH);
-
-	int textureID;
-	fscanf(fi, "TEXTURE %d\n", &textureID);
-	m_textures.push_back(Singleton<ResourceManager>::GetInstance()->getTextureByID(textureID));
-	
-	int shaderID;
-	fscanf(fi, "SHADER %d\n", &shaderID);
-	m_shaders = Singleton<ResourceManager>::GetInstance()->getShadersByID(shaderID);
-
-	fscanf(fi, "POSITION %f %f %f\n", &m_position.x, &m_position.y, &m_position.z);
-	fscanf(fi, "ROTATION %f %f %f\n", &m_rotation.x, &m_rotation.y, &m_rotation.z);
-	m_rotation = m_rotation / 180.0f * PI;
-	fscanf(fi, "SCALE %f %f %f\n", &m_scale.x, &m_scale.y, &m_scale.z);
-	Init(spriteX, spriteY, spriteW, spriteH, textureW, textureH, Vector2(m_position.x, m_position.y));
-	return 0;
 }
 
 void Sprite::Init(int spriteX, int spriteY, int spriteW, int spriteH, int textureW, int textureH, Vector2 origin)
@@ -50,6 +30,43 @@ void Sprite::Init(int spriteX, int spriteY, int spriteW, int spriteH, int textur
 	GLuint indicesData[6] = {0, 1, 2, 1, 2, 3};
 	m_model = new Model();
 	m_model->Init(4, verticesData, 6, indicesData);
+}
+
+void Sprite::Draw()
+{
+	glUseProgram(m_shaders->m_iProgram);
+
+	glBindBuffer(GL_ARRAY_BUFFER, *m_model->getVBO());
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, *m_model->getIBO());
+
+	if (m_shaders->m_iTextureUniform != -1) {
+		addTexture(*m_textures[0]->getTextureID(), m_shaders->m_iTextureUniform, 0);
+	}
+
+	if (m_shaders->m_iPositionAttribute != -1)
+	{
+		glEnableVertexAttribArray(m_shaders->m_iPositionAttribute);
+		glVertexAttribPointer(m_shaders->m_iPositionAttribute, 3, GL_FLOAT, GL_FALSE,
+			sizeof(Vertex), (void*)offsetof(Vertex, pos));
+	}
+
+	if (m_shaders->m_iTextureAttribute != -1) {
+		glEnableVertexAttribArray(m_shaders->m_iTextureAttribute);
+		glVertexAttribPointer(m_shaders->m_iTextureAttribute, 2, GL_FLOAT, GL_FALSE,
+			sizeof(Vertex), (void*)offsetof(Vertex, uv));
+	}
+
+	if (m_shaders->m_iWVPmatrixUniform != -1) {
+		glUniformMatrix4fv(m_shaders->m_iWVPmatrixUniform, 1, GL_FALSE, m_WVPmtr.m[0]);
+	}
+
+	glActiveTexture(GL_TEXTURE0);
+
+	glDrawElements(GL_TRIANGLES, m_model->getNIndices(), GL_UNSIGNED_INT, 0);
+
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 void Sprite::setPos2D(GLfloat x, GLfloat y)

@@ -12,14 +12,14 @@ protected:
     // string m_Text;
 
 public:
-    Sprite(int id);
+    Sprite(int id = 0);
     virtual ~Sprite();
-    virtual int loadFromFile(FILE* fi);
     virtual void Init(int spriteX, int spriteY, int spriteW, int spriteH, int textureW, int textureH, Vector2 origin);
+    virtual void Draw();
 
-    void setPos2D(GLfloat x, GLfloat y);
+    virtual void setPos2D(GLfloat x, GLfloat y);
     Vector2 getPos2D();
-    void setSize(GLint width, GLint height);
+    virtual void setSize(GLint width, GLint height);
     GLint getWidth();
     GLint getHeight();
 };

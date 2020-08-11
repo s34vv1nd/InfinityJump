@@ -24,10 +24,40 @@ Object::~Object()
 {
 }
 
+void Object::setModel(Model* model)
+{
+	m_model = model;
+}
+
+void Object::setTextures(vector<Texture*> textures)
+{
+	m_textures = textures;
+}
+
+void Object::setBlendMap(Texture* blendMap)
+{
+	m_blendMap = blendMap;
+}
+
+void Object::setDispTexture(Texture* dispTexture)
+{
+	m_dispTexture = dispTexture;
+}
+
+void Object::setMaskTexture(Texture* maskTexture)
+{
+	m_maskTexture = maskTexture;
+}
+
+void Object::setShaders(Shaders* shaders)
+{
+	m_shaders = shaders;
+}
+
 Matrix Object::calculateWVPmatrix()
 {
 	Camera* camera = Singleton<SceneManager>::GetInstance()->getCamera();
-	if (m_textures[0]->getType() == TEXTURE_2D) {
+	if (m_textures.empty() || !m_textures[0] || m_textures[0]->getType() != TEXTURE_CUBE) {
 		m_WVPmtr = m_worldMtr * camera->getViewMatrix() * camera->getProjectionMatrix();
 	}
 	else {
@@ -38,78 +68,7 @@ Matrix Object::calculateWVPmatrix()
 	return m_WVPmtr;
 }
 
-int Object::loadFromFile(FILE* fi)
-{
-	int modelID;
-	fscanf(fi, "MODEL %d\n", &modelID);
-	m_model = Singleton<ResourceManager>::GetInstance()->getModelByID(modelID);
-
-	int nTextures;
-	fscanf(fi, "TEXTURES %d\n", &nTextures);
-	if (nTextures) {
-		for (int i = 0; i < nTextures; ++i) {
-			int id;
-			fscanf(fi, "TEXTURE %d\n", &id);
-			m_textures.push_back(Singleton<ResourceManager>::GetInstance()->getTextureByID(id));
-		}
-	}
-
-	int nBlendMaps;
-	fscanf(fi, "BLENDMAPS %d\n", &nBlendMaps);
-	if (nBlendMaps) {
-		int id;
-		fscanf(fi, "BLENDMAP %d\n", &id);
-		m_blendMap = Singleton<ResourceManager>::GetInstance()->getTextureByID(id);
-	}
-
-	int nHeightMaps;
-	fscanf(fi, "HEIGHTMAPS %d\n", &nHeightMaps);
-	if (nHeightMaps) {
-		int id;
-		fscanf(fi, "HEIGHTMAP %d\n", &id);
-		m_heightMap = Singleton<ResourceManager>::GetInstance()->getHeightMapByID(id);
-	}
-
-	int nCubeTextures;
-	fscanf(fi, "CUBETEXTURES %d\n", &nCubeTextures);
-	if (nCubeTextures) {
-		for (int i = 0; i < nCubeTextures; ++i) {
-			int id;
-			fscanf(fi, "CUBETEXTURE %d\n", &id);
-			m_textures.push_back(Singleton<ResourceManager>::GetInstance()->getCubeTextureByID(id));
-		}
-	}
-
-	int nDispTextures;
-	fscanf(fi, "DISPTEXTURES %d\n", &nDispTextures);
-	if (nDispTextures) {
-		int id;
-		fscanf(fi, "DISPTEXTURE %d\n", &id);
-		m_dispTexture = Singleton<ResourceManager>::GetInstance()->getTextureByID(id);
-	}
-
-	int nMaskTextures;
-	fscanf(fi, "MASKTEXTURES %d\n", &nMaskTextures);
-	if (nMaskTextures) {
-		int id;
-		fscanf(fi, "MASKTEXTURE %d\n", &id);
-		m_maskTexture = Singleton<ResourceManager>::GetInstance()->getTextureByID(id);
-	}
-
-	int shadersID;
-	fscanf(fi, "SHADER %d\n", &shadersID);
-	m_shaders = Singleton<ResourceManager>::GetInstance()->getShadersByID(shadersID);
-
-	fscanf(fi, "POSITION %f %f %f\n", &m_position.x, &m_position.y, &m_position.z);
-	fscanf(fi, "ROTATION %f %f %f\n", &m_rotation.x, &m_rotation.y, &m_rotation.z);
-	m_rotation = m_rotation / 180.0f * PI;
-	fscanf(fi, "SCALE %f %f %f\n", &m_scale.x, &m_scale.y, &m_scale.z);
-
-	m_model->loadModel(m_heightMap);
-	return 0;
-}
-
-int Object::Init()
+void Object::Init()
 {
 	Matrix scaleMtr, rotMtrX, rotMtrY, rotMtrZ, translationMtr;
 	scaleMtr.SetScale(m_scale);
@@ -118,7 +77,6 @@ int Object::Init()
 	rotMtrZ.SetRotationZ(m_rotation.z);
 	translationMtr.SetTranslation(m_position);
 	m_worldMtr = scaleMtr * rotMtrZ * rotMtrX * rotMtrY * translationMtr;
-	return 0;
 }
 
 void Object::addTexture(GLint textureID, GLint textureLoc, GLint textureUnit)
@@ -128,7 +86,7 @@ void Object::addTexture(GLint textureID, GLint textureLoc, GLint textureUnit)
 	glBindTexture(GL_TEXTURE_2D, textureID);
 }
 
-int Object::Draw()
+void Object::Draw()
 {
 	glUseProgram(m_shaders->m_iProgram);
 	
@@ -232,7 +190,6 @@ int Object::Draw()
 		glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
 		glDepthMask(GL_TRUE);
 	}
-	return 0;
 }
 
 void Object::Update(float dt)

@@ -146,6 +146,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Animation.h" />
+    <ClInclude Include="AnimSprite.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="3DEngine.h" />
@@ -163,6 +165,8 @@
     <ClInclude Include="Vertex.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Animation.cpp" />
+    <ClCompile Include="AnimSprite.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="HeightMap.cpp" />
     <ClCompile Include="Model.cpp" />
