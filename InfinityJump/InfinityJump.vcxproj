@@ -27,11 +27,35 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Button.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="GameStateBase.h" />
+    <ClInclude Include="GameStateMachine.h" />
+    <ClInclude Include="GSCredit.h" />
+    <ClInclude Include="GSHighScore.h" />
+    <ClInclude Include="GSMenu.h" />
+    <ClInclude Include="GSOption.h" />
+    <ClInclude Include="GSPause.h" />
+    <ClInclude Include="GSPlay.h" />
+    <ClInclude Include="GSWelcom.h" />
+    <ClInclude Include="StatesType.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Button.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameStateBase.cpp" />
+    <ClCompile Include="GameStateMachine.cpp" />
+    <ClCompile Include="GSCredit.cpp" />
+    <ClCompile Include="GSHighScore.cpp" />
+    <ClCompile Include="GSMenu.cpp" />
+    <ClCompile Include="GSOption.cpp" />
+    <ClCompile Include="GSPause.cpp" />
+    <ClCompile Include="GSPlay.cpp" />
+    <ClCompile Include="GSWelcom.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="StatesType.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
