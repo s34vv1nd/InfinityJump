@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "AnimSprite.h"
 
-AnimSprite::AnimSprite(int id) :
-	Sprite(id)
+AnimSprite::AnimSprite() :
+	Sprite()
 {
 }
 

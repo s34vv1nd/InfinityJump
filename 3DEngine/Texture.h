@@ -31,8 +31,8 @@ public:
 	GLint getHeight() { return m_iHeight; }
 	GLint getBPP() { return m_iBPP; }
 
-	void loadTexture(char* srcFile);
-	void loadCubeTexture(std::vector<char*> srcFiles);
+	void loadTexture(const char* srcFile);
+	void loadCubeTexture(std::vector<const char*> srcFiles);
 	
 };
 

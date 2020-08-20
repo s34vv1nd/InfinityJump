@@ -1,6 +1,9 @@
 #include "stdafx.h"
 #include "Texture.h"
 
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
+
 
 Texture::Texture()
 {
@@ -17,18 +20,31 @@ Texture::~Texture()
 	glDeleteBuffers(1, &m_iTextureID);
 }
 
-void Texture::loadTexture(char * srcFile) {
+void Texture::loadTexture(const char * srcFile) {
 	glGenTextures(1, &m_iTextureID);
 	glBindTexture(GL_TEXTURE_2D, m_iTextureID);
 
-	char *imageData = LoadTGA(srcFile, &m_iWidth, &m_iHeight, &m_iBPP);
-	if (m_iBPP == 24) {
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_iWidth, m_iHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, imageData);
+	if (strcmp(srcFile + strlen(srcFile) - 4, ".tga") == 0) {
+		char* imageData = LoadTGA(srcFile, &m_iWidth, &m_iHeight, &m_iBPP);
+		if (m_iBPP == 24) {
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_iWidth, m_iHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, imageData);
+		}
+		if (m_iBPP == 32) {
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_iWidth, m_iHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
+		}
+		delete imageData;
 	}
-	if (m_iBPP == 32) {
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_iWidth, m_iHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
+	else {
+		int channels;
+		unsigned char* imageData = stbi_load(srcFile, &m_iWidth, &m_iHeight, &channels, 0);
+		if (channels == 3) {
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_iWidth, m_iHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, imageData);
+		}
+		else {
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_iWidth, m_iHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
+		}
+		stbi_image_free(imageData);
 	}
-	delete imageData;
 
 	if (m_tiling == REPEAT)
 	{
@@ -47,7 +63,7 @@ void Texture::loadTexture(char * srcFile) {
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-void Texture::loadCubeTexture(std::vector<char*> srcFiles)
+void Texture::loadCubeTexture(std::vector<const char*> srcFiles)
 {
 	glGenTextures(1, &m_iTextureID);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, m_iTextureID);

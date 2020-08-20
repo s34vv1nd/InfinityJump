@@ -75,10 +75,10 @@ int ResourceManager::Init(const char * srcFile)
 	m_modelList.resize(m_iNModels, NULL);
 	for (int i = 0; i < m_iNModels; ++i) {
 		int id;
-		char srcFile[64];
+		char modelSrcFile[64];
 		fscanf(fi, "ID %d\n", &id);
-		fscanf(fi, "FILE %s\n", srcFile);
-		m_modelList[i] = new Model(id, srcFile);
+		fscanf(fi, "FILE %s\n", modelSrcFile);
+		m_modelList[i] = new Model(id, modelSrcFile);
 	}
 	fscanf(fi, "\n");
 
@@ -86,13 +86,13 @@ int ResourceManager::Init(const char * srcFile)
 	m_textureList.resize(m_iNTextures, NULL);
 	for (int i = 0; i < m_iNTextures; ++i) {
 		int id;
-		char srcFile[64];
+		char textureSrcFile[100];
 		char tiling[20];
 		fscanf(fi, "ID %d\n", &id);
-		fscanf(fi, "FILE %s\n", srcFile);
+		fscanf(fi, "FILE %s\n", textureSrcFile);
 		fscanf(fi, "TILING %s\n", tiling);
 		m_textureList[i] = new Texture(id, strcmp(tiling, "REPEAT") == 0 ? REPEAT : CLAMP_TO_EDGE, TEXTURE_2D);
-		m_textureList[i]->loadTexture(srcFile);
+		m_textureList[i]->loadTexture(textureSrcFile);
 	}
 	fscanf(fi, "\n");
 
@@ -100,25 +100,25 @@ int ResourceManager::Init(const char * srcFile)
 	m_heightmapList.resize(m_iNHeightMaps, NULL);
 	for (int i = 0; i < m_iNHeightMaps; ++i) {
 		int id;
-		char srcFile[64];
+		char heightmapSrcFile[64];
 		fscanf(fi, "ID %d\n", &id);
-		fscanf(fi, "FILE %s\n", srcFile);
+		fscanf(fi, "FILE %s\n", heightmapSrcFile);
 		m_heightmapList[i] = new HeightMap(id);
-		m_heightmapList[i]->loadHeightMap(srcFile);
+		m_heightmapList[i]->loadHeightMap(heightmapSrcFile);
 	}
 	fscanf(fi, "\n");
 
 	fscanf(fi, "#Cube Textures: %d\n", &m_iNCubeTextures);
-	m_cubeTextureList.resize(m_iNTextures, NULL);
-	for (int i = 0; i < m_iNTextures; ++i) {
+	m_cubeTextureList.resize(m_iNCubeTextures, NULL);
+	for (int i = 0; i < m_iNCubeTextures; ++i) {
 		int id;
-		vector<char*> srcFiles;
+		vector<const char*> srcFiles;
 		char tiling[20];
 		fscanf(fi, "ID %d\n", &id);
 		for (int i = 0; i < 6; ++i) {
-
-			srcFiles.push_back(new char[64]);
-			fscanf(fi, "FILE %s\n", srcFiles[i]);
+			char cubeSrcFile[64];
+			fscanf(fi, "FILE %s\n", cubeSrcFile);
+			srcFiles.push_back(cubeSrcFile);
 		}
 		fscanf(fi, "TILING %s\n", tiling);
 		m_cubeTextureList[i] = new Texture(id, strcmp(tiling, "REPEAT") == 0 ? REPEAT : CLAMP_TO_EDGE, TEXTURE_CUBE);

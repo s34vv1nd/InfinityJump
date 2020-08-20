@@ -2,8 +2,8 @@
 #include "Object.h"
 
 
-Object::Object(int id):
-	m_iID(id),
+Object::Object():
+	m_iID(0),
 	m_model(NULL),
 	m_heightMap(NULL),
 	m_textures(vector<Texture*>(0)), 

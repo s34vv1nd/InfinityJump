@@ -1,4 +1,5 @@
 #pragma once
+#include "../Utilities/utilities.h" // if you use STL, please include this line AFTER all other include
 #include "Math.h"
 
 struct Vertex 

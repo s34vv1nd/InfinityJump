@@ -14,7 +14,7 @@ class Camera
 
 public:
 	Camera();
-	Camera(GLfloat speed, GLfloat rotationSpeed, Matrix pMatrix);
+	Camera(GLfloat nearPlane, GLfloat farPlane, GLfloat FOV, GLfloat speed, GLfloat rotationSpeed);
 	~Camera();
 
 	Matrix getWorldMatrix();

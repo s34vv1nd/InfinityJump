@@ -13,6 +13,7 @@ using namespace std;
 
 class Object;
 class Sprite;
+class AnimSprite;
 
 class SceneManager
 {
@@ -23,9 +24,9 @@ class SceneManager
 	Vector4 m_fogColor;
 	GLfloat m_fogMinDist = 0, m_fogMaxDist = 0;
 
-	void loadSpriteFromFile(int id, int index, FILE* fi);
-	void loadAnimSpriteFromFile(int id, int index, FILE* fi);
-	void loadObjectFromFile(int id, int index, FILE* fi);
+	Sprite* loadSpriteFromFile(FILE* fi);
+	AnimSprite* loadAnimSpriteFromFile(FILE* fi);
+	Object* loadObjectFromFile(FILE* fi);
 public:
 	SceneManager();
 	~SceneManager();

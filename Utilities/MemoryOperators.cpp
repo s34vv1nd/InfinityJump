@@ -21,6 +21,7 @@ void operator delete (void * p)
 
 void operator delete[] (void * p)
 {
+	if (p)
 	return MemoryManager::GetInstance()->Free(p);
 }
 

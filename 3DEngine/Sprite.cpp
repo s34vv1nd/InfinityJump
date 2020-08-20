@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "Sprite.h"
 
-Sprite::Sprite(int id) : 
-	Object(id) 
+Sprite::Sprite() : 
+	Object() 
 {
 }
 
@@ -26,6 +26,10 @@ void Sprite::Init(int spriteX, int spriteY, int spriteW, int spriteH, int textur
 	verticesData[1].uv = Vector2((float)(spriteX + spriteW) / textureW, (float)(spriteY + spriteH) / textureH);
 	verticesData[2].uv = Vector2((float)spriteX / textureW, (float)spriteY / textureH);
 	verticesData[3].uv = Vector2((float)(spriteX + spriteW) / textureW, (float)spriteY / textureH);
+
+	for (int i = 0; i < 4; ++i) {
+		printf("x: %f, y: %f, z: %f\n", verticesData[i].pos.x, verticesData[i].pos.y, verticesData[i].pos.z);
+	}
 
 	GLuint indicesData[6] = {0, 1, 2, 1, 2, 3};
 	m_model = new Model();

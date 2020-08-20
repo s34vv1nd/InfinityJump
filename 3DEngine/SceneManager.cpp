@@ -26,37 +26,33 @@ int SceneManager::Init(const char* srcFile)
 	m_objList.resize(m_iNObjects, NULL);
 	for (int i = 0; i < m_iNObjects; ++i) {
 		int id;
-		char type[16];
+		char name[64], type[16];
 		fscanf(fi, "ID %d\n", &id);
+		fscanf(fi, "NAME %s\n", name);
 		fscanf(fi, "TYPE %s\n", type);
 		if (strcmp(type, "SPRITE") == 0) {
-			loadSpriteFromFile(id, i, fi);
+			m_objList[i] = loadSpriteFromFile(fi);
 		}
 		else if (strcmp(type, "ANIMSPRITE") == 0) {
-			loadAnimSpriteFromFile(id, i, fi);
+			m_objList[i] = loadAnimSpriteFromFile(fi);
 		}
 		else {
-			loadObjectFromFile(id, i, fi);
+			m_objList[i] = loadObjectFromFile(fi);
 		}
+		m_objList[i]->setID(id);
+		m_objList[i]->setName(name);
 		m_objList[i]->Init();
 	}
 	fscanf(fi, "\n");
 
 	fscanf(fi, "#CAMERA\n");
-	GLfloat _near, _far, _fov, _speed, _rotspeed;
+	GLfloat _near, _far, _left, _right, _top, _bottom, _fov, _speed, _rotspeed;
 	fscanf(fi, "NEAR %f\n", &_near);
 	fscanf(fi, "FAR %f\n", &_far);
 	fscanf(fi, "FOV %f\n", &_fov);
 	fscanf(fi, "SPEED %f\n", &_speed);
 	fscanf(fi, "ROTATIONSPEED %f\n", &_rotspeed);
-	Matrix P;
-	GLfloat _aspect = Globals::screenWidth * 1.0f / Globals::screenHeight;
-
-#ifdef GAME_2D
-	m_camera = new Camera(_speed, _rotspeed, P.SetOrthographic(_fov, _aspect, _near, _far));
-#else
-	m_camera = new Camera(_speed, _rotspeed, P.SetPerspective(_fov, _aspect, _near, _far));
-#endif
+	m_camera = new Camera(_near, _far, _fov, _speed, _rotspeed);
 
 	fscanf(fi, "#FOG\n");
 	fscanf(fi, "COLOR %f, %f, %f, %f\n", &m_fogColor.x, &m_fogColor.y, &m_fogColor.z, &m_fogColor.w);
@@ -71,9 +67,9 @@ int SceneManager::Init(const char* srcFile)
 	return 0;
 }
 
-void SceneManager::loadSpriteFromFile(int id, int index, FILE* fi)
+Sprite* SceneManager::loadSpriteFromFile(FILE* fi)
 {
-	Sprite* sprite = new Sprite(id);
+	Sprite* sprite = new Sprite();
 	GLint spriteX, spriteY, spriteW, spriteH, textureW, textureH;
 	fscanf(fi, "COORD %d %d %d %d %d %d\n", &spriteX, &spriteY, &spriteW, &spriteH, &textureW, &textureH);
 
@@ -96,13 +92,13 @@ void SceneManager::loadSpriteFromFile(int id, int index, FILE* fi)
 	sprite->setPosition(position);
 	sprite->setRotation(rotation);
 	sprite->setScale(scale);
-	sprite->Init(spriteX, spriteY, spriteW, spriteH, textureW, textureH, Vector2(position.x, position.y));
-	m_objList[index] = sprite;
+	sprite->Init(spriteX, spriteY, spriteW, spriteH, textureW, textureH, Vector2(0, 0));
+	return sprite;
 }
 
-void SceneManager::loadAnimSpriteFromFile(int id, int index, FILE* fi)
+AnimSprite* SceneManager::loadAnimSpriteFromFile(FILE* fi)
 {
-	AnimSprite* animSprite = new AnimSprite(id);
+	AnimSprite* animSprite = new AnimSprite();
 	GLint spriteX, spriteY, spriteW, spriteH, textureW, textureH;
 	fscanf(fi, "COORD %d %d %d %d %d %d\n", &spriteX, &spriteY, &spriteW, &spriteH, &textureW, &textureH);
 
@@ -111,7 +107,7 @@ void SceneManager::loadAnimSpriteFromFile(int id, int index, FILE* fi)
 	FILE* fSprite = fopen(spriteFile, "r");
 	if (fSprite == NULL) {
 		printf("FAILED TO OPEN FILE %s\n", spriteFile);
-		return;
+		return NULL;
 	}
 	int nAnims;
 	fscanf(fSprite, "#Animations: %d\n", &nAnims);
@@ -149,12 +145,12 @@ void SceneManager::loadAnimSpriteFromFile(int id, int index, FILE* fi)
 	animSprite->setRotation(rotation);
 	animSprite->setScale(scale);
 	animSprite->Init(spriteX, spriteY, spriteW, spriteH, textureW, textureH, Vector2(position.x, position.y));
-	m_objList[index] = animSprite;
+	return animSprite;
 }
 
-void SceneManager::loadObjectFromFile(int id, int index, FILE* fi)
+Object* SceneManager::loadObjectFromFile(FILE* fi)
 {
-	Object* object = new Object(id);
+	Object* object = new Object();
 
 	int modelID;
 	fscanf(fi, "MODEL %d\n", &modelID);
@@ -236,7 +232,7 @@ void SceneManager::loadObjectFromFile(int id, int index, FILE* fi)
 	object->setRotation(rotation);
 	object->setScale(scale);
 	model->loadModel(heightMap);
-	m_objList[index] = object;
+	return object;
 }
 
 void SceneManager::Draw()

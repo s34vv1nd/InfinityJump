@@ -7,7 +7,7 @@ class AnimSprite :
     vector<Animation*> m_animations;
     Animation* m_currentAnimation;
 public:
-    AnimSprite(int id = 0);
+    AnimSprite();
     virtual ~AnimSprite();
 
     virtual void setAnimations(vector<Animation*> animations, int animationID = 0);

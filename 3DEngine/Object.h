@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 #include "../Utilities/utilities.h"
 #include "Math.h"
 #include "Model.h"
@@ -24,9 +25,10 @@ protected:
 	Matrix m_worldMtr;
 	Matrix m_WVPmtr;
 	GLfloat m_fTime;
+	std::string m_strName;
 
 public:
-	Object(int id = 0);
+	Object();
 	virtual ~Object();
 
 	void setModel(Model* model);
@@ -38,6 +40,8 @@ public:
 
 	int getID() { return m_iID; }
 	void setID(int id) { m_iID = id; }
+	std::string getName() { return m_strName; }
+	void setName(std::string name) { m_strName = name; }
 	Vector3 getPosition() { return m_position; }
 	void setPosition(Vector3 position) { m_position = position; }
 	Vector3 getRotation() { return m_rotation; }

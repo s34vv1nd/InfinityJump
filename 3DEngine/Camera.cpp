@@ -4,17 +4,28 @@
 
 Camera::Camera()
 {
-	m_position = Vector3(0, 0, 50);
-	m_target = Vector3(0, 0, 0);
+	m_position = Vector3(Globals::screenWidth / 2, Globals::screenHeight / 2, 500);
+	m_target = Vector3(Globals::screenWidth / 2, Globals::screenHeight / 2, 0);
+	//m_position = Vector3(0, 0, 100);
+	//m_target = Vector3(0, 0, 0);
 	m_up = Vector3(0, 1, 0);
 }
 
-Camera::Camera(GLfloat speed, GLfloat rotationSpeed, Matrix P):
+Camera::Camera(GLfloat nearPlane, GLfloat farPlane, GLfloat FOV, GLfloat speed, GLfloat rotationSpeed) :
 	Camera()
 {
+	Matrix P;
+#ifdef GAME_2D
 	m_fSpeed = speed;
 	m_fRotationSpeed = rotationSpeed / 180 * PI;
-	m_projectionMatrix = P;
+	m_projectionMatrix = P.SetOrthographic(nearPlane, farPlane, Globals::screenWidth / 2, Globals::screenHeight / 2);
+	printf("near: %f , far: %f , right: %f , top: %f\n", nearPlane, farPlane, Globals::screenWidth / 2, Globals::screenHeight / 2);
+#else
+	m_fSpeed = speed;
+	m_fRotationSpeed = rotationSpeed / 180 * PI;
+	GLfloat _aspect = Globals::screenWidth * 1.0f / Globals::screenHeight;
+	m_projectionMatrix = P.SetPerspective(FOV, _aspect, nearPlane, farPlane);
+#endif
 }
 
 Camera::~Camera()

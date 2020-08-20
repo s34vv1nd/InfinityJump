@@ -12,7 +12,7 @@ protected:
     // string m_Text;
 
 public:
-    Sprite(int id = 0);
+    Sprite();
     virtual ~Sprite();
     virtual void Init(int spriteX, int spriteY, int spriteW, int spriteH, int textureW, int textureH, Vector2 origin);
     virtual void Draw();
