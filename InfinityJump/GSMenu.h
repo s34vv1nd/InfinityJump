@@ -1,10 +1,10 @@
 #pragma once
 #include "GameStateBase.h"
-#include "Game.h"
-class Sprite2D;
-class Sprite3D;
-class Text;
-class SpriteAnimation;
+
+//class Sprite2D;
+//class Sprite3D;
+//class Text;
+//class SpriteAnimation;
 class GSMenu : public GameStateBase
 {
 

@@ -4,6 +4,9 @@
 #include "stdafx.h"
 #include "../Utilities/utilities.h" // if you use STL, please include this line AFTER all other include
 #include "../3DEngine/3DEngine.h"
+#include "Game.h"
+
+Game game;
 
 int Init ( ESContext *esContext )
 {
@@ -12,15 +15,15 @@ int Init ( ESContext *esContext )
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	Singleton<ResourceManager>::GetInstance()->Init(RM_TXT_FILE);
-	return Singleton<SceneManager>::GetInstance()->Init(SM_TXT_FILE);
+	game.Initialize();
+	return 0;
 }
 
 void Draw ( ESContext *esContext )
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
-	Singleton<SceneManager>::GetInstance()->Draw();
+	game.Draw();
 	
 	eglSwapBuffers ( esContext->eglDisplay, esContext->eglSurface );
 }
@@ -32,7 +35,7 @@ void Update ( ESContext *esContext, float deltaTime )
 
 void Key ( ESContext *esContext, unsigned char key, bool bIsPressed)
 {
-	Singleton<SceneManager>::GetInstance()->Key(key, bIsPressed);
+	game.SwitchStateByKey(game.m_StateType, key, bIsPressed);
 }
 
 void CleanUp()

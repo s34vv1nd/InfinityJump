@@ -11,12 +11,16 @@ GSPlay::~GSPlay()
 {
 }
 
-void GSPlay::Init()
+void GSPlay::Render()
 {
+	Singleton<ResourceManager>::GetInstance()->Init(RM_PLAY);
+	Singleton<SceneManager>::GetInstance()->Init(SM_PLAY);
+	Singleton<SceneManager>::GetInstance()->Draw();
 }
 
-void GSPlay::Exit()
+void GSPlay::Play()
 {
+
 }
 
 void GSPlay::Pause()

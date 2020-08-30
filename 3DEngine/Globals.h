@@ -18,6 +18,18 @@
 // File
 #define RM_TXT_FILE			"../Resources/Managers/RM.txt"
 #define SM_TXT_FILE			"../Resources/Managers/SM2.txt"
+#define RM_MUSIC_OFF		"../Resources/Managers/RM_music_off.txt"
+#define SM_MUSIC_OFF		"../Resources/Managers/SM_music_off.txt"
+#define RM_MENU				"../Resources/Managers/RM_menu.txt"
+#define SM_MENU				"../Resources/Managers/SM_menu.txt"
+#define RM_CREDIT			"../Resources/Managers/RM_credit.txt"
+#define SM_CREDIT			"../Resources/Managers/SM_credit.txt"
+#define RM_PLAY				"../Resources/Managers/RM_play.txt"
+#define SM_PLAY				"../Resources/Managers/SM_play.txt"
+#define RM_PAUSE			"../Resources/Managers/RM_pause.txt"
+#define SM_PAUSE			"../Resources/Managers/SM_pause.txt"
+#define RM_HELP				"../Resources/Managers/RM_help.txt"
+#define SM_HELP				"../Resources/Managers/SM_help.txt"
 
 // BUTTONS
 #define BIT_MOVE_FORWARD	(1<<0)

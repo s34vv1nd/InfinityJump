@@ -6,7 +6,7 @@ enum StatesType
 	STATE_None,
 	STATE_Menu,
 	STATE_Play,
-	STATE_Option,
+	STATE_Help,
 	STATE_HighScore,
 	STATE_Pause,
 	STATE_Welcome,

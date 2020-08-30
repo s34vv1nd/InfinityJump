@@ -1,0 +1,27 @@
+#Models: 0
+
+#2D Textures: 5
+ID 0
+FILE ../Resources/Textures/Maps/MapPlay.png
+TILING REPEAT
+ID 1
+FILE ../Resources/Textures/MenuAndButtons/GameIcon/Windows_31.png
+TILING REPEAT
+ID 2
+FILE ../Resources/Textures/MenuAndButtons/GameIcon/Windows_32.png
+TILING REPEAT
+ID 3
+FILE ../Resources/Textures/MenuAndButtons/GameIcon/Windows_07.png
+TILING REPEAT
+ID 4
+FILE ../Resources/Textures/MenuAndButtons/GameIcon/Windows_27.png
+TILING REPEAT
+
+#Height Map: 0
+
+#Cube Textures: 0
+
+#Shaders: 1
+ID 0
+VS ../Resources/Shaders/2DShaderVS.vs
+FS ../Resources/Shaders/2DShaderFS.fs

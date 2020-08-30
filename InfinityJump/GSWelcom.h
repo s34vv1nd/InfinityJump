@@ -1,9 +1,9 @@
 #pragma once
 #include "GameStateBase.h"
-class Sprite2D;
-class Sprite3D;
-class Text;
-class SpriteAnimation;
+//class Sprite2D;
+//class Sprite3D;
+//class Text;
+//class SpriteAnimation;
 class GSWelcom : public GameStateBase
 {
 public:

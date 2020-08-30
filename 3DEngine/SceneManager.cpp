@@ -315,6 +315,13 @@ void SceneManager::Key(unsigned char key, bool bIsPressed)
 		else 
 			m_pressedBtns ^= BIT_ROTATE_RIGHT;
 		break;
+
+	case 'm':
+		if (bIsPressed)
+			m_pressedBtns |= BIT_ROTATE_RIGHT;
+		else
+			m_pressedBtns ^= BIT_ROTATE_RIGHT;
+		break;
 	}
 }
 
