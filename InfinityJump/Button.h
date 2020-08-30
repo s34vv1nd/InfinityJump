@@ -1,6 +1,10 @@
 #pragma once
-class Button
+#include "../3DEngine/Sprite.h"
+
+class Button : public Sprite
 {
+	bool isClicked;
+	void *onClick();
 public:
 	Button();
 	~Button();

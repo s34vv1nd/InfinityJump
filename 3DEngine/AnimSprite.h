@@ -4,18 +4,25 @@
 class AnimSprite :
     public Sprite
 {
+protected:
     vector<Animation*> m_animations;
-    Animation* m_currentAnimation;
+    int m_currentAnimation;
 public:
     AnimSprite();
     virtual ~AnimSprite();
 
     virtual void setAnimations(vector<Animation*> animations, int animationID = 0);
-    void pushAnimation(Animation* animation);
-    void setCurrentAnimation(int animationID);
+    virtual void pushAnimation(Animation* animation);
+    virtual void setCurrentAnimation(int animationID);
 
-    Animation* getAnimation(int animationID);
-    int getCountAnimations();
+    virtual Animation* getAnimationByID(int animationID);
+    virtual int getCountAnimations();
+
+    virtual std::vector<Animation*>& getAnimations();
+    virtual int getCurrentAnimation();
+
+    virtual void Stop();
+    virtual void Resume();
 
     virtual void Draw();
     virtual void Update(GLfloat dt);

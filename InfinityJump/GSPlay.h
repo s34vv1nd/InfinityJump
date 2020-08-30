@@ -1,9 +1,6 @@
 #pragma once
 #include "GameStateBase.h"
-class Sprite2D;
-class Sprite3D;
-class Text;
-class SpriteAnimation;
+
 class GSPlay : public GameStateBase
 {
 public:

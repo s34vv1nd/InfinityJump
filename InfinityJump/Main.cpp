@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include "../Utilities/utilities.h" // if you use STL, please include this line AFTER all other include
 #include "../3DEngine/3DEngine.h"
+#include "Game.h"
 
 int Init ( ESContext *esContext )
 {
@@ -12,33 +13,49 @@ int Init ( ESContext *esContext )
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	Singleton<ResourceManager>::GetInstance()->Init(RM_TXT_FILE);
-	return Singleton<SceneManager>::GetInstance()->Init(SM_TXT_FILE);
+	return Singleton<Game>::GetInstance()->Init();
 }
 
 void Draw ( ESContext *esContext )
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
-	Singleton<SceneManager>::GetInstance()->Draw();
+	Singleton<Game>::GetInstance()->Draw();
 	
 	eglSwapBuffers ( esContext->eglDisplay, esContext->eglSurface );
 }
 
 void Update ( ESContext *esContext, float deltaTime )
 {
-	Singleton<SceneManager>::GetInstance()->Update(deltaTime);
+	Singleton<Game>::GetInstance()->Update(deltaTime);
 }
 
 void Key ( ESContext *esContext, unsigned char key, bool bIsPressed)
 {
-	Singleton<SceneManager>::GetInstance()->Key(key, bIsPressed);
+	Singleton<Game>::GetInstance()->Key(key, bIsPressed);
+}
+
+void TouchActionDown(ESContext* esContext, int x, int y)
+{
+	// Mouse down
+	Singleton<Game>::GetInstance()->TouchActionDown(x, y);
+}
+
+void TouchActionUp(ESContext* esContext, int x, int y)
+{
+	// Mouse up
+	Singleton<Game>::GetInstance()->TouchActionUp(x, y);
+}
+
+void TouchActionMove(ESContext* esContext, int x, int y)
+{
+	// Mouse move
+	Singleton<Game>::GetInstance()->TouchActionMove(x, y);
 }
 
 void CleanUp()
 {
-	Singleton<SceneManager>::GetInstance()->CleanUp();
-	Singleton<ResourceManager>::GetInstance()->CleanUp();
+	Singleton<Game>::GetInstance()->CleanUp();
 }
 
 int _tmain(int argc, _TCHAR* argv[])
@@ -55,6 +72,9 @@ int _tmain(int argc, _TCHAR* argv[])
 	esRegisterDrawFunc ( &esContext, Draw );
 	esRegisterUpdateFunc ( &esContext, Update );
 	esRegisterKeyFunc ( &esContext, Key);
+	esRegisterMouseDownFunc(&esContext, TouchActionDown);
+	esRegisterMouseUpFunc(&esContext, TouchActionUp);
+	esRegisterMouseMoveFunc(&esContext, TouchActionMove);
 
 	esMainLoop ( &esContext );
 

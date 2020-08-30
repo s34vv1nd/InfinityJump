@@ -1,6 +1,6 @@
 #Models: 0
 
-#2D Textures: 6
+#2D Textures: 12
 ID 0
 FILE ../Resources/Textures/MenuAndButtons/Menu/MenuBackground.png
 TILING REPEAT
@@ -19,7 +19,24 @@ TILING REPEAT
 ID 5
 FILE ../Resources/Textures/MenuAndButtons/Menu/MenuButtons/Button_27.png
 TILING REPEAT
-
+ID 6
+FILE ../Resources/Textures/Maps/Dessert/Map.png
+TILING REPEAT
+ID 7
+FILE ../Resources/Textures/Maps/Forest/Map.png
+TILING REPEAT
+ID 8
+FILE ../Resources/Textures/Maps/Grayde/Map.png
+TILING REPEAT
+ID 9
+FILE ../Resources/Textures/Maps/Winter/Map.png
+TILING REPEAT
+ID 10
+FILE ../Resources/Textures/Pads/Pad_1_3.png
+TILING REPEAT
+ID 11
+FILE ../Resources/Textures/Pads/Pad_1_4.png
+TILING REPEAT
 
 #Height Map: 0
 

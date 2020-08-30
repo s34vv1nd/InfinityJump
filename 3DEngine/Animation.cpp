@@ -33,6 +33,16 @@ void Animation::setCurrentFrame(int frameIndex)
 	m_iCurrentFrame = frameIndex;
 }
 
+void Animation::Stop()
+{
+	m_isStopped = true;
+}
+
+void Animation::Resume()
+{
+	m_isStopped = false;
+}
+
 int Animation::getID()
 {
 	return m_iID;
@@ -67,12 +77,14 @@ void Animation::Init(int frameIndex)
 
 void Animation::Update(GLfloat dt)
 {
-	m_fTime += dt;
-	if (m_fTime > m_fSPF) {
-		m_iCurrentFrame += 1;
-		if (m_iCurrentFrame >= getCountFrames()) {
-			m_iCurrentFrame = 0;
+	if (!m_isStopped) {
+		m_fTime += dt;
+		if (m_fTime > m_fSPF) {
+			m_iCurrentFrame += 1;
+			if (m_iCurrentFrame >= getCountFrames()) {
+				m_iCurrentFrame = 0;
+			}
+			m_fTime -= m_fSPF;
 		}
-		m_fTime -= m_fSPF;
 	}
 }

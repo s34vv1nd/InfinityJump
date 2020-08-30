@@ -12,9 +12,9 @@ public:
 	GameStateMachine();
 	~GameStateMachine();
 	void CLeanup();
-	void ChangeState(StatesType stt);
+	void ChangeState(StateType stt);
 	void ChangeState(std::shared_ptr<GameStateBase> state);
-	void PushState(StatesType stt);
+	void PushState(StateType stt);
 	void PopState();
 	void PerformStateChange();
 

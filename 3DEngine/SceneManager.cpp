@@ -14,6 +14,22 @@ SceneManager::~SceneManager()
 {
 }
 
+Object* SceneManager::getObjectByID(int id)
+{
+	for (Object* obj : m_objList) {
+		if (obj->getID() == id) return obj;
+	}
+	return nullptr;
+}
+
+Object* SceneManager::getObjectByName(const string name)
+{
+	for (Object* obj : m_objList) {
+		if (obj->getName() == name) return obj;
+	}
+	return nullptr;
+}
+
 int SceneManager::Init(const char* srcFile)
 {
 	FILE *fi = fopen(srcFile, "r");
@@ -102,31 +118,62 @@ AnimSprite* SceneManager::loadAnimSpriteFromFile(FILE* fi)
 	GLint spriteX, spriteY, spriteW, spriteH, textureW, textureH;
 	fscanf(fi, "COORD %d %d %d %d %d %d\n", &spriteX, &spriteY, &spriteW, &spriteH, &textureW, &textureH);
 
-	char spriteFile[64];
-	fscanf(fi, "FILE %s\n", spriteFile);
-	FILE* fSprite = fopen(spriteFile, "r");
+	char animFile[64];
+	fscanf(fi, "FILE %s\n", animFile);
+	FILE* fSprite = fopen(animFile, "r");
 	if (fSprite == NULL) {
-		printf("FAILED TO OPEN FILE %s\n", spriteFile);
+		printf("FAILED TO OPEN FILE %s\n", animFile);
 		return NULL;
 	}
 	int nAnims;
 	fscanf(fSprite, "#Animations: %d\n", &nAnims);
 	vector<Animation*> anims;
-	for (int i = 0; i < nAnims; ++i) {
-		int id, cntFrames;
-		fscanf(fSprite, "ID %d\n", &id);
-		fscanf(fSprite, "TEXTURES %d\n", &cntFrames);
-		vector<Texture*> frames;
-		for (int j = 0; j < cntFrames; ++j) {
-			int textureID;
-			fscanf(fSprite, "TEXTURE %d\n", &textureID);
-			frames.push_back(Singleton<ResourceManager>::GetInstance()->getTextureByID(textureID));
+	
+	string extension = "";
+	for (int i = strlen(animFile) - 1; i >= 0; --i) {
+		if (animFile[i] == '.') break;
+		extension = animFile[i] + extension;
+	}
+
+	if (extension == "character") {
+		for (int i = 0; i < nAnims; ++i) {
+			int id, cntFrames;
+			char fileName[128];
+			fscanf(fSprite, "ID %d\n", &id);
+			fscanf(fSprite, "FILE %s\n", fileName);
+			fscanf(fSprite, "TEXTURES %d\n", &cntFrames);
+			vector<Texture*> frames;
+			for (int j = 1; j <= cntFrames; ++j) {
+				string file(fileName);
+				file += " (" + to_string(j) + ").png";
+				Texture* texture = new Texture(-1, REPEAT, TEXTURE_2D);
+				texture->loadTexture(file.c_str());
+				frames.push_back(texture);
+			}
+			GLfloat spf;
+			fscanf(fSprite, "SPF %f\n", &spf);
+			Animation* anim = new Animation(id, frames, 0);
+			anim->setSPF(spf);
+			anims.push_back(anim);
 		}
-		GLfloat spf;
-		fscanf(fSprite, "SPF %f\n", &spf);
-		Animation* anim = new Animation(id, frames, 0);
-		anim->setSPF(spf);
-		anims.push_back(anim);
+	}
+	else {
+		for (int i = 0; i < nAnims; ++i) {
+			int id, cntFrames;
+			fscanf(fSprite, "ID %d\n", &id);
+			fscanf(fSprite, "TEXTURES %d\n", &cntFrames);
+			vector<Texture*> frames;
+			for (int j = 0; j < cntFrames; ++j) {
+				int textureID;
+				fscanf(fSprite, "TEXTURE %d\n", &textureID);
+				frames.push_back(Singleton<ResourceManager>::GetInstance()->getTextureByID(textureID));
+			}
+			GLfloat spf;
+			fscanf(fSprite, "SPF %f\n", &spf);
+			Animation* anim = new Animation(id, frames, 0);
+			anim->setSPF(spf);
+			anims.push_back(anim);
+		}
 	}
 	animSprite->setAnimations(anims);
 	fclose(fSprite);

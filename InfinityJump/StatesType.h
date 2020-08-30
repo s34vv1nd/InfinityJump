@@ -1,16 +1,14 @@
 #pragma once
-#ifndef STATE_TYPE_H
-#define STATE_TYPE_H
-enum StatesType
+
+enum StateType
 {
-	STATE_None,
-	STATE_Menu,
-	STATE_Play,
-	STATE_Option,
-	STATE_HighScore,
-	STATE_Pause,
-	STATE_Welcome,
-	STATE_Credit,
+	STATE_NONE,
+	STATE_MENU,
+	STATE_PLAY,
+	STATE_OPTION,
+	STATE_HIGHSCORE,
+	STATE_PAUSE,
+	STATE_WELCOME,
+	STATE_CREDIT,
 };
-#endif
 

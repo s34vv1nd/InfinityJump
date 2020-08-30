@@ -14,7 +14,8 @@ Object::Object():
 	m_position(Vector3(0.0f, 0.0f, 0.0f)),
 	m_rotation(Vector3(0.0f, 0.0f, 0.0f)),
 	m_scale(Vector3(1.0f, 1.0f, 1.0f)),
-	m_fTime(0)
+	m_fTime(0),
+	m_worldMtrIsChanged(false)
 {
 	m_worldMtr.SetIdentity();
 	m_WVPmtr.SetIdentity();
@@ -54,6 +55,33 @@ void Object::setShaders(Shaders* shaders)
 	m_shaders = shaders;
 }
 
+void Object::setPosition(Vector3 position) { 
+	m_position = position;
+	m_worldMtrIsChanged = true;
+}
+
+void Object::setRotation(Vector3 rotation) { 
+	m_rotation = rotation;
+	m_worldMtrIsChanged = true;
+}
+
+void Object::setScale(Vector3 scale) { 
+	m_scale = scale;
+	m_worldMtrIsChanged = true;
+}
+
+Matrix Object::calculateWorldMatrix()
+{
+	Matrix scaleMtr, rotMtrX, rotMtrY, rotMtrZ, translationMtr;
+	scaleMtr.SetScale(m_scale);
+	rotMtrX.SetRotationX(m_rotation.x);
+	rotMtrY.SetRotationY(m_rotation.y);
+	rotMtrZ.SetRotationZ(m_rotation.z);
+	translationMtr.SetTranslation(m_position);
+	m_worldMtr = scaleMtr * rotMtrZ * rotMtrX * rotMtrY * translationMtr;
+	return m_worldMtr;
+}
+
 Matrix Object::calculateWVPmatrix()
 {
 	Camera* camera = Singleton<SceneManager>::GetInstance()->getCamera();
@@ -70,13 +98,7 @@ Matrix Object::calculateWVPmatrix()
 
 void Object::Init()
 {
-	Matrix scaleMtr, rotMtrX, rotMtrY, rotMtrZ, translationMtr;
-	scaleMtr.SetScale(m_scale);
-	rotMtrX.SetRotationX(m_rotation.x);
-	rotMtrY.SetRotationY(m_rotation.y);
-	rotMtrZ.SetRotationZ(m_rotation.z);
-	translationMtr.SetTranslation(m_position);
-	m_worldMtr = scaleMtr * rotMtrZ * rotMtrX * rotMtrY * translationMtr;
+	calculateWorldMatrix();
 }
 
 void Object::addTexture(GLint textureID, GLint textureLoc, GLint textureUnit)
@@ -195,6 +217,11 @@ void Object::Draw()
 void Object::Update(float dt)
 {
 	m_fTime += dt;
+	if (m_worldMtrIsChanged) {
+		calculateWorldMatrix();
+		calculateWVPmatrix();
+		m_worldMtrIsChanged = false;
+	}
 }
 
 void Object::CleanUp()

@@ -1,0 +1,15 @@
+#Animations: 3
+ID 0
+FILE ../Resources/Textures/Characters/cutegirl_png/Run
+TEXTURES 20
+SPF 0.05
+
+ID 1
+FILE ../Resources/Textures/Characters/cutegirl_png/Jump
+TEXTURES 30
+SPF 0.03
+
+ID 2
+FILE ../Resources/Textures/Characters/cutegirl_png/Dead
+TEXTURES 30
+SPF 0.03

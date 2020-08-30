@@ -13,7 +13,7 @@ AnimSprite::~AnimSprite()
 void AnimSprite::setAnimations(vector<Animation*> animations, int animationID)
 {
 	m_animations = animations;
-	m_currentAnimation = getAnimation(animationID);
+	m_currentAnimation = animationID;
 }
 
 void AnimSprite::pushAnimation(Animation* animation)
@@ -23,10 +23,11 @@ void AnimSprite::pushAnimation(Animation* animation)
 
 void AnimSprite::setCurrentAnimation(int animationID)
 {
-	m_currentAnimation = getAnimation(animationID);
+	Resume();
+	m_currentAnimation = animationID;
 }
 
-Animation* AnimSprite::getAnimation(int animationID)
+Animation* AnimSprite::getAnimationByID(int animationID)
 {
 	for (auto anim : m_animations) {
 		if (anim->getID() == animationID) {
@@ -41,6 +42,26 @@ int AnimSprite::getCountAnimations()
 	return m_animations.size();
 }
 
+std::vector<Animation*>& AnimSprite::getAnimations()
+{
+	return m_animations;
+}
+
+int AnimSprite::getCurrentAnimation()
+{
+	return m_currentAnimation;
+}
+
+void AnimSprite::Stop()
+{
+	m_animations[m_currentAnimation]->Stop();
+}
+
+void AnimSprite::Resume()
+{
+	m_animations[m_currentAnimation]->Resume();
+}
+
 void AnimSprite::Draw()
 {
 	glUseProgram(m_shaders->m_iProgram);
@@ -49,7 +70,7 @@ void AnimSprite::Draw()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, *m_model->getIBO());
 
 	if (m_shaders->m_iTextureUniform != -1) {
-		Texture* texture = m_currentAnimation->getFrame(m_currentAnimation->getCurrentFrame());
+		Texture* texture = m_animations[m_currentAnimation]->getFrame(m_animations[m_currentAnimation]->getCurrentFrame());
 		addTexture(*texture->getTextureID(), m_shaders->m_iTextureUniform, 0);
 	}
 
@@ -82,5 +103,6 @@ void AnimSprite::Draw()
 void AnimSprite::Update(GLfloat dt)
 {
 	// m_fTime += dt;
-	m_currentAnimation->Update(dt);
+	Sprite::Update(dt);
+	m_animations[m_currentAnimation]->Update(dt);
 }

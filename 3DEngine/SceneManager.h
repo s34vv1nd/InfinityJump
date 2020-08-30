@@ -17,7 +17,6 @@ class AnimSprite;
 
 class SceneManager
 {
-	vector<Object*> m_objList;
 	GLint m_iNObjects = 0;
 	Camera* m_camera = 0;
 	GLuint m_pressedBtns = 0;
@@ -35,11 +34,16 @@ public:
 	Vector4 getFogColor() { return m_fogColor; }
 	GLfloat getFogMinDist() { return m_fogMinDist; }
 	GLfloat getFogMaxDist() { return m_fogMaxDist; }
+
+	Object* getObjectByID(int id);
+	Object* getObjectByName(const string name);
 	
 	int Init(const char* srcFile);
 	void Draw();
 	void Update(float deltaTime);
 	void Key(unsigned char key, bool bIsPressed);
 	void CleanUp();
+
+	vector<Object*> m_objList;
 };
 

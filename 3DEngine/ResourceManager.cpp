@@ -91,7 +91,7 @@ int ResourceManager::Init(const char * srcFile)
 		fscanf(fi, "ID %d\n", &id);
 		fscanf(fi, "FILE %s\n", textureSrcFile);
 		fscanf(fi, "TILING %s\n", tiling);
-		m_textureList[i] = new Texture(id, strcmp(tiling, "REPEAT") == 0 ? REPEAT : CLAMP_TO_EDGE, TEXTURE_2D);
+		m_textureList[i] = new Texture(id, strcmp(tiling, "CLAMP") == 0 ? CLAMP_TO_EDGE : REPEAT, TEXTURE_2D);
 		m_textureList[i]->loadTexture(textureSrcFile);
 	}
 	fscanf(fi, "\n");

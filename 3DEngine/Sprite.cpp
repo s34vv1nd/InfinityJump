@@ -12,9 +12,8 @@ Sprite::~Sprite()
 
 void Sprite::Init(int spriteX, int spriteY, int spriteW, int spriteH, int textureW, int textureH, Vector2 origin)
 {
-	m_pos2D = origin;
-	m_iWidth = spriteW;
-	m_iHeight = spriteH;
+	m_iWidth = spriteW * m_scale.x;
+	m_iHeight = spriteH * m_scale.y;
 
 	Vertex* verticesData = new Vertex[4];
 	Vector3 delta = Vector3(origin.x - (float)spriteW / 2, origin.y - (float)spriteH / 2, 0.0);
@@ -27,9 +26,9 @@ void Sprite::Init(int spriteX, int spriteY, int spriteW, int spriteH, int textur
 	verticesData[2].uv = Vector2((float)spriteX / textureW, (float)spriteY / textureH);
 	verticesData[3].uv = Vector2((float)(spriteX + spriteW) / textureW, (float)spriteY / textureH);
 
-	for (int i = 0; i < 4; ++i) {
-		printf("x: %f, y: %f, z: %f\n", verticesData[i].pos.x, verticesData[i].pos.y, verticesData[i].pos.z);
-	}
+	//for (int i = 0; i < 4; ++i) {
+	//	printf("x: %f, y: %f, z: %f\n", verticesData[i].pos.x, verticesData[i].pos.y, verticesData[i].pos.z);
+	//}
 
 	GLuint indicesData[6] = {0, 1, 2, 1, 2, 3};
 	m_model = new Model();
@@ -73,19 +72,26 @@ void Sprite::Draw()
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
+void Sprite::Update(GLfloat dt)
+{
+	Object::Update(dt);
+}
+
 void Sprite::setPos2D(GLfloat x, GLfloat y)
 {
-	m_pos2D.x = x;
-	m_pos2D.y = y;
+	setPosition(Vector3(x, y, m_position.z));
 }
 
 Vector2 Sprite::getPos2D()
 {
-	return m_pos2D;
+	return Vector2(m_position.x, m_position.y);
 }
 
 void Sprite::setSize(GLint width, GLint height)
 {
+	m_scale.x *= width / m_iWidth;
+	m_scale.y *= height / m_iHeight;
+	setScale(m_scale);
 	m_iWidth = width;
 	m_iHeight = height;
 }

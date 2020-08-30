@@ -26,34 +26,47 @@ protected:
 	Matrix m_WVPmtr;
 	GLfloat m_fTime;
 	std::string m_strName;
+	bool m_worldMtrIsChanged;
 
 public:
 	Object();
 	virtual ~Object();
 
+	Model* getModel() { return m_model; }
 	void setModel(Model* model);
+
+	std::vector<Texture*>& getTextures() { return m_textures; }
 	void setTextures(std::vector<Texture*> textures);
+	
 	void setBlendMap(Texture* blendMap);
 	void setDispTexture(Texture* dispTexture);
 	void setMaskTexture(Texture* maskTexture);
+	
+	Shaders* getShaders() { return m_shaders; }
 	void setShaders(Shaders* shaders);
 
 	int getID() { return m_iID; }
 	void setID(int id) { m_iID = id; }
+	
 	std::string getName() { return m_strName; }
 	void setName(std::string name) { m_strName = name; }
+	
 	Vector3 getPosition() { return m_position; }
-	void setPosition(Vector3 position) { m_position = position; }
+	void setPosition(Vector3 position);
+	
 	Vector3 getRotation() { return m_rotation; }
-	void setRotation(Vector3 rotation) { m_rotation = rotation; }
+	void setRotation(Vector3 rotation);
+
 	Vector3 getScale() { return m_scale; }
-	void setScale(Vector3 scale) { m_scale = scale; }
+	void setScale(Vector3 scale);
+
+	virtual Matrix calculateWorldMatrix();
 
 	virtual Matrix calculateWVPmatrix();
 	
 	virtual void Init();
 
-	virtual void Init(int spriteX, int spriteY, int spriteW, int spriteH, int textureW, int textureH, Vector2 origin) {};
+	//virtual void Init(int spriteX, int spriteY, int spriteW, int spriteH, int textureW, int textureH, Vector2 origin) {};
 
 	virtual void addTexture(GLint textureID, GLint textureLoc, GLint textureUnit);
 

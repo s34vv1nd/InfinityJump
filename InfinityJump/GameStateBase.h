@@ -4,7 +4,7 @@
 #include <memory>
 #include "StatesType.h"
 
-enum StatesType;
+enum StateType;
 
 class GameStateBase
 {
@@ -23,5 +23,5 @@ public:
 	virtual void Update(float deltaTime) = 0;
 	virtual void Draw() = 0;
 
-	static std::shared_ptr<GameStateBase> CreateState(StatesType stt);
+	static std::shared_ptr<GameStateBase> CreateState(StateType stt);
 };

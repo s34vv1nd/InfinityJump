@@ -22,7 +22,7 @@ void GameStateMachine::CLeanup()
 	}
 }
 
-void GameStateMachine::ChangeState(StatesType stt)
+void GameStateMachine::ChangeState(StateType stt)
 {
 	std::shared_ptr<GameStateBase> gstb = GameStateBase::CreateState(stt);
 	ChangeState(gstb);
@@ -33,7 +33,7 @@ void GameStateMachine::ChangeState(std::shared_ptr<GameStateBase> state)
 	m_pNextState = state;
 }
 
-void GameStateMachine::PushState(StatesType stt)
+void GameStateMachine::PushState(StateType stt)
 {
 	std::shared_ptr<GameStateBase> state = GameStateBase::CreateState(stt);
 	if (!m_StatesStack.empty()) {
