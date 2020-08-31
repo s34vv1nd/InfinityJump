@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Animation.h"
 
-Animation::Animation(int id, vector<Texture*> frames, int frameIndex)
+Animation::Animation(int id, vector<std::shared_ptr<Texture>> frames, int frameIndex)
 {
 	m_iID = id;
 	m_frames = frames;
@@ -18,7 +18,7 @@ void Animation::setID(int id)
 	m_iID = id;
 }
 
-void Animation::pushFrame(Texture* frame)
+void Animation::pushFrame(std::shared_ptr<Texture> frame)
 {
 	m_frames.push_back(frame);
 }
@@ -52,7 +52,7 @@ int Animation::getCountFrames() {
 	return m_frames.size(); 
 }
 
-Texture* Animation::getFrame(int index) { 
+std::shared_ptr<Texture> Animation::getFrame(int index) {
 	return ((index < (int) m_frames.size()) ? m_frames[index] : NULL); 
 }
 

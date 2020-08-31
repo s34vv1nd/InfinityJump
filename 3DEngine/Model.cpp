@@ -16,7 +16,7 @@ Model::~Model()
 	glDeleteBuffers(1, &m_iVBOID);
 }
 
-void Model::loadModel(HeightMap* heightmap)
+void Model::loadModel(shared_ptr<HeightMap> heightmap = NULL)
 {
 	FILE *fi = fopen(m_srcFile, "r");
 	if (!fi) {

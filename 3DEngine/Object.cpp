@@ -6,7 +6,7 @@ Object::Object():
 	m_iID(0),
 	m_model(NULL),
 	m_heightMap(NULL),
-	m_textures(vector<Texture*>(0)), 
+	m_textures(vector<shared_ptr<Texture>>(0)),
 	m_blendMap(NULL),
 	m_dispTexture(NULL),
 	m_maskTexture(NULL),
@@ -26,32 +26,32 @@ Object::~Object()
 	CleanUp();
 }
 
-void Object::setModel(Model* model)
+void Object::setModel(shared_ptr<Model> model)
 {
 	m_model = model;
 }
 
-void Object::setTextures(vector<Texture*> textures)
+void Object::setTextures(vector<shared_ptr<Texture>> textures)
 {
 	m_textures = textures;
 }
 
-void Object::setBlendMap(Texture* blendMap)
+void Object::setBlendMap(shared_ptr<Texture> blendMap)
 {
 	m_blendMap = blendMap;
 }
 
-void Object::setDispTexture(Texture* dispTexture)
+void Object::setDispTexture(shared_ptr<Texture> dispTexture)
 {
 	m_dispTexture = dispTexture;
 }
 
-void Object::setMaskTexture(Texture* maskTexture)
+void Object::setMaskTexture(shared_ptr<Texture> maskTexture)
 {
 	m_maskTexture = maskTexture;
 }
 
-void Object::setShaders(Shaders* shaders)
+void Object::setShaders(shared_ptr<Shaders> shaders)
 {
 	m_shaders = shaders;
 }
@@ -85,7 +85,7 @@ Matrix Object::calculateWorldMatrix()
 
 Matrix Object::calculateWVPmatrix()
 {
-	Camera* camera = Singleton<SceneManager>::GetInstance()->getCamera();
+	auto camera = Singleton<SceneManager>::GetInstance()->getCamera();
 	if (m_textures.empty() || !m_textures[0] || m_textures[0]->getType() != TEXTURE_CUBE) {
 		m_WVPmtr = m_worldMtr * camera->getViewMatrix() * camera->getProjectionMatrix();
 	}

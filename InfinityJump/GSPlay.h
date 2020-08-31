@@ -8,25 +8,29 @@
 #include "Pad.h"
 #include "Character.h"
 #include "ContactListener.h"
+#include "Button.h"
 
 class ContactListener;
 
 class GSPlay : public GameStateBase
 {
-	static std::vector<Object*> m_objList;
-	static Sprite* m_background;
-	static b2World* m_world;
-	static b2Body* m_groundBody;
-	static AnimSprite* m_characterSprite;
-	static Sprite* m_normalPadSprite;
-	static Sprite* m_killerPadSprite;
-	static GLfloat m_fSpawnTime;
-	static ContactListener* m_contactListener;
+	static shared_ptr<Sprite> m_background;
+	static shared_ptr<Button> m_homeButton;
 
-	Character* m_character;
-	std::deque<Pad*> m_pads;
+	static shared_ptr<b2World> m_world;
+	static b2Body* m_groundBody;
+	static shared_ptr<AnimSprite> m_characterSprite;
+	static shared_ptr<Sprite> m_normalPadSprite;
+	static shared_ptr<Sprite> m_killerPadSprite;
+	static GLfloat m_fSpawnTime;
+	static shared_ptr<ContactListener> m_contactListener;
+
+	shared_ptr<Character> m_character = NULL;
+	std::deque<shared_ptr<Pad>> m_pads = std::deque<std::shared_ptr<Pad>>();
 
 	void CreateNewPad(bool canKill, int level);
+
+	static void OnClickHomeButton(int x, int y, bool isPressed);
 
 public:
 	GSPlay();
@@ -40,10 +44,10 @@ public:
 
 	void Key(unsigned char key, bool bIsPressed);
 	void TouchActionDown(int x, int y);
-	void TouchActionUp(int x, int y);
 	void TouchActionMove(int x, int y);
+	void TouchActionUp(int x, int y);
 
-	void Update(float deltaTime);
+	void Update(float dt);
 	void Draw();
 };
 

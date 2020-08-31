@@ -6,64 +6,52 @@
 GameStateMachine::GameStateMachine()
 {
 	m_running = true;
-	m_pActiveState = 0;
-	m_pNextState = 0;
+	m_currentState = 0;
 }
 
 GameStateMachine::~GameStateMachine()
 {
 }
 
-void GameStateMachine::CLeanup()
+void GameStateMachine::Cleanup()
 {
-	while (!m_StatesStack.empty()) {
-		m_StatesStack.back()->Exit();
-		m_StatesStack.pop_back();
+	while (!m_StateStack.empty()) {
+		m_StateStack.back()->Exit();
+		m_StateStack.pop_back();
 	}
-}
-
-void GameStateMachine::ChangeState(StateType stt)
-{
-	std::shared_ptr<GameStateBase> gstb = GameStateBase::CreateState(stt);
-	ChangeState(gstb);
-}
-
-void GameStateMachine::ChangeState(std::shared_ptr<GameStateBase> state)
-{
-	m_pNextState = state;
+	m_currentState = NULL;
 }
 
 void GameStateMachine::PushState(StateType stt)
 {
 	std::shared_ptr<GameStateBase> state = GameStateBase::CreateState(stt);
-	if (!m_StatesStack.empty()) {
-		m_StatesStack.back()->Pause();
+	if (!m_StateStack.empty()) {
+		m_StateStack.back()->Pause();
 	}
-	m_pNextState = state;
+	m_StateStack.push_back(state);
+	state->Enter();
+	m_currentState = state;
 }
 
 void GameStateMachine::PopState()
 {
-	if (!m_StatesStack.empty()) {
-		m_StatesStack.back()->Exit();
-		m_StatesStack.pop_back();
+	if (!m_StateStack.empty()) {
+		m_StateStack.back()->Exit();
+		m_StateStack.pop_back();
 	}
 
-	if (!m_StatesStack.empty()) {
-		m_StatesStack.back()->Resume();
+	if (!m_StateStack.empty()) {
+		m_StateStack.back()->Resume();
+		m_currentState = m_StateStack.back();
 	}
 }
 
-void GameStateMachine::PerformStateChange()
+std::shared_ptr<GameStateBase> GameStateMachine::CurrentState() const
 {
-	if (m_pNextState != 0)
-	{
-		if (!m_StatesStack.empty()) {
-			m_StatesStack.back()->Exit();
-		}
-		m_StatesStack.push_back(m_pNextState);
-		m_StatesStack.back()->Init();
-		m_pActiveState = m_pNextState;
-	}
-	m_pNextState = 0;
+	return m_currentState;
+}
+
+bool GameStateMachine::CountStates() const
+{
+	return m_StateStack.size() > 0;
 }

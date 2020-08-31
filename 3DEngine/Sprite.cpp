@@ -31,7 +31,7 @@ void Sprite::Init(int spriteX, int spriteY, int spriteW, int spriteH, int textur
 	//}
 
 	GLuint indicesData[6] = {0, 1, 2, 1, 2, 3};
-	m_model = new Model();
+	m_model = make_shared<Model>();
 	m_model->Init(4, verticesData, 6, indicesData);
 }
 
@@ -87,7 +87,7 @@ Vector2 Sprite::getPos2D()
 	return Vector2(m_position.x, m_position.y);
 }
 
-void Sprite::setSize(GLint width, GLint height)
+void Sprite::setSize(GLfloat width, GLfloat height)
 {
 	m_scale.x *= width / m_iWidth;
 	m_scale.y *= height / m_iHeight;
@@ -96,12 +96,12 @@ void Sprite::setSize(GLint width, GLint height)
 	m_iHeight = height;
 }
 
-GLint Sprite::getWidth()
+GLfloat Sprite::getWidth()
 {
 	return m_iWidth;
 }
 
-GLint Sprite::getHeight()
+GLfloat Sprite::getHeight()
 {
 	return m_iHeight;
 }

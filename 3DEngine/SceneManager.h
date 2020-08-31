@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <memory>
 #include "../Utilities/utilities.h"
 #include "Math.h"
 #include "Object.h"
@@ -18,25 +19,25 @@ class AnimSprite;
 class SceneManager
 {
 	GLint m_iNObjects = 0;
-	Camera* m_camera = 0;
+	shared_ptr<Camera> m_camera = 0;
 	GLuint m_pressedBtns = 0;
 	Vector4 m_fogColor;
 	GLfloat m_fogMinDist = 0, m_fogMaxDist = 0;
 
-	Sprite* loadSpriteFromFile(FILE* fi);
-	AnimSprite* loadAnimSpriteFromFile(FILE* fi);
-	Object* loadObjectFromFile(FILE* fi);
+	shared_ptr<Sprite> loadSpriteFromFile(FILE* fi);
+	shared_ptr<AnimSprite> loadAnimSpriteFromFile(FILE* fi);
+	shared_ptr<Object> loadObjectFromFile(FILE* fi);
 public:
 	SceneManager();
 	~SceneManager();
 
-	Camera* getCamera() { return m_camera; }
+	shared_ptr<Camera> getCamera() { return m_camera; }
 	Vector4 getFogColor() { return m_fogColor; }
 	GLfloat getFogMinDist() { return m_fogMinDist; }
 	GLfloat getFogMaxDist() { return m_fogMaxDist; }
 
-	Object* getObjectByID(int id);
-	Object* getObjectByName(const string name);
+	shared_ptr<Object> getObjectByID(int id);
+	shared_ptr<Object> getObjectByName(const string name);
 	
 	int Init(const char* srcFile);
 	void Draw();
@@ -44,6 +45,6 @@ public:
 	void Key(unsigned char key, bool bIsPressed);
 	void CleanUp();
 
-	vector<Object*> m_objList;
+	std::vector<std::shared_ptr<Object>> m_objList;
 };
 

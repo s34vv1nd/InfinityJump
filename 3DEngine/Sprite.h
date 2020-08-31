@@ -7,7 +7,7 @@ class Sprite :
     public Object
 {
 protected:
-    GLint m_iWidth, m_iHeight;
+    GLfloat m_iWidth, m_iHeight;
     // string m_Text;
 
 public:
@@ -19,8 +19,8 @@ public:
 
     virtual void setPos2D(GLfloat x, GLfloat y);
     Vector2 getPos2D();
-    virtual void setSize(GLint width, GLint height);
-    GLint getWidth();
-    GLint getHeight();
+    virtual void setSize(GLfloat width, GLfloat height);
+    GLfloat getWidth();
+    GLfloat getHeight();
 };
 

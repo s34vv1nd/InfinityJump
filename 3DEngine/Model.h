@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 #include "../Utilities/utilities.h" // if you use STL, please include this line AFTER all other include
 #include "Vertex.h"
 #include "HeightMap.h"
@@ -20,6 +21,6 @@ public:
 	GLuint* getIBO() { return &m_iIBOID; }
 	GLuint getNIndices() { return m_iNIndices; }
 
-	void loadModel(HeightMap* heightmap = NULL);
+	void loadModel(std::shared_ptr<HeightMap> heightmap);
 	void Init(int nVertices, Vertex* verticesData, int nIndices, GLuint* indicesData);
 };

@@ -1,14 +1,15 @@
 #include "stdafx.h"
 #include "Character.h"
+//
+//Character::Character():
+//	AnimSprite()
+//{
+//}
 
-Character::Character():
-	AnimSprite()
+Character::Character(shared_ptr<b2World> world, std::shared_ptr<AnimSprite> obj)/*:
+	Character()*/
 {
-}
-
-Character::Character(b2World* world, AnimSprite* obj):
-	Character()
-{
+	m_world = world;
 	m_model = obj->getModel();
 	m_textures = obj->getTextures();
 	m_shaders = obj->getShaders();
@@ -21,11 +22,12 @@ Character::Character(b2World* world, AnimSprite* obj):
 	m_currentAnimation = obj->getCurrentAnimation();
 	calculateWorldMatrix();
 	calculateWVPmatrix();
-	InitBody(world);
+	InitBody();
 }
 
 Character::~Character()
 {
+	// m_world->DestroyBody(m_body);
 }
 
 b2Body* Character::getBody()
@@ -75,19 +77,19 @@ void Character::die()
 	m_isDead = true;
 }
 
-void Character::InitBody(b2World* world)
+void Character::InitBody()
 {
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_dynamicBody;
-	bodyDef.position.Set((m_position.x + m_iWidth / 2.0) / 100.0, (m_position.y + m_iHeight / 2.0) / 100.0);
-	m_body = world->CreateBody(&bodyDef);
+	bodyDef.position.Set((m_position.x + m_iWidth / 2.0f) / 100.0f, (m_position.y + m_iHeight / 2.0f) / 100.0f);
+	m_body = m_world->CreateBody(&bodyDef);
 
 	b2PolygonShape dynamicBox;
-	dynamicBox.SetAsBox(m_iWidth / 200.0, m_iHeight / 200.0);
+	dynamicBox.SetAsBox(m_iWidth / 200.0f, m_iHeight / 200.0f);
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &dynamicBox;
 	fixtureDef.density = 1.0f;
-	fixtureDef.friction = 0.0;
+	fixtureDef.friction = 0.0f;
 	m_body->CreateFixture(&fixtureDef);
 
 	m_body->SetUserData(this);
@@ -123,7 +125,6 @@ void Character::JumpFirst()
 		m_isJumpingFirst = true;
 		setCurrentAnimation(1);
 		m_body->ApplyLinearImpulseToCenter(b2Vec2(0, m_body->GetMass() * IMPULSE_FIRSTJUMP), true);
-		printf("Jump First\n");
 	}
 }
 
@@ -135,6 +136,5 @@ void Character::JumpSecond()
 		setCurrentAnimation(1);
 		m_body->SetLinearVelocity({ 0, 0 });
 		m_body->ApplyLinearImpulseToCenter(b2Vec2(0, m_body->GetMass() * IMPULSE_SECONDJUMP), true);
-		printf("Jump Second\n");
 	}
 }

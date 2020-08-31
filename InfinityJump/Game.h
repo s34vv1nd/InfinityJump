@@ -7,6 +7,7 @@
 #include "Pad.h"
 #include "ContactListener.h"
 #include "GSPlay.h"
+#include "GSMenu.h"
 
 class ContactListener;
 

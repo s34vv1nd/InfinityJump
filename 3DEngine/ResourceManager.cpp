@@ -11,45 +11,45 @@ ResourceManager::~ResourceManager()
 {
 }
 
-Model * ResourceManager::getModelByID(int id)
+shared_ptr<Model> ResourceManager::getModelByID(int id)
 {
-	for (Model* p : m_modelList)
+	for (auto p : m_modelList)
 	if (p) {
 		if (p->getID() == id) return p;
 	}
 	return nullptr;
 }
 
-Texture * ResourceManager::getTextureByID(int id)
+shared_ptr<Texture> ResourceManager::getTextureByID(int id)
 {
-	for (Texture* p : m_textureList)
+	for (auto p : m_textureList)
 	if (p && p->getType() == TEXTURE_2D) {
 		if (p->getID() == id) return p;
 	}
 	return nullptr;
 }
 
-Texture * ResourceManager::getCubeTextureByID(int id)
+shared_ptr<Texture> ResourceManager::getCubeTextureByID(int id)
 {
-	for (Texture* p : m_cubeTextureList)
+	for (auto p : m_cubeTextureList)
 		if (p && p->getType() == TEXTURE_CUBE) {
 			if (p->getID() == id) return p;
 		}
 	return nullptr;
 }
 
-HeightMap * ResourceManager::getHeightMapByID(int id)
+shared_ptr<HeightMap> ResourceManager::getHeightMapByID(int id)
 {
-	for (HeightMap* p : m_heightmapList)
+	for (auto p : m_heightmapList)
 		if (p) {
 			if (p->getID() == id) return p;
 		}
 	return nullptr;
 }
 
-Shaders * ResourceManager::getShadersByID(int id)
+shared_ptr<Shaders> ResourceManager::getShadersByID(int id)
 {
-	for (Shaders* p : m_shadersList)
+	for (auto p : m_shadersList)
 	if (p) {
 		if (p->getID() == id) return p;
 	}
@@ -58,9 +58,11 @@ Shaders * ResourceManager::getShadersByID(int id)
 
 void ResourceManager::CleanUp()
 {
-	for (int i = 0; i < m_iNModels; ++i) SAFE_DEL(m_modelList[i]);
-	for (int i = 0; i < m_iNTextures; ++i) SAFE_DEL(m_textureList[i]);
-	for (int i = 0; i < m_iNShaders; ++i) SAFE_DEL(m_shadersList[i]);
+	m_modelList.clear();
+	m_textureList.clear();
+	m_cubeTextureList.clear();
+	m_heightmapList.clear();
+	m_shadersList.clear();
 }
 
 int ResourceManager::Init(const char * srcFile)
@@ -78,7 +80,7 @@ int ResourceManager::Init(const char * srcFile)
 		char modelSrcFile[64];
 		fscanf(fi, "ID %d\n", &id);
 		fscanf(fi, "FILE %s\n", modelSrcFile);
-		m_modelList[i] = new Model(id, modelSrcFile);
+		m_modelList[i] = make_shared<Model>(id, modelSrcFile);
 	}
 	fscanf(fi, "\n");
 
@@ -91,7 +93,7 @@ int ResourceManager::Init(const char * srcFile)
 		fscanf(fi, "ID %d\n", &id);
 		fscanf(fi, "FILE %s\n", textureSrcFile);
 		fscanf(fi, "TILING %s\n", tiling);
-		m_textureList[i] = new Texture(id, strcmp(tiling, "CLAMP") == 0 ? CLAMP_TO_EDGE : REPEAT, TEXTURE_2D);
+		m_textureList[i] = make_shared<Texture>(id, strcmp(tiling, "CLAMP") == 0 ? CLAMP_TO_EDGE : REPEAT, TEXTURE_2D);
 		m_textureList[i]->loadTexture(textureSrcFile);
 	}
 	fscanf(fi, "\n");
@@ -103,7 +105,7 @@ int ResourceManager::Init(const char * srcFile)
 		char heightmapSrcFile[64];
 		fscanf(fi, "ID %d\n", &id);
 		fscanf(fi, "FILE %s\n", heightmapSrcFile);
-		m_heightmapList[i] = new HeightMap(id);
+		m_heightmapList[i] = make_shared<HeightMap>(id);
 		m_heightmapList[i]->loadHeightMap(heightmapSrcFile);
 	}
 	fscanf(fi, "\n");
@@ -121,7 +123,7 @@ int ResourceManager::Init(const char * srcFile)
 			srcFiles.push_back(cubeSrcFile);
 		}
 		fscanf(fi, "TILING %s\n", tiling);
-		m_cubeTextureList[i] = new Texture(id, strcmp(tiling, "REPEAT") == 0 ? REPEAT : CLAMP_TO_EDGE, TEXTURE_CUBE);
+		m_cubeTextureList[i] = make_shared<Texture>(id, strcmp(tiling, "REPEAT") == 0 ? REPEAT : CLAMP_TO_EDGE, TEXTURE_CUBE);
 		m_cubeTextureList[i]->loadCubeTexture(srcFiles);
 	}
 	fscanf(fi, "\n");
@@ -134,7 +136,7 @@ int ResourceManager::Init(const char * srcFile)
 		fscanf(fi, "ID %d\n", &id);
 		fscanf(fi, "VS %s\n", vsFile);
 		fscanf(fi, "FS %s\n", fsFile);
-		m_shadersList[i] = new Shaders(id);
+		m_shadersList[i] = make_shared<Shaders>(id);
 		if (m_shadersList[i]->Init(vsFile, fsFile) != 0) {
 			printf("FAILED TO LOAD SHADERS %d\n", i);
 			return 2;

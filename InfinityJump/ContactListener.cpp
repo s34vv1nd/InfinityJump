@@ -32,19 +32,20 @@ void ContactListener::PreSolve(b2Contact* contact, const b2Manifold* oldManifold
 		if (!groundFixture) return;
 
 		b2Body* characterBody = characterFixture->GetBody();
-		Character* character = (Character*)(characterBody->GetUserData());
+		auto character = static_cast<Character*>(characterBody->GetUserData());
 		character->setIsOnTheGround(true);
 		return;
 	}
 
 	b2Body* padBody = padFixture->GetBody();
 	b2Body* characterBody = characterFixture->GetBody();
-
+	auto character = static_cast<Character*>(characterBody->GetUserData());
+	auto pad = static_cast<Pad*>(padBody->GetUserData());
+	
 	b2Vec2 posCharacter = characterBody->GetPosition();
 	b2Vec2 posPad = padBody->GetPosition();
-	Character* character = (Character*)(characterBody->GetUserData());
-	Pad* pad = (Pad*)(padBody->GetUserData());
 	float width = pad->getWidth() / 200.0f;
+
 	if (characterBody->GetLinearVelocity().y > EPSILON || posCharacter.x < posPad.x - width || posCharacter.x > posPad.x + width) {
 		contact->SetEnabled(false);
 		character->setCurrentPad(NULL);

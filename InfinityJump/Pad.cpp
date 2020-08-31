@@ -1,11 +1,9 @@
 #include "stdafx.h"
 #include "Pad.h"
 
-Pad::Pad()
-{
-}
 
-Pad::Pad(b2World* world, Sprite* obj, bool canKill, int level):
+Pad::Pad(std::shared_ptr<b2World> world, shared_ptr<Sprite> obj, bool canKill, int level):
+	m_world(world),
 	m_body(NULL),
 	m_canKill(canKill),
 	m_iLevel(level)
@@ -22,11 +20,12 @@ Pad::Pad(b2World* world, Sprite* obj, bool canKill, int level):
 	m_iHeight = obj->getHeight();
 	calculateWorldMatrix();
 	calculateWVPmatrix();
-	InitBody(world, getPos2D(), { PAD_VELOCITY, 0.0f });
+	InitBody(getPos2D(), { PAD_VELOCITY, 0.0f });
 }
 
 Pad::~Pad()
 {
+	// m_world->DestroyBody(m_body);
 }
 
 b2Body* Pad::getBody() {
@@ -43,12 +42,12 @@ int Pad::getLevel()
 	return m_iLevel;
 }
 
-void Pad::InitBody(b2World* world, Vector2 pos2D, b2Vec2 velocity)
+void Pad::InitBody(Vector2 pos2D, b2Vec2 velocity)
 {
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_kinematicBody;
 	bodyDef.position.Set((pos2D.x + m_iWidth / 2.0) / 100.0, (pos2D.y + m_iHeight / 2.0) / 100.0);
-	m_body = world->CreateBody(&bodyDef);
+	m_body = m_world->CreateBody(&bodyDef);
 
 	b2PolygonShape kinematicBox;
 	kinematicBox.SetAsBox(m_iWidth / 200.0, 0.0);

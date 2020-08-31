@@ -7,7 +7,8 @@
 class Character :
     public AnimSprite
 {
-    b2Body* m_body;
+    std::shared_ptr<b2World> m_world;
+    b2Body* m_body = NULL;
     Pad* m_currentPad = NULL;
     bool m_isOnTheGround = false;
     bool m_isJumpingFirst = false;
@@ -15,8 +16,7 @@ class Character :
     bool m_isDead = false;
 
 public:
-    Character();
-    Character(b2World* world, AnimSprite* obj);
+    Character(std::shared_ptr<b2World> world, std::shared_ptr<AnimSprite> obj);
     ~Character();
 
     b2Body* getBody();
@@ -29,7 +29,7 @@ public:
     bool isDead();
     void die();
 
-    virtual void InitBody(b2World* world);
+    virtual void InitBody();
     virtual void Update(GLfloat dt);
 
     void JumpFirst();

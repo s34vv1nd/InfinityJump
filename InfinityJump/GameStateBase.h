@@ -23,10 +23,10 @@ public:
 
 	virtual void Key(unsigned char key, bool bIsPressed) {};
 	virtual void TouchActionDown(int x, int y) {};
-	virtual void TouchActionUp(int x, int y) {};
 	virtual void TouchActionMove(int x, int y) {};
-	
-	virtual void Update(float deltaTime) {};
+	virtual void TouchActionUp(int x, int y) {};
+
+	virtual void Update(float dt) {};
 	virtual void Draw() {};
 
 	static std::shared_ptr<GameStateBase> CreateState(StateType stt);

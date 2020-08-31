@@ -10,13 +10,13 @@ AnimSprite::~AnimSprite()
 {
 }
 
-void AnimSprite::setAnimations(vector<Animation*> animations, int animationID)
+void AnimSprite::setAnimations(vector<shared_ptr<Animation>> animations, int animationID)
 {
 	m_animations = animations;
 	m_currentAnimation = animationID;
 }
 
-void AnimSprite::pushAnimation(Animation* animation)
+void AnimSprite::pushAnimation(shared_ptr<Animation> animation)
 {
 	m_animations.push_back(animation);
 }
@@ -27,7 +27,7 @@ void AnimSprite::setCurrentAnimation(int animationID)
 	m_currentAnimation = animationID;
 }
 
-Animation* AnimSprite::getAnimationByID(int animationID)
+shared_ptr<Animation> AnimSprite::getAnimationByID(int animationID)
 {
 	for (auto anim : m_animations) {
 		if (anim->getID() == animationID) {
@@ -42,7 +42,7 @@ int AnimSprite::getCountAnimations()
 	return m_animations.size();
 }
 
-std::vector<Animation*>& AnimSprite::getAnimations()
+std::vector<shared_ptr<Animation>>& AnimSprite::getAnimations()
 {
 	return m_animations;
 }
@@ -70,7 +70,7 @@ void AnimSprite::Draw()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, *m_model->getIBO());
 
 	if (m_shaders->m_iTextureUniform != -1) {
-		Texture* texture = m_animations[m_currentAnimation]->getFrame(m_animations[m_currentAnimation]->getCurrentFrame());
+		std::shared_ptr<Texture> texture = m_animations[m_currentAnimation]->getFrame(m_animations[m_currentAnimation]->getCurrentFrame());
 		addTexture(*texture->getTextureID(), m_shaders->m_iTextureUniform, 0);
 	}
 

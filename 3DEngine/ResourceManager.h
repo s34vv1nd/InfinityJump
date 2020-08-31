@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 #include "../Utilities/utilities.h"
 #include "Model.h"
 #include "Texture.h"
@@ -10,11 +11,11 @@ using namespace std;
 
 class ResourceManager
 {
-	vector<Model*> m_modelList;
-	vector<Texture*> m_textureList;
-	vector<Texture*> m_cubeTextureList;
-	vector<Shaders*> m_shadersList;
-	vector<HeightMap*> m_heightmapList;
+	vector<shared_ptr<Model>> m_modelList;
+	vector<shared_ptr<Texture>> m_textureList;
+	vector<shared_ptr<Texture>> m_cubeTextureList;
+	vector<shared_ptr<Shaders>> m_shadersList;
+	vector<shared_ptr<HeightMap>> m_heightmapList;
 
 	int m_iNModels;
 	int m_iNTextures;
@@ -27,11 +28,11 @@ public:
 
 	int Init(const char* srcFile);
 
-	Model* getModelByID(int id);
-	Texture* getTextureByID(int id);
-	Texture* getCubeTextureByID(int id);
-	HeightMap* getHeightMapByID(int id);
-	Shaders* getShadersByID(int id);
+	shared_ptr<Model> getModelByID(int id);
+	shared_ptr<Texture> getTextureByID(int id);
+	shared_ptr<Texture> getCubeTextureByID(int id);
+	shared_ptr<HeightMap> getHeightMapByID(int id);
+	shared_ptr<Shaders> getShadersByID(int id);
 
 	void CleanUp();
 };

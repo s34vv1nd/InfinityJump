@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <memory>
 #include "../Utilities/utilities.h"
 #include "Math.h"
 #include "Model.h"
@@ -8,17 +9,19 @@
 #include "SceneManager.h"
 #include "HeightMap.h"
 
+using namespace std;
+
 class Object
 {
 protected:
 	int m_iID;
-	Model* m_model;
-	HeightMap* m_heightMap;
-	std::vector<Texture*> m_textures;
-	Texture* m_blendMap;
-	Texture* m_dispTexture;
-	Texture* m_maskTexture;
-	Shaders* m_shaders;
+	shared_ptr<Model> m_model;
+	shared_ptr<HeightMap> m_heightMap;
+	std::vector<std::shared_ptr<Texture>> m_textures;
+	shared_ptr<Texture> m_blendMap;
+	shared_ptr<Texture> m_dispTexture;
+	shared_ptr<Texture> m_maskTexture;
+	shared_ptr<Shaders> m_shaders;
 	Vector3 m_position;
 	Vector3 m_rotation;
 	Vector3 m_scale;
@@ -32,18 +35,18 @@ public:
 	Object();
 	virtual ~Object();
 
-	Model* getModel() { return m_model; }
-	void setModel(Model* model);
+	shared_ptr<Model> getModel() { return m_model; }
+	void setModel(shared_ptr<Model> model);
 
-	std::vector<Texture*>& getTextures() { return m_textures; }
-	void setTextures(std::vector<Texture*> textures);
+	std::vector<shared_ptr<Texture>>& getTextures() { return m_textures; }
+	void setTextures(std::vector<shared_ptr<Texture>> textures);
 	
-	void setBlendMap(Texture* blendMap);
-	void setDispTexture(Texture* dispTexture);
-	void setMaskTexture(Texture* maskTexture);
+	void setBlendMap(shared_ptr<Texture> blendMap);
+	void setDispTexture(shared_ptr<Texture> dispTexture);
+	void setMaskTexture(shared_ptr<Texture> maskTexture);
 	
-	Shaders* getShaders() { return m_shaders; }
-	void setShaders(Shaders* shaders);
+	shared_ptr<Shaders> getShaders() { return m_shaders; }
+	void setShaders(shared_ptr<Shaders> shaders);
 
 	int getID() { return m_iID; }
 	void setID(int id) { m_iID = id; }

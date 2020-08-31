@@ -14,17 +14,17 @@ SceneManager::~SceneManager()
 {
 }
 
-Object* SceneManager::getObjectByID(int id)
+shared_ptr<Object> SceneManager::getObjectByID(int id)
 {
-	for (Object* obj : m_objList) {
+	for (auto obj : m_objList) {
 		if (obj->getID() == id) return obj;
 	}
 	return nullptr;
 }
 
-Object* SceneManager::getObjectByName(const string name)
+shared_ptr<Object> SceneManager::getObjectByName(const string name)
 {
-	for (Object* obj : m_objList) {
+	for (auto obj : m_objList) {
 		if (obj->getName() == name) return obj;
 	}
 	return nullptr;
@@ -68,14 +68,14 @@ int SceneManager::Init(const char* srcFile)
 	fscanf(fi, "FOV %f\n", &_fov);
 	fscanf(fi, "SPEED %f\n", &_speed);
 	fscanf(fi, "ROTATIONSPEED %f\n", &_rotspeed);
-	m_camera = new Camera(_near, _far, _fov, _speed, _rotspeed);
+	m_camera = make_shared<Camera>(_near, _far, _fov, _speed, _rotspeed);
 
 	fscanf(fi, "#FOG\n");
 	fscanf(fi, "COLOR %f, %f, %f, %f\n", &m_fogColor.x, &m_fogColor.y, &m_fogColor.z, &m_fogColor.w);
 	fscanf(fi, "MINDIST %f\n", &m_fogMinDist);
 	fscanf(fi, "MAXDIST %f\n", &m_fogMaxDist);
 
-	for (Object* obj : m_objList) 
+	for (auto obj : m_objList) 
 		if (obj) {
 			obj->calculateWVPmatrix();
 		}
@@ -83,13 +83,13 @@ int SceneManager::Init(const char* srcFile)
 	return 0;
 }
 
-Sprite* SceneManager::loadSpriteFromFile(FILE* fi)
+shared_ptr<Sprite> SceneManager::loadSpriteFromFile(FILE* fi)
 {
-	Sprite* sprite = new Sprite();
+	shared_ptr<Sprite> sprite = make_shared<Sprite>();
 	GLint spriteX, spriteY, spriteW, spriteH, textureW, textureH;
 	fscanf(fi, "COORD %d %d %d %d %d %d\n", &spriteX, &spriteY, &spriteW, &spriteH, &textureW, &textureH);
 
-	vector<Texture*> textures;
+	vector<shared_ptr<Texture>> textures;
 	int textureID;
 	fscanf(fi, "TEXTURE %d\n", &textureID);
 	textures.push_back(Singleton<ResourceManager>::GetInstance()->getTextureByID(textureID));
@@ -97,7 +97,7 @@ Sprite* SceneManager::loadSpriteFromFile(FILE* fi)
 
 	int shaderID;
 	fscanf(fi, "SHADER %d\n", &shaderID);
-	Shaders* shaders = Singleton<ResourceManager>::GetInstance()->getShadersByID(shaderID);
+	shared_ptr<Shaders> shaders = Singleton<ResourceManager>::GetInstance()->getShadersByID(shaderID);
 	sprite->setShaders(shaders);
 
 	Vector3 position, rotation, scale;
@@ -112,9 +112,9 @@ Sprite* SceneManager::loadSpriteFromFile(FILE* fi)
 	return sprite;
 }
 
-AnimSprite* SceneManager::loadAnimSpriteFromFile(FILE* fi)
+shared_ptr<AnimSprite> SceneManager::loadAnimSpriteFromFile(FILE* fi)
 {
-	AnimSprite* animSprite = new AnimSprite();
+	shared_ptr<AnimSprite> animSprite = make_shared<AnimSprite>();
 	GLint spriteX, spriteY, spriteW, spriteH, textureW, textureH;
 	fscanf(fi, "COORD %d %d %d %d %d %d\n", &spriteX, &spriteY, &spriteW, &spriteH, &textureW, &textureH);
 
@@ -127,7 +127,7 @@ AnimSprite* SceneManager::loadAnimSpriteFromFile(FILE* fi)
 	}
 	int nAnims;
 	fscanf(fSprite, "#Animations: %d\n", &nAnims);
-	vector<Animation*> anims;
+	vector<shared_ptr<Animation>> anims;
 	
 	string extension = "";
 	for (int i = strlen(animFile) - 1; i >= 0; --i) {
@@ -142,17 +142,17 @@ AnimSprite* SceneManager::loadAnimSpriteFromFile(FILE* fi)
 			fscanf(fSprite, "ID %d\n", &id);
 			fscanf(fSprite, "FILE %s\n", fileName);
 			fscanf(fSprite, "TEXTURES %d\n", &cntFrames);
-			vector<Texture*> frames;
+			vector<shared_ptr<Texture>> frames;
 			for (int j = 1; j <= cntFrames; ++j) {
 				string file(fileName);
 				file += " (" + to_string(j) + ").png";
-				Texture* texture = new Texture(-1, REPEAT, TEXTURE_2D);
+				shared_ptr<Texture> texture = make_shared<Texture>(-1, REPEAT, TEXTURE_2D);
 				texture->loadTexture(file.c_str());
 				frames.push_back(texture);
 			}
 			GLfloat spf;
 			fscanf(fSprite, "SPF %f\n", &spf);
-			Animation* anim = new Animation(id, frames, 0);
+			shared_ptr<Animation> anim = make_shared<Animation>(id, frames, 0);
 			anim->setSPF(spf);
 			anims.push_back(anim);
 		}
@@ -162,7 +162,7 @@ AnimSprite* SceneManager::loadAnimSpriteFromFile(FILE* fi)
 			int id, cntFrames;
 			fscanf(fSprite, "ID %d\n", &id);
 			fscanf(fSprite, "TEXTURES %d\n", &cntFrames);
-			vector<Texture*> frames;
+			vector<shared_ptr<Texture>> frames;
 			for (int j = 0; j < cntFrames; ++j) {
 				int textureID;
 				fscanf(fSprite, "TEXTURE %d\n", &textureID);
@@ -170,7 +170,7 @@ AnimSprite* SceneManager::loadAnimSpriteFromFile(FILE* fi)
 			}
 			GLfloat spf;
 			fscanf(fSprite, "SPF %f\n", &spf);
-			Animation* anim = new Animation(id, frames, 0);
+			shared_ptr<Animation> anim = make_shared<Animation>(id, frames, 0);
 			anim->setSPF(spf);
 			anims.push_back(anim);
 		}
@@ -180,7 +180,7 @@ AnimSprite* SceneManager::loadAnimSpriteFromFile(FILE* fi)
 
 	int shaderID;
 	fscanf(fi, "SHADER %d\n", &shaderID);
-	Shaders* shaders = Singleton<ResourceManager>::GetInstance()->getShadersByID(shaderID);
+	shared_ptr<Shaders> shaders = Singleton<ResourceManager>::GetInstance()->getShadersByID(shaderID);
 	animSprite->setShaders(shaders);
 
 	Vector3 position, rotation, scale;
@@ -195,19 +195,19 @@ AnimSprite* SceneManager::loadAnimSpriteFromFile(FILE* fi)
 	return animSprite;
 }
 
-Object* SceneManager::loadObjectFromFile(FILE* fi)
+shared_ptr<Object> SceneManager::loadObjectFromFile(FILE* fi)
 {
-	Object* object = new Object();
+	shared_ptr<Object> object = make_shared<Object>();
 
 	int modelID;
 	fscanf(fi, "MODEL %d\n", &modelID);
-	Model* model = Singleton<ResourceManager>::GetInstance()->getModelByID(modelID);
+	shared_ptr<Model> model = Singleton<ResourceManager>::GetInstance()->getModelByID(modelID);
 	object->setModel(model);
 
 	int nTextures;
 	fscanf(fi, "TEXTURES %d\n", &nTextures);
 	if (nTextures) {
-		vector<Texture*> textures;
+		vector<shared_ptr<Texture>> textures;
 		for (int i = 0; i < nTextures; ++i) {
 			int id;
 			fscanf(fi, "TEXTURE %d\n", &id);
@@ -222,13 +222,13 @@ Object* SceneManager::loadObjectFromFile(FILE* fi)
 	if (nBlendMaps) {
 		int id;
 		fscanf(fi, "BLENDMAP %d\n", &id);
-		Texture* blendMap = Singleton<ResourceManager>::GetInstance()->getTextureByID(id);
+		shared_ptr<Texture> blendMap = Singleton<ResourceManager>::GetInstance()->getTextureByID(id);
 		object->setBlendMap(blendMap);
 	}
 
 	int nHeightMaps;
 	fscanf(fi, "HEIGHTMAPS %d\n", &nHeightMaps);
-	HeightMap* heightMap = NULL;
+	shared_ptr<HeightMap> heightMap = NULL;
 	if (nHeightMaps) {
 		int id;
 		fscanf(fi, "HEIGHTMAP %d\n", &id);
@@ -238,7 +238,7 @@ Object* SceneManager::loadObjectFromFile(FILE* fi)
 	int nCubeTextures;
 	fscanf(fi, "CUBETEXTURES %d\n", &nCubeTextures);
 	if (nCubeTextures) {
-		vector<Texture*> textures;
+		vector<shared_ptr<Texture>> textures;
 		for (int i = 0; i < nCubeTextures; ++i) {
 			int id;
 			fscanf(fi, "CUBETEXTURE %d\n", &id);
@@ -252,7 +252,7 @@ Object* SceneManager::loadObjectFromFile(FILE* fi)
 	if (nDispTextures) {
 		int id;
 		fscanf(fi, "DISPTEXTURE %d\n", &id);
-		Texture* dispTexture = Singleton<ResourceManager>::GetInstance()->getTextureByID(id);
+		shared_ptr<Texture> dispTexture = Singleton<ResourceManager>::GetInstance()->getTextureByID(id);
 		object->setDispTexture(dispTexture);
 	}
 
@@ -261,13 +261,13 @@ Object* SceneManager::loadObjectFromFile(FILE* fi)
 	if (nMaskTextures) {
 		int id;
 		fscanf(fi, "MASKTEXTURE %d\n", &id);
-		Texture* maskTexture = Singleton<ResourceManager>::GetInstance()->getTextureByID(id);
+		shared_ptr<Texture> maskTexture = Singleton<ResourceManager>::GetInstance()->getTextureByID(id);
 		object->setMaskTexture(maskTexture);
 	}
 
 	int shaderID;
 	fscanf(fi, "SHADER %d\n", &shaderID);
-	Shaders* shaders = Singleton<ResourceManager>::GetInstance()->getShadersByID(shaderID);
+	shared_ptr<Shaders> shaders = Singleton<ResourceManager>::GetInstance()->getShadersByID(shaderID);
 	object->setShaders(shaders);
 
 	Vector3 position, rotation, scale;
@@ -367,8 +367,5 @@ void SceneManager::Key(unsigned char key, bool bIsPressed)
 
 void SceneManager::CleanUp()
 {
-	for (int i = 0; i < m_iNObjects; ++i) {
-		SAFE_DEL(m_objList[i]);
-	}
 	m_objList.clear();
 }
