@@ -62,7 +62,7 @@ int SceneManager::Init(const char* srcFile)
 	fscanf(fi, "\n");
 
 	fscanf(fi, "#CAMERA\n");
-	GLfloat _near, _far, _left, _right, _top, _bottom, _fov, _speed, _rotspeed;
+	GLfloat _near, _far, _fov, _speed, _rotspeed;
 	fscanf(fi, "NEAR %f\n", &_near);
 	fscanf(fi, "FAR %f\n", &_far);
 	fscanf(fi, "FOV %f\n", &_fov);
@@ -368,7 +368,7 @@ void SceneManager::Key(unsigned char key, bool bIsPressed)
 void SceneManager::CleanUp()
 {
 	for (int i = 0; i < m_iNObjects; ++i) {
-		m_objList[i]->CleanUp();
 		SAFE_DEL(m_objList[i]);
 	}
+	m_objList.clear();
 }

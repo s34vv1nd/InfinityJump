@@ -15,10 +15,6 @@
 #define X2GAME(x)			((1.0f*x - SCREEN_CENTER_W)/SCREEN_CENTER_W)
 #define Y2GAME(y)			(-1.0f*(1.0f*y - SCREEN_CENTER_H)/SCREEN_CENTER_H)
 
-// File
-#define RM_TXT_FILE			"../Resources/Managers/RM.txt"
-#define SM_TXT_FILE			"../Resources/Managers/SM2.txt"
-
 // BUTTONS
 #define BIT_MOVE_FORWARD	(1<<0)
 #define BIT_MOVE_BACKWARD	(1<<1)

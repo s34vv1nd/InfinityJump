@@ -5,14 +5,17 @@ Pad::Pad()
 {
 }
 
-Pad::Pad(b2World* world, Sprite* obj, bool canKill):
+Pad::Pad(b2World* world, Sprite* obj, bool canKill, int level):
 	m_body(NULL),
-	m_canKill(canKill)
+	m_canKill(canKill),
+	m_iLevel(level)
 {
 	m_model = obj->getModel();
 	m_textures = obj->getTextures();
 	m_shaders = obj->getShaders();
 	m_position = obj->getPosition();
+	if (m_iLevel == 0) m_position.y = PAD_HEIGHT_LEVEL_0;
+	if (m_iLevel == 1) m_position.y = PAD_HEIGHT_LEVEL_1;
 	m_scale = obj->getScale();
 	m_rotation = obj->getRotation();
 	m_iWidth = obj->getWidth();
@@ -33,6 +36,11 @@ b2Body* Pad::getBody() {
 bool Pad::isKiller()
 {
 	return m_canKill;
+}
+
+int Pad::getLevel()
+{
+	return m_iLevel;
 }
 
 void Pad::InitBody(b2World* world, Vector2 pos2D, b2Vec2 velocity)

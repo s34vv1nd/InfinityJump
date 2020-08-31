@@ -5,6 +5,7 @@
 #include "../Utilities/utilities.h" // if you use STL, please include this line AFTER all other include
 #include "../3DEngine/3DEngine.h"
 #include "Game.h"
+#include <time.h>
 
 int Init ( ESContext *esContext )
 {
@@ -13,7 +14,8 @@ int Init ( ESContext *esContext )
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	return Singleton<Game>::GetInstance()->Init();
+	Singleton<Game>::GetInstance()->Init();
+	return 0;
 }
 
 void Draw ( ESContext *esContext )
@@ -60,6 +62,7 @@ void CleanUp()
 
 int _tmain(int argc, _TCHAR* argv[])
 {
+	srand(time(NULL));
 	ESContext esContext;
 
     esInitContext ( &esContext );

@@ -33,7 +33,7 @@ void Animation::setCurrentFrame(int frameIndex)
 	m_iCurrentFrame = frameIndex;
 }
 
-void Animation::Stop()
+void Animation::Pause()
 {
 	m_isStopped = true;
 }

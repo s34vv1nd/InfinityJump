@@ -23,6 +23,7 @@ Object::Object():
 
 Object::~Object()
 {
+	CleanUp();
 }
 
 void Object::setModel(Model* model)

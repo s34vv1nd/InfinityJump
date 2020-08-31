@@ -21,7 +21,7 @@ public:
     virtual std::vector<Animation*>& getAnimations();
     virtual int getCurrentAnimation();
 
-    virtual void Stop();
+    virtual void Pause();
     virtual void Resume();
 
     virtual void Draw();

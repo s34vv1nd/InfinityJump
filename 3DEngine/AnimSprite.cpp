@@ -52,9 +52,9 @@ int AnimSprite::getCurrentAnimation()
 	return m_currentAnimation;
 }
 
-void AnimSprite::Stop()
+void AnimSprite::Pause()
 {
-	m_animations[m_currentAnimation]->Stop();
+	m_animations[m_currentAnimation]->Pause();
 }
 
 void AnimSprite::Resume()

@@ -18,7 +18,7 @@ public:
     void pushFrame(Texture* frame);
     void setSPF(GLfloat SPF);
     void setCurrentFrame(int frameIndex);
-    void Stop();
+    void Pause();
     void Resume();
 
     int getID();

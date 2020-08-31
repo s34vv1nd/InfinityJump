@@ -104,7 +104,7 @@ void Character::Update(GLfloat dt)
 	if (m_isDead) {
 		setCurrentAnimation(2);
 		if (m_animations[m_currentAnimation]->getCurrentFrame() + 1 == m_animations[m_currentAnimation]->getCountFrames()) {
-			Stop();
+			Pause();
 		}
 	}
 
