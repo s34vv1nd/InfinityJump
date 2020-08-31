@@ -1,12 +1,19 @@
 #pragma once
-#include "GameStateBase.h"
+#include <deque>
+#include "../Utilities/utilities.h" // if you use STL, please include this line AFTER all other include
+#include "../3DEngine/3DEngine.h"
+#include "Define.h"
+#include "Character.h"
+#include "Pad.h"
+#include "ContactListener.h"
+#include "StatesType.h"
 
-class GSPlay : public GameStateBase
+class GSPlay : public Game
 {
 public:
 	GSPlay();
 	~GSPlay();
-	void Init();
+	int Init();
 	void Exit();
 	void Pause();
 	void Resume();

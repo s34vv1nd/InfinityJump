@@ -18,9 +18,6 @@ std::shared_ptr<GameStateBase> GameStateBase::CreateState(StateType stt)
 	case STATE_MENU:
 		return std::shared_ptr<GSMenu>();
 		break;
-	case STATE_PLAY:
-		return std::shared_ptr<GSPlay>();
-		break;
 	default:
 		return std::shared_ptr<GameStateBase>();
 	}

@@ -11,8 +11,9 @@ GSPlay::~GSPlay()
 {
 }
 
-void GSPlay::Init()
+int GSPlay::Init()
 {
+	return 0;
 }
 
 void GSPlay::Exit()

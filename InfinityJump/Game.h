@@ -6,6 +6,7 @@
 #include "Character.h"
 #include "Pad.h"
 #include "ContactListener.h"
+#include "StatesType.h"
 
 class ContactListener;
 
@@ -22,6 +23,7 @@ class Game
 	b2Fixture* m_characterFixture;
 	GLfloat m_fSpawnTime;
 	ContactListener* m_contactListener;
+	StateType m_currentState;
 
 	void CreateNewPad(bool canKill);
 
@@ -32,8 +34,10 @@ public:
 	b2Fixture* getCharacterFixture();
 
 	void Reset();
+	int Initialize();
 	int Init();
 	void Draw();
+	void DrawPlay();
 	void Update(GLfloat dt);
 	void Key(unsigned char key, bool bIsPressed);
 	void TouchActionDown(int x, int y);

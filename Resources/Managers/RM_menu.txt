@@ -1,0 +1,28 @@
+#Models: 0
+
+#2D Textures: 5
+ID 0
+FILE ../Resources/Textures/MenuAndButtons/Menu/Background.png
+TILING REPEAT
+ID 1
+FILE ../Resources/Textures/MenuAndButtons/Menu/MenuButtons/Button_15.png
+TILING REPEAT
+ID 2
+FILE ../Resources/Textures/MenuAndButtons/help.png
+TILING REPEAT
+ID 3
+FILE ../Resources/Textures/MenuAndButtons/credit.png
+TILING REPEAT
+ID 4
+FILE ../Resources/Textures/MenuAndButtons/music_on.png
+TILING REPEAT
+
+
+#Height Map: 0
+
+#Cube Textures: 0
+
+#Shaders: 1
+ID 0
+VS ../Resources/Shaders/2DShaderVS.vs
+FS ../Resources/Shaders/2DShaderFS.fs

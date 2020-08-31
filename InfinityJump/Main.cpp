@@ -12,9 +12,11 @@ int Init ( ESContext *esContext )
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-	return Singleton<Game>::GetInstance()->Init();
+	//return Singleton<Game>::GetInstance()->Init();  //only run gameplay
+	Singleton<Game>::GetInstance()->Initialize(); //switch state, but error in gameplay
+	return Singleton<Game>::GetInstance()->Init();  //only run gameplay
 }
+
 
 void Draw ( ESContext *esContext )
 {
