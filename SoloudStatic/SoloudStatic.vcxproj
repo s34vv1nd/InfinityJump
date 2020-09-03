@@ -1,0 +1,197 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{2D0E2FF4-43F5-4827-9D67-49652E99E596}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>SoloudStatic</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Include\Soloud;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>F:\Game Develop\GithubHaiPhong\InfinityJump\Include\Soloud;F:\Game Develop\GithubHaiPhong\InfinityJump\SoloudStatic\Soloud;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="core\soloud.cpp" />
+    <ClCompile Include="core\soloud_audiosource.cpp" />
+    <ClCompile Include="core\soloud_bus.cpp" />
+    <ClCompile Include="core\soloud_core_3d.cpp" />
+    <ClCompile Include="core\soloud_core_basicops.cpp" />
+    <ClCompile Include="core\soloud_core_faderops.cpp" />
+    <ClCompile Include="core\soloud_core_filterops.cpp" />
+    <ClCompile Include="core\soloud_core_getters.cpp" />
+    <ClCompile Include="core\soloud_core_setters.cpp" />
+    <ClCompile Include="core\soloud_core_voicegroup.cpp" />
+    <ClCompile Include="core\soloud_core_voiceops.cpp" />
+    <ClCompile Include="core\soloud_fader.cpp" />
+    <ClCompile Include="core\soloud_fft.cpp" />
+    <ClCompile Include="core\soloud_fft_lut.cpp" />
+    <ClCompile Include="core\soloud_file.cpp" />
+    <ClCompile Include="core\soloud_filter.cpp" />
+    <ClCompile Include="core\soloud_misc.cpp" />
+    <ClCompile Include="core\soloud_queue.cpp" />
+    <ClCompile Include="core\soloud_thread.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Soloud\soloud.h" />
+    <ClInclude Include="Soloud\soloud_audiosource.h" />
+    <ClInclude Include="Soloud\soloud_bassboostfilter.h" />
+    <ClInclude Include="Soloud\soloud_biquadresonantfilter.h" />
+    <ClInclude Include="Soloud\soloud_bus.h" />
+    <ClInclude Include="Soloud\soloud_c.h" />
+    <ClInclude Include="Soloud\soloud_dcremovalfilter.h" />
+    <ClInclude Include="Soloud\soloud_echofilter.h" />
+    <ClInclude Include="Soloud\soloud_error.h" />
+    <ClInclude Include="Soloud\soloud_fader.h" />
+    <ClInclude Include="Soloud\soloud_fft.h" />
+    <ClInclude Include="Soloud\soloud_fftfilter.h" />
+    <ClInclude Include="Soloud\soloud_file.h" />
+    <ClInclude Include="Soloud\soloud_file_hack_off.h" />
+    <ClInclude Include="Soloud\soloud_file_hack_on.h" />
+    <ClInclude Include="Soloud\soloud_filter.h" />
+    <ClInclude Include="Soloud\soloud_flangerfilter.h" />
+    <ClInclude Include="Soloud\soloud_freeverbfilter.h" />
+    <ClInclude Include="Soloud\soloud_internal.h" />
+    <ClInclude Include="Soloud\soloud_lofifilter.h" />
+    <ClInclude Include="Soloud\soloud_misc.h" />
+    <ClInclude Include="Soloud\soloud_monotone.h" />
+    <ClInclude Include="Soloud\soloud_noise.h" />
+    <ClInclude Include="Soloud\soloud_openmpt.h" />
+    <ClInclude Include="Soloud\soloud_queue.h" />
+    <ClInclude Include="Soloud\soloud_robotizefilter.h" />
+    <ClInclude Include="Soloud\soloud_sfxr.h" />
+    <ClInclude Include="Soloud\soloud_speech.h" />
+    <ClInclude Include="Soloud\soloud_tedsid.h" />
+    <ClInclude Include="Soloud\soloud_thread.h" />
+    <ClInclude Include="Soloud\soloud_vic.h" />
+    <ClInclude Include="Soloud\soloud_vizsn.h" />
+    <ClInclude Include="Soloud\soloud_wav.h" />
+    <ClInclude Include="Soloud\soloud_waveshaperfilter.h" />
+    <ClInclude Include="Soloud\soloud_wavstream.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
