@@ -134,6 +134,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="backend\winmm\soloud_winmm.cpp" />
     <ClCompile Include="core\soloud.cpp" />
     <ClCompile Include="core\soloud_audiosource.cpp" />
     <ClCompile Include="core\soloud_bus.cpp" />

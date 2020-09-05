@@ -75,6 +75,9 @@
     <ClCompile Include="core\soloud.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="backend\winmm\soloud_winmm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Soloud\soloud.h">
