@@ -162,7 +162,13 @@ void GSPlay::TouchActionMove(int x, int y)
 
 void GSPlay::TouchActionUp(int x, int y)
 {
-	m_homeButton->onClick(x, y, false);
+	if (m_homeButton->onClick(x, y, false)) return;
+	if (m_character->isJumpingFirst()) {
+		m_character->JumpSecond();
+	}
+	else {
+		m_character->JumpFirst();
+	}
 }
 
 void GSPlay::Update(float dt)

@@ -4,6 +4,7 @@
 
 std::shared_ptr<Sprite> GSMenu::m_background = NULL;
 std::shared_ptr<Button> GSMenu::m_playButton = NULL;
+std::shared_ptr<Text> GSMenu::m_textTitle = NULL;
 
 void GSMenu::onClickPlayButton(int x, int y, bool isPressed)
 {
@@ -36,6 +37,8 @@ void GSMenu::Init()
 			}
 		}
 	}
+
+	m_textTitle = make_shared<Text>("INFINITY JUMP", Vector4(1.0f, 0.0f, 0.0f, 1.0f), Vector2(150.0f, 450.0f), Vector2(4.0f, 4.0f));
 }
 
 void GSMenu::Enter()
@@ -83,4 +86,5 @@ void GSMenu::Draw()
 {
 	m_background->Draw();
 	m_playButton->Draw();
+	m_textTitle->Draw();
 }
