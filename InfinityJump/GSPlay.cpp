@@ -96,6 +96,8 @@ void GSPlay::Enter()
 			}, 0);
 	}
 	m_fSpawnTime = 0;
+
+	m_textPoint = make_shared<Text>("Point: " + std::to_string(0), Vector4(1.0f, 0.0f, 0.0f, 1.0f), Vector2(50.0f, 500.0f), Vector2(2.0f, 2.0f));
 }
 
 void GSPlay::Pause()
@@ -191,6 +193,14 @@ void GSPlay::Update(float dt)
 		else break;
 	}
 
+	for (auto& pad : m_pads) {
+		if (pad->isBehindCharacter(m_character) && !pad->getPassedCharacter()) {
+			pad->setPassedCharacter(true);
+			m_character->setPoint(m_character->getPoint() + 1);
+			m_textPoint->setText("Point: " + std::to_string(m_character->getPoint()));
+		}
+	}
+
 	if (!m_character->isDead()) {
 		if (!m_isPaused) {
 			m_fSpawnTime += dt;
@@ -218,4 +228,5 @@ void GSPlay::Draw()
 	}
 	m_character->Draw();
 	m_homeButton->Draw();
+	m_textPoint->Draw();
 }

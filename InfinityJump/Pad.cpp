@@ -42,15 +42,30 @@ int Pad::getLevel()
 	return m_iLevel;
 }
 
+bool Pad::isBehindCharacter(shared_ptr<Character> character)
+{
+	return getPos2D().x + getWidth() / 2 < character->getPos2D().x;
+}
+
+bool Pad::getPassedCharacter()
+{
+	return m_passedCharacter;
+}
+
+void Pad::setPassedCharacter(bool passed)
+{
+	m_passedCharacter = passed;
+}
+
 void Pad::InitBody(Vector2 pos2D, b2Vec2 velocity)
 {
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_kinematicBody;
-	bodyDef.position.Set((pos2D.x + m_iWidth / 2.0) / 100.0, (pos2D.y + m_iHeight / 2.0) / 100.0);
+	bodyDef.position.Set((pos2D.x + m_iWidth / 2.0f) / 100.0f, (pos2D.y + m_iHeight / 2.0f) / 100.0f);
 	m_body = m_world->CreateBody(&bodyDef);
 
 	b2PolygonShape kinematicBox;
-	kinematicBox.SetAsBox(m_iWidth / 200.0, 0.0);
+	kinematicBox.SetAsBox(m_iWidth / 200.0f, m_iHeight / 300.0f);
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &kinematicBox;
 	fixtureDef.density = 0.0;
