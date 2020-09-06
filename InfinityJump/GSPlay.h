@@ -8,6 +8,7 @@
 #include "Pad.h"
 #include "Character.h"
 #include "ContactListener.h"
+#include "PadPool.h"
 #include "Button.h"
 #include "Text.h"
 
@@ -30,8 +31,6 @@ class GSPlay : public GameStateBase
 	std::deque<std::shared_ptr<Pad>> m_pads = std::deque<std::shared_ptr<Pad>>();
 
 	std::shared_ptr<Text> m_textPoint = NULL;
-
-	void CreateNewPad(bool canKill, int level);
 
 	static void OnClickHomeButton(int x, int y, bool isPressed);
 

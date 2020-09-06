@@ -42,6 +42,7 @@
     <ClInclude Include="GSWelcom.h" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="Pad.h" />
+    <ClInclude Include="PadPool.h" />
     <ClInclude Include="StatesType.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -63,6 +64,7 @@
     <ClCompile Include="GSWelcom.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Pad.cpp" />
+    <ClCompile Include="PadPool.cpp" />
     <ClCompile Include="StatesType.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
