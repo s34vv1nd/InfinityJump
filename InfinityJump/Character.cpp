@@ -77,6 +77,16 @@ void Character::die()
 	m_isDead = true;
 }
 
+int Character::getPoint()
+{
+	return m_iPoint;
+}
+
+void Character::setPoint(int point)
+{
+	m_iPoint = point;
+}
+
 void Character::InitBody()
 {
 	b2BodyDef bodyDef;

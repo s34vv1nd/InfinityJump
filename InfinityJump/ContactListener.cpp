@@ -44,7 +44,7 @@ void ContactListener::PreSolve(b2Contact* contact, const b2Manifold* oldManifold
 	
 	b2Vec2 posCharacter = characterBody->GetPosition();
 	b2Vec2 posPad = padBody->GetPosition();
-	float width = pad->getWidth() / 200.0f;
+	float width = (pad)->getWidth() / 200.0f;
 
 	if (characterBody->GetLinearVelocity().y > EPSILON || posCharacter.x < posPad.x - width || posCharacter.x > posPad.x + width) {
 		contact->SetEnabled(false);

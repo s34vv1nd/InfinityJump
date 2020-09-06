@@ -2,6 +2,8 @@
 #include "GSPlay.h"
 
 shared_ptr<Sprite> GSPlay::m_background = NULL;
+shared_ptr<Sprite> GSPlay::m_crown = NULL;
+shared_ptr<Sprite> GSPlay::m_pause = NULL;
 shared_ptr<Button> GSPlay::m_homeButton = NULL;
 shared_ptr<b2World> GSPlay::m_world = NULL;
 b2Body* GSPlay::m_groundBody = NULL;
@@ -52,6 +54,12 @@ void GSPlay::Init()
 			if (obj->getName() == "MAP_BACKGROUND") {
 				m_background = dynamic_pointer_cast<Sprite>(obj);
 			}
+			else if (obj->getName() == "PauseTextBoard") {
+				m_pause = dynamic_pointer_cast<Sprite>(obj);
+			}
+			else if (obj->getName() == "CrownTextBoard") {
+				m_crown = dynamic_pointer_cast<Sprite>(obj);
+			}
 			else if (obj->getName() == "CHARACTER") {
 				m_characterSprite = dynamic_pointer_cast<AnimSprite>(obj);
 			}
@@ -96,6 +104,8 @@ void GSPlay::Enter()
 			}, 0);
 	}
 	m_fSpawnTime = 0;
+
+	m_textPoint = make_shared<Text>("Point: " + std::to_string(0), Vector4(1.0f, 0.0f, 0.0f, 1.0f), Vector2(50.0f, 500.0f), Vector2(2.0f, 2.0f));
 }
 
 void GSPlay::Pause()
@@ -162,7 +172,13 @@ void GSPlay::TouchActionMove(int x, int y)
 
 void GSPlay::TouchActionUp(int x, int y)
 {
-	m_homeButton->onClick(x, y, false);
+	if (m_homeButton->onClick(x, y, false)) return;
+	if (m_character->isJumpingFirst()) {
+		m_character->JumpSecond();
+	}
+	else {
+		m_character->JumpFirst();
+	}
 }
 
 void GSPlay::Update(float dt)
@@ -183,6 +199,14 @@ void GSPlay::Update(float dt)
 			m_pads.pop_front();
 		}
 		else break;
+	}
+
+	for (auto& pad : m_pads) {
+		if (pad->isBehindCharacter(m_character) && !pad->getPassedCharacter()) {
+			pad->setPassedCharacter(true);
+			m_character->setPoint(m_character->getPoint() + 1);
+			m_textPoint->setText("Point: " + std::to_string(m_character->getPoint()));
+		}
 	}
 
 	if (!m_character->isDead()) {
@@ -212,4 +236,9 @@ void GSPlay::Draw()
 	}
 	m_character->Draw();
 	m_homeButton->Draw();
+	m_textPoint->Draw();
+	if (m_isPaused) {
+		m_crown->Draw();
+		m_pause->Draw();
+	}
 }

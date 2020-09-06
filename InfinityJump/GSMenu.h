@@ -3,18 +3,19 @@
 #include "Define.h"
 #include "GameStateBase.h"
 #include "Button.h"
-
+#include "Text.h"
 
 class GSMenu : public GameStateBase
 {
 	static shared_ptr<Sprite> m_background;
 	static shared_ptr<Button> m_playButton;
 	static shared_ptr<Button> m_helpButton;
-//	static shared_ptr<Button> m_infoButton;
-	//static shared_ptr<Button> m_musicButton;
-
-	static void onClickPlayButton(int x, int y, bool isPressed);
+	static shared_ptr<Button> m_creditButton;
+	static shared_ptr<Button> m_settingButton;
 	static void onClickHelpButton(int x, int y, bool isPressed);
+	static void onClickCreditButton(int x, int y, bool isPressed);
+	static void onClickPlayButton(int x, int y, bool isPressed);
+	static void onClickSettingButton(int x, int y, bool isPressed);
 public:
 	GSMenu();
 	~GSMenu();

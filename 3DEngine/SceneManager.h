@@ -2,7 +2,6 @@
 #include <vector>
 #include <memory>
 #include "../Utilities/utilities.h"
-#include "Math.h"
 #include "Object.h"
 #include "Singleton.h"
 #include "ResourceManager.h"

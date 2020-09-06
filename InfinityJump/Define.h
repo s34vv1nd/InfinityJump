@@ -5,6 +5,8 @@
 #define SM_TXT_FILE			"../Resources/Managers/SM2.txt"
 #define MENUSCENE_FILE		"../Resources/Managers/MenuScene.txt"
 #define PLAYSCENE_FILE		"../Resources/Managers/PlayScene.txt"
+#define HELPSCENE_FILE		"../Resources/Managers/HelpScene.txt"
+#define CREDITSCENE_FILE    "../Resources/Managers/CreditScene.txt"
 
 #define WORLD_GRAVITY b2Vec2(0.0, -10.0)
 #define WORLD_VELOCITY_ITERATIONS 8

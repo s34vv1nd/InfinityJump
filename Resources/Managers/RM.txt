@@ -1,6 +1,6 @@
 #Models: 0
 
-#2D Textures: 13
+#2D Textures: 22
 ID 0
 FILE ../Resources/Textures/MenuAndButtons/Menu/MenuBackground.png
 TILING REPEAT
@@ -39,6 +39,33 @@ FILE ../Resources/Textures/Pads/Pad_1_4.png
 TILING REPEAT
 ID 12
 FILE ../Resources/Textures/MenuAndButtons/Menu/MenuButtons/Button_19.png
+TILING REPEAT
+ID 13
+FILE ../Resources/Textures/MenuAndButtons/Buttons/Button_79.png
+TILING REPEAT
+ID 14
+FILE ../Resources/Textures/MenuAndButtons/GameIcon/Help.png
+TILING REPEAT
+ID 15
+FILE ../Resources/Textures/MenuAndButtons/Menu/CreditBackground.png
+TILING REPEAT
+ID 16
+FILE ../Resources/Textures/MenuAndButtons/help.png
+TILING REPEAT
+ID 17
+FILE ../Resources/Textures/MenuAndButtons/credit.png
+TILING REPEAT
+ID 18
+FILE ../Resources/Textures/MenuAndButtons/music_on.png
+TILING REPEAT
+ID 19
+FILE ../Resources/Textures/MenuAndButtons/Menu/Background.png
+TILING REPEAT
+ID 20
+FILE ../Resources/Textures/MenuAndButtons/GameIcon/Windows_07.png
+TILING REPEAT
+ID 21
+FILE ../Resources/Textures/MenuAndButtons/GameIcon/Windows_27.png
 TILING REPEAT
 
 #Height Map: 0
