@@ -4,17 +4,16 @@
 #include "GameStateBase.h"
 #include "Button.h"
 #include "Text.h"
-
-class GSCredit : public GameStateBase
+class GSHelp : public GameStateBase
 {
 	static shared_ptr<Sprite> m_background;
+	static shared_ptr<Sprite> m_textBoard;
 	static shared_ptr<Button> m_backmenuButton;
 	static void onCLickBackMenuButton(int x, int y, bool isPressed);
 
-
 public:
-	GSCredit();
-	~GSCredit();
+	GSHelp();
+	~GSHelp();
 	void Init();
 	void Enter();
 	void Pause();

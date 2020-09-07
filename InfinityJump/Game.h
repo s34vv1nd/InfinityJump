@@ -8,7 +8,9 @@
 #include "ContactListener.h"
 #include "GSPlay.h"
 #include "GSMenu.h"
-
+#include "GSCredit.h"
+#include "GSHelp.h"
+#include "GSCharacterSelection.h"
 class ContactListener;
 
 class Game

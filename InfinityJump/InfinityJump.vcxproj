@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -33,7 +33,9 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameStateBase.h" />
     <ClInclude Include="GameStateMachine.h" />
+    <ClInclude Include="GSCharacterSelection.h" />
     <ClInclude Include="GSCredit.h" />
+    <ClInclude Include="GSHelp.h" />
     <ClInclude Include="GSHighScore.h" />
     <ClInclude Include="GSMenu.h" />
     <ClInclude Include="GSOption.h" />
@@ -55,7 +57,9 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameStateBase.cpp" />
     <ClCompile Include="GameStateMachine.cpp" />
+    <ClCompile Include="GSCharacterSelection.cpp" />
     <ClCompile Include="GSCredit.cpp" />
+    <ClCompile Include="GSHelp.cpp" />
     <ClCompile Include="GSHighScore.cpp" />
     <ClCompile Include="GSMenu.cpp" />
     <ClCompile Include="GSOption.cpp" />

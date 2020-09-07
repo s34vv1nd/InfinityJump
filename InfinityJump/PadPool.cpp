@@ -30,7 +30,7 @@ std::shared_ptr<Pad> PadPool::createPad(const bool isKiller, const Vector2 posit
 
 void PadPool::destroyPad(std::shared_ptr<Pad> pad)
 {
-	printf("Destroy pad at: x = %f , y = %f\n", pad->getPos2D().x, pad->getPos2D().y);
+	//printf("Destroy pad at: x = %f , y = %f\n", pad->getPos2D().x, pad->getPos2D().y);
 	pad->getBody()->SetLinearVelocity({ 0.0f, 0.0f });
 	pad->setPos2D(PAD_DEFAULT_X_COORD, PAD_Y_COORD_LEVEL_0);
 	pad->setPassedCharacter(false);

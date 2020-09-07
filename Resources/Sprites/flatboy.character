@@ -1,0 +1,15 @@
+#Animations: 3
+ID 0
+FILE ../Resources/Textures/Characters/flatboy_png/Run
+TEXTURES 15
+SPF 0.03
+
+ID 1
+FILE ../Resources/Textures/Characters/flatboy_png/Jump
+TEXTURES 15
+SPF 0.03
+
+ID 2
+FILE ../Resources/Textures/Characters/flatboy_png/Dead
+TEXTURES 15
+SPF 0.03

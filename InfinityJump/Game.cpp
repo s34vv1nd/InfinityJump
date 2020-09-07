@@ -17,6 +17,9 @@ void Game::Init()
 	Singleton<ResourceManager>::GetInstance()->Init(RM_TXT_FILE);
 	Singleton<TextManager>::GetInstance()->Init();
 	make_shared<GSMenu>()->Init();
+	make_shared<GSCharacterSelection>()->Init();
+	make_shared<GSHelp>()->Init();
+	make_shared<GSCredit>()->Init();
 	make_shared<GSPlay>()->Init();
 	Singleton<GameStateMachine>::GetInstance()->PushState(STATE_MENU);
 }

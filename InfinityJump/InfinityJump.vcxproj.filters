@@ -11,6 +11,7 @@
     </Filter>
     <Filter Include="Header Files">
       <UniqueIdentifier>{ffc68602-e130-4faa-b0d5-8537437433ff}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -71,7 +72,13 @@
     <ClInclude Include="Text.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="GSHelp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="PadPool.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GSCharacterSelection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -130,7 +137,13 @@
     <ClCompile Include="Text.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GSHelp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="PadPool.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GSCharacterSelection.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
