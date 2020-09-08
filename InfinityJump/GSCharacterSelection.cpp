@@ -2,15 +2,21 @@
 #include "GSCharacterSelection.h"
 
 
-std::shared_ptr<Sprite> GSCharacterSelection::m_background = NULL;
-std::shared_ptr<Button> GSCharacterSelection::m_homeButton = NULL;
-std::shared_ptr<Button> GSCharacterSelection::m_leftArrowButton = NULL;
-std::shared_ptr<Button> GSCharacterSelection::m_rightArrowButton = NULL;
+std::shared_ptr<Sprite> GSSelection::m_background = NULL;
+std::shared_ptr<Button> GSSelection::m_homeButton = NULL;
+std::shared_ptr<Button> GSSelection::m_leftArrowButton1 = NULL;
+std::shared_ptr<Button> GSSelection::m_rightArrowButton1 = NULL;
+std::shared_ptr<Button> GSSelection::m_leftArrowButton2 = NULL;
+std::shared_ptr<Button> GSSelection::m_rightArrowButton2 = NULL;
 
-std::vector<std::shared_ptr<AnimSprite>> GSCharacterSelection::m_characterSprites = std::vector<std::shared_ptr<AnimSprite>>();
-int GSCharacterSelection::m_currentCharacterSprite = 0;
+std::vector<std::shared_ptr<AnimSprite>> GSSelection::m_characterSprites = std::vector<std::shared_ptr<AnimSprite>>();
+int GSSelection::m_currentCharacterSprite = 0;
 
-void GSCharacterSelection::OnClickHomeButton(int x, int y, bool isPressed)
+std::vector<std::shared_ptr<GameMap>> GSSelection::m_gameMaps = std::vector<std::shared_ptr<GameMap>>();
+int GSSelection::m_currentMap = 0;
+
+
+void GSSelection::OnClickHomeButton(int x, int y, bool isPressed)
 {
 	if (!isPressed) {
 		Singleton<GameStateMachine>::GetInstance()->PopState();
@@ -18,7 +24,7 @@ void GSCharacterSelection::OnClickHomeButton(int x, int y, bool isPressed)
 	}
 }
 
-void GSCharacterSelection::OnClickLeftArrowButton(int x, int y, bool isPressed)
+void GSSelection::OnClickLeftArrowButton1(int x, int y, bool isPressed)
 {
 	if (!isPressed) {
 		m_currentCharacterSprite += m_characterSprites.size() - 1;
@@ -26,7 +32,7 @@ void GSCharacterSelection::OnClickLeftArrowButton(int x, int y, bool isPressed)
 	}
 }
 
-void GSCharacterSelection::OnClickRightArrowButton(int x, int y, bool isPressed)
+void GSSelection::OnClickRightArrowButton1(int x, int y, bool isPressed)
 {
 	if (!isPressed) {
 		m_currentCharacterSprite += 1;
@@ -34,24 +40,48 @@ void GSCharacterSelection::OnClickRightArrowButton(int x, int y, bool isPressed)
 	}
 }
 
-GSCharacterSelection::GSCharacterSelection()
+void GSSelection::OnClickLeftArrowButton2(int x, int y, bool isPressed)
+{
+	if (!isPressed) {
+		m_currentMap += m_gameMaps.size() - 1;
+		m_currentMap %= m_gameMaps.size();
+	}
+}
+
+void GSSelection::OnClickRightArrowButton2(int x, int y, bool isPressed)
+{
+	if (!isPressed) {
+		m_currentMap += 1;
+		m_currentMap %= m_gameMaps.size();
+	}
+}
+
+GSSelection::GSSelection()
 {
 }
 
 
-GSCharacterSelection::~GSCharacterSelection()
+GSSelection::~GSSelection()
 {
 }
 
-std::shared_ptr<AnimSprite> GSCharacterSelection::getCurrentCharacterSprite()
+std::shared_ptr<AnimSprite> GSSelection::getCurrentCharacterSprite()
 {
 	return m_characterSprites[m_currentCharacterSprite];
 }
 
-void GSCharacterSelection::Init() {
+std::shared_ptr<GameMap> GSSelection::getCurrentMap()
+{
+	return m_gameMaps[m_currentMap];
+}
+
+void GSSelection::Init() {
 	int exitcode = Singleton<SceneManager>::GetInstance()->Init(CHARACTERSELECTIONSCENE_FILE);
 	if (exitcode) return;
 
+	std::vector<std::shared_ptr<Sprite>> backgroundSprites;
+	std::vector<std::shared_ptr<Sprite>> normalPadSprites;
+	std::vector<std::shared_ptr<Sprite>> killerPadSprites;
 
 	auto m_objList = Singleton<SceneManager>::GetInstance()->m_objList;
 	for (auto obj : m_objList) {
@@ -59,40 +89,80 @@ void GSCharacterSelection::Init() {
 			m_background = dynamic_pointer_cast<Sprite>(obj);
 		}
 		else if (obj->getName() == "BUTTON_HOME") {
-			m_homeButton = make_shared<Button>(dynamic_pointer_cast<Sprite>(obj), &GSCharacterSelection::OnClickHomeButton);
+			m_homeButton = make_shared<Button>(dynamic_pointer_cast<Sprite>(obj), &GSSelection::OnClickHomeButton);
 		}
 		else if (obj->getName() == "CHARACTER") {
 			m_characterSprites.push_back(dynamic_pointer_cast<AnimSprite>(obj));
 		}
-		else if (obj->getName() == "BUTTON_LEFTARROW") {
-			m_leftArrowButton = make_shared<Button>(dynamic_pointer_cast<Sprite>(obj), &GSCharacterSelection::OnClickLeftArrowButton);
-
+		else if (obj->getName() == "MAP_BACKGROUND") {
+			backgroundSprites.push_back(dynamic_pointer_cast<Sprite>(obj));
 		}
-		else if (obj->getName() == "BUTTON_RIGHTARROW") {
-			m_rightArrowButton = make_shared<Button>(dynamic_pointer_cast<Sprite>(obj), &GSCharacterSelection::OnClickRightArrowButton);
+		else if (obj->getName() == "PAD_NORMAL") {
+			normalPadSprites.push_back(dynamic_pointer_cast<Sprite>(obj));
+		}
+		else if (obj->getName() == "PAD_KILLER") {
+			killerPadSprites.push_back(dynamic_pointer_cast<Sprite>(obj));
+		}
+		else if (obj->getName() == "BUTTON_LEFTARROW1") {
+			m_leftArrowButton1 = make_shared<Button>(dynamic_pointer_cast<Sprite>(obj), &GSSelection::OnClickLeftArrowButton1);
+		}
+		else if (obj->getName() == "BUTTON_RIGHTARROW1") {
+			m_rightArrowButton1 = make_shared<Button>(dynamic_pointer_cast<Sprite>(obj), &GSSelection::OnClickRightArrowButton1);
+		}
+		else if (obj->getName() == "BUTTON_LEFTARROW2") {
+			m_leftArrowButton2 = make_shared<Button>(dynamic_pointer_cast<Sprite>(obj), &GSSelection::OnClickLeftArrowButton2);
+		}
+		else if (obj->getName() == "BUTTON_RIGHTARROW2") {
+			m_rightArrowButton2 = make_shared<Button>(dynamic_pointer_cast<Sprite>(obj), &GSSelection::OnClickRightArrowButton2);
 		}
 	}
+
+	for (int i = 0; i < backgroundSprites.size(); ++i) {
+		m_gameMaps.push_back(make_shared<GameMap>(
+				backgroundSprites[i],
+				normalPadSprites[i],
+				killerPadSprites[i]
+			));
+	}
+
 	m_currentCharacterSprite = 0;
+	m_currentMap = 0;
 }
 
-void GSCharacterSelection::TouchActionUp(int x, int y) {
+void GSSelection::Enter() {
+	for (auto& character : m_characterSprites) {
+		for (auto& anim : character->getAnimations()) {
+			anim->setCurrentFrame(0);
+		}
+		character->setCurrentAnimation(0);
+	}
+}
+
+void GSSelection::TouchActionUp(int x, int y) {
 	if (m_homeButton->onClick(x, y, false)) return;
-	if (m_leftArrowButton->onClick(x, y, false)) return;
-	if (m_rightArrowButton->onClick(x, y, false)) return;
+	if (m_leftArrowButton1->onClick(x, y, false)) return;
+	if (m_rightArrowButton1->onClick(x, y, false)) return;
+	if (m_leftArrowButton2->onClick(x, y, false)) return;
+	if (m_rightArrowButton2->onClick(x, y, false)) return;
 }
 
-inline void GSCharacterSelection::Update(float dt) {
-	m_background->Update(dt);
+inline void GSSelection::Update(float dt) {
 	m_characterSprites[m_currentCharacterSprite]->Update(dt);
 	m_homeButton->Update(dt);
-	m_leftArrowButton->Update(dt);
-	m_rightArrowButton->Update(dt);
+	m_leftArrowButton1->Update(dt);
+	m_rightArrowButton1->Update(dt);
+	m_leftArrowButton2->Update(dt);
+	m_rightArrowButton2->Update(dt);
 }
 
-inline void GSCharacterSelection::Draw() {
-	m_background->Draw();
+inline void GSSelection::Draw() {
+	m_gameMaps[m_currentMap]->getBackgroundSprite()->Draw();
+	m_gameMaps[m_currentMap]->getNormalPadSprite()->Draw();
+	m_gameMaps[m_currentMap]->getKillerPadSprite()->Draw();
 	m_characterSprites[m_currentCharacterSprite]->Draw();
 	m_homeButton->Draw();
-	m_leftArrowButton->Draw();
-	m_rightArrowButton->Draw();
+	m_leftArrowButton1->Draw();
+	m_rightArrowButton1->Draw();
+	m_leftArrowButton2->Draw();
+	m_rightArrowButton2->Draw();
 }

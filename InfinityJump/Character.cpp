@@ -18,8 +18,13 @@ Character::Character(shared_ptr<b2World> world, std::shared_ptr<AnimSprite> obj)
 	m_rotation = obj->getRotation();
 	m_iWidth = obj->getWidth();
 	m_iHeight = obj->getHeight();
+	
 	m_animations = obj->getAnimations();
-	m_currentAnimation = obj->getCurrentAnimation();
+	for (auto& anim : m_animations) {
+		anim->setCurrentFrame(0);
+	}
+	m_currentAnimation = 0;
+	
 	calculateWorldMatrix();
 	calculateWVPmatrix();
 	InitBody();
@@ -133,9 +138,9 @@ void Character::Update(GLfloat dt)
 	pos2D = { (m_position.x + CHARACTER_HITBOX_WIDTH / 2.0f) / 100.0f, pos2D.y };
 	m_body->SetTransform(pos2D, 0);
 	setPos2D(pos2D.x * 100.0 - CHARACTER_HITBOX_WIDTH / 2.0, pos2D.y * 100.0 - CHARACTER_HITBOX_HEIGHT / 2.0);
-	//printf("Character: x = %f , y = %f\n", m_position.x, m_position.y);
-
+	
 	if (m_isDead) {
+		printf("Character: x = %f , y = %f\n", m_position.x, m_position.y);
 		setCurrentAnimation(2);
 		if (m_animations[m_currentAnimation]->getCurrentFrame() + 1 == m_animations[m_currentAnimation]->getCountFrames()) {
 			Pause();

@@ -27,7 +27,7 @@ std::shared_ptr<GameStateBase> GameStateBase::CreateState(StateType stt)
 	case STATE_CREDIT:
 		return std::make_shared<GSCredit>();
 	case STATE_SELECT:
-		return std::make_shared<GSCharacterSelection>();
+		return std::make_shared<GSSelection>();
 	default:
 		return std::make_shared<GameStateBase>();
 	}

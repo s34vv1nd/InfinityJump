@@ -2,7 +2,7 @@
 #include "Sprite.h"
 
 Sprite::Sprite() : 
-	Object() 
+	Object()
 {
 }
 

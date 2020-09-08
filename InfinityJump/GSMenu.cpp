@@ -78,6 +78,7 @@ void GSMenu::Init()
 			}
 			else if (obj->getName() == "MENU_BUTTON_SELECT") {
 				m_selectButton = make_shared<Button>(dynamic_pointer_cast<Sprite>(obj), &GSMenu::onClickSelectButton);
+
 			}
 		}
 	}
@@ -150,5 +151,5 @@ void GSMenu::Draw()
 	m_creditButton->Draw();
 	m_helpButton->Draw();
 	m_settingButton->Draw();
-	//m_selectButton->Draw();
+	m_selectButton->Draw();
 }

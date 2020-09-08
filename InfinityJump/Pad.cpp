@@ -87,7 +87,7 @@ void Pad::InitBody(Vector2 pos2D, b2Vec2 velocity)
 	m_body = m_world->CreateBody(&bodyDef);
 
 	b2PolygonShape kinematicBox;
-	kinematicBox.SetAsBox(m_iWidth / 200.0f, m_iHeight / 300.0f);
+	kinematicBox.SetAsBox(m_iWidth / 200.0f, m_iHeight / 200.0f);
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &kinematicBox;
 	fixtureDef.density = 0.0;
