@@ -4,6 +4,8 @@
 #include "Define.h"
 #include "Pad.h"
 
+class Pad;
+
 class Character :
     public AnimSprite
 {
@@ -14,6 +16,8 @@ class Character :
     bool m_isJumpingFirst = false;
     bool m_isJumpingSecond = false;
     bool m_isDead = false;
+    int m_iPoint = 0;
+	int m_HighScore = 0;
 
 public:
     Character(std::shared_ptr<b2World> world, std::shared_ptr<AnimSprite> obj);
@@ -28,6 +32,12 @@ public:
     bool isJumpingSecond();
     bool isDead();
     void die();
+
+    int getPoint();
+    void setPoint(int point);
+	int getHighScore();
+	void setHighScore(int score);
+	void getCurrentHighScore();
 
     virtual void InitBody();
     virtual void Update(GLfloat dt);

@@ -9,8 +9,10 @@ public:
 	char m_sFileVS[260];
 	char m_sFileFS[260];
 	GLint m_iPositionAttribute;
+	GLint m_iPositionAttribute4;
 	GLint m_iTextureAttribute;
 	GLint m_iTextureUniform;
+	GLint m_iColorUniform;
 	GLint m_iWVPmatrixUniform;
 	GLint m_iWVmatrixUniform;
 	GLint m_iCubeUniform;

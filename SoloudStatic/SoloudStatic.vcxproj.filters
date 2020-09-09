@@ -78,6 +78,18 @@
     <ClCompile Include="backend\winmm\soloud_winmm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="audiosource\wav\dr_impl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="audiosource\wav\soloud_wav.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="audiosource\wav\soloud_wavstream.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="audiosource\wav\stb_vorbis.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Soloud\soloud.h">

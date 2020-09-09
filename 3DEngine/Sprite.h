@@ -8,7 +8,7 @@ class Sprite :
 {
 protected:
     GLfloat m_iWidth, m_iHeight;
-    // string m_Text;
+    //std::string m_strText;
 
 public:
     Sprite();
@@ -22,5 +22,8 @@ public:
     virtual void setSize(GLfloat width, GLfloat height);
     GLfloat getWidth();
     GLfloat getHeight();
+
+	//void setText(const std::string text);
+	//std::string getText();
 };
 

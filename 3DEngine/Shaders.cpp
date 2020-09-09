@@ -10,18 +10,19 @@ Shaders::Shaders(int id) :
 {
 }
 
-int Shaders::Init(char * fileVertexShader, char * fileFragmentShader)
+int Shaders::Init(char* fileVertexShader, char* fileFragmentShader)
 {
 	m_iVertexShader = esLoadShader(GL_VERTEX_SHADER, fileVertexShader);
 
-	if ( m_iVertexShader == 0 )
+	if (m_iVertexShader == 0) {
 		return -1;
+	}
 
 	m_iFragmentShader = esLoadShader(GL_FRAGMENT_SHADER, fileFragmentShader);
 
-	if ( m_iFragmentShader == 0 )
+	if (m_iFragmentShader == 0)
 	{
-		glDeleteShader( m_iVertexShader );
+		glDeleteShader(m_iVertexShader);
 		return -2;
 	}
 
@@ -29,8 +30,10 @@ int Shaders::Init(char * fileVertexShader, char * fileFragmentShader)
 
 	//finding location of uniforms / attributes
 	m_iPositionAttribute = glGetAttribLocation(m_iProgram, "a_posL");
+	m_iPositionAttribute4 = glGetAttribLocation(m_iProgram, "a_pos");
 	m_iTextureAttribute = glGetAttribLocation(m_iProgram, "a_uv");
 	m_iTextureUniform = glGetUniformLocation(m_iProgram, "u_texture");
+	m_iColorUniform = glGetUniformLocation(m_iProgram, "u_color");
 	m_iWVPmatrixUniform = glGetUniformLocation(m_iProgram, "u_WVP");
 	m_iWVmatrixUniform = glGetUniformLocation(m_iProgram, "u_WV");
 	m_iCubeUniform = glGetUniformLocation(m_iProgram, "u_samplerCubeMap");

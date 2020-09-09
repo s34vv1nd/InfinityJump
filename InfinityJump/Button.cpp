@@ -33,8 +33,8 @@ bool Button::mouseInsideButton(int x, int y)
 bool Button::onClick(int x, int y, bool isPressed)
 {
 	if (m_onClickCallback) {
-		printf("Mouse: x = %d , y = %d\n", x, Globals::screenHeight - y);
-		printf("Button: x = %f , y = %f , width = %f , height = %f\n", m_position.x, m_position.y, m_iWidth, m_iHeight);
+		//printf("Mouse: x = %d , y = %d\n", x, Globals::screenHeight - y);
+		//printf("Button: x = %f , y = %f , width = %f , height = %f\n", m_position.x, m_position.y, m_iWidth, m_iHeight);
 		if (mouseInsideButton(x, y)) {
 			(*m_onClickCallback)(x, y, isPressed);
 			return true;

@@ -18,8 +18,13 @@ Character::Character(shared_ptr<b2World> world, std::shared_ptr<AnimSprite> obj)
 	m_rotation = obj->getRotation();
 	m_iWidth = obj->getWidth();
 	m_iHeight = obj->getHeight();
+	
 	m_animations = obj->getAnimations();
-	m_currentAnimation = obj->getCurrentAnimation();
+	for (auto& anim : m_animations) {
+		anim->setCurrentFrame(0);
+	}
+	m_currentAnimation = 0;
+	
 	calculateWorldMatrix();
 	calculateWVPmatrix();
 	InitBody();
@@ -77,15 +82,47 @@ void Character::die()
 	m_isDead = true;
 }
 
+int Character::getPoint()
+{
+	return m_iPoint;
+}
+
+void Character::setPoint(int point)
+{
+	m_iPoint = point;
+}
+
+int Character::getHighScore()
+{
+	return m_HighScore;
+}
+
+void Character::setHighScore(int score)
+{
+	FILE *fi = fopen(HIGHSCORE_FILE, "w");
+	fprintf(fi, "%d", score);
+	fclose(fi);
+}
+
+void Character::getCurrentHighScore()
+{
+	FILE *fi = fopen(HIGHSCORE_FILE, "r");
+	if (!fi) {
+		printf("FAILED TO OPEN FILE \"%s\"\n", HIGHSCORE_FILE);
+	}
+	fscanf(fi, "%d", &m_HighScore);
+	fclose(fi);
+}
+
 void Character::InitBody()
 {
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_dynamicBody;
-	bodyDef.position.Set((m_position.x + m_iWidth / 2.0f) / 100.0f, (m_position.y + m_iHeight / 2.0f) / 100.0f);
+	bodyDef.position.Set((m_position.x + CHARACTER_HITBOX_WIDTH / 2.0f) / 100.0f, (m_position.y + CHARACTER_HITBOX_HEIGHT / 2.0f) / 100.0f);
 	m_body = m_world->CreateBody(&bodyDef);
 
 	b2PolygonShape dynamicBox;
-	dynamicBox.SetAsBox(m_iWidth / 200.0f, m_iHeight / 200.0f);
+	dynamicBox.SetAsBox(CHARACTER_HITBOX_WIDTH / 200.0f, CHARACTER_HITBOX_HEIGHT / 200.0f);
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &dynamicBox;
 	fixtureDef.density = 1.0f;
@@ -98,12 +135,12 @@ void Character::InitBody()
 void Character::Update(GLfloat dt)
 {
 	b2Vec2 pos2D = m_body->GetPosition();
-	pos2D = { (m_position.x + m_iWidth / 2.0f) / 100.0f, pos2D.y };
+	pos2D = { (m_position.x + CHARACTER_HITBOX_WIDTH / 2.0f) / 100.0f, pos2D.y };
 	m_body->SetTransform(pos2D, 0);
-	setPos2D(pos2D.x * 100.0 - m_iWidth / 2.0, pos2D.y * 100.0 - m_iHeight / 2.0);
-	//printf("Character: x = %f , y = %f\n", m_position.x, m_position.y);
-
+	setPos2D(pos2D.x * 100.0 - CHARACTER_HITBOX_WIDTH / 2.0, pos2D.y * 100.0 - CHARACTER_HITBOX_HEIGHT / 2.0);
+	
 	if (m_isDead) {
+		printf("Character: x = %f , y = %f\n", m_position.x, m_position.y);
 		setCurrentAnimation(2);
 		if (m_animations[m_currentAnimation]->getCurrentFrame() + 1 == m_animations[m_currentAnimation]->getCountFrames()) {
 			Pause();
