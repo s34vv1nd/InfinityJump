@@ -22,6 +22,9 @@
     <ProjectReference Include="..\3DEngine\3DEngine.vcxproj">
       <Project>{b2ef2e06-dffc-4059-b29c-4fb4189aacd2}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\SoloudStatic\SoloudStatic.vcxproj">
+      <Project>{2d0e2ff4-43f5-4827-9d67-49652e99e596}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\Utilities\Utilities.vcxproj">
       <Project>{a6aa245d-dba2-4f8c-bda7-fe123b398f6c}</Project>
     </ProjectReference>
@@ -46,6 +49,7 @@
     <ClInclude Include="Define.h" />
     <ClInclude Include="Pad.h" />
     <ClInclude Include="PadPool.h" />
+    <ClInclude Include="SoundManager.h" />
     <ClInclude Include="StatesType.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -71,6 +75,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Pad.cpp" />
     <ClCompile Include="PadPool.cpp" />
+    <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="StatesType.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

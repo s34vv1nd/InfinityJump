@@ -6,6 +6,7 @@
 #include "../3DEngine/3DEngine.h"
 #include "Game.h"
 #include <time.h>
+#include "SoundManager.h"
 
 int Init ( ESContext *esContext )
 {
@@ -62,6 +63,7 @@ void CleanUp()
 
 int _tmain(int argc, _TCHAR* argv[])
 {
+	Singleton<SoundManager>::GetInstance()->playSound(JUMP);
 	srand(time(NULL));
 	ESContext esContext;
 
