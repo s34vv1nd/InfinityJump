@@ -9,7 +9,7 @@ class GSHelp : public GameStateBase
 	static shared_ptr<Sprite> m_background;
 	static shared_ptr<Sprite> m_textBoard;
 	static shared_ptr<Button> m_backmenuButton;
-	static void onCLickBackMenuButton(int x, int y, bool isPressed);
+	static void onCLickBackMenuButton(int x, int y, bool isPressed, void* context);
 
 public:
 	GSHelp();

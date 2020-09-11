@@ -7,10 +7,16 @@
 #include "Pad.h"
 #include "ContactListener.h"
 #include "GSPlay.h"
+#include "GSPause.h"
+#include "GSGameOver.h"
 #include "GSMenu.h"
-#include "GSCredit.h"
+#include "GSInfo.h"
 #include "GSHelp.h"
-#include "GSCharacterSelection.h"
+#include "GSSelection.h"
+#include "GSSound.h"
+#include "GSLoading.h"
+
+
 class ContactListener;
 
 class Game
@@ -21,6 +27,7 @@ public:
 	~Game();
 
 	void Init();
+	void DrawLoadingScreen();
 	void Draw();
 	void Update(GLfloat dt);
 	void Key(unsigned char key, bool bIsPressed);

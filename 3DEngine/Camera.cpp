@@ -18,7 +18,7 @@ Camera::Camera(GLfloat nearPlane, GLfloat farPlane, GLfloat FOV, GLfloat speed, 
 #ifdef GAME_2D
 	m_fSpeed = speed;
 	m_fRotationSpeed = rotationSpeed / 180 * PI;
-	m_projectionMatrix = P.SetOrthographic(nearPlane, farPlane, Globals::screenWidth / 2, Globals::screenHeight / 2);
+	m_projectionMatrix = P.SetOrthographic(nearPlane, farPlane, Globals::screenWidth / 2.0f, Globals::screenHeight / 2.0f);
 	// printf("near: %f , far: %f , right: %f , top: %f\n", nearPlane, farPlane, Globals::screenWidth / 2, Globals::screenHeight / 2);
 #else
 	m_fSpeed = speed;

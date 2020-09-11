@@ -3,6 +3,8 @@
 #include "../3DEngine/3DEngine.h"
 #include "Pad.h"
 
+class Pad;
+
 class PadPool
 {
 	std::deque<std::shared_ptr<Pad>> m_normalPadPool;
@@ -10,7 +12,7 @@ class PadPool
 
 public:
 	void Init(std::shared_ptr<b2World> world, std::shared_ptr<Sprite> normalPadSprite, std::shared_ptr<Sprite> killerPadSprite, int numPads);
-	std::shared_ptr<Pad> createPad(const bool isKiller, const Vector2 position, const b2Vec2 velocity);
+	std::shared_ptr<Pad> createPad(const bool isKiller, int level, const Vector2 position, const b2Vec2 velocity);
 	void destroyPad(std::shared_ptr<Pad> pad);
 	void CleanUp();
 };

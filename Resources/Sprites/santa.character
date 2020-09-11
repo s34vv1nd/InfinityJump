@@ -1,0 +1,15 @@
+#Animations: 3
+ID 0
+FILE ../Resources/Textures/Characters/santasprites/png/Run
+TEXTURES 11
+SPF 0.05
+
+ID 1
+FILE ../Resources/Textures/Characters/santasprites/png/Jump
+TEXTURES 16
+SPF 0.06
+
+ID 2
+FILE ../Resources/Textures/Characters/santasprites/png/Dead
+TEXTURES 17
+SPF 0.06

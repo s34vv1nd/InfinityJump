@@ -2,7 +2,7 @@
 #include "Pad.h"
 
 
-Pad::Pad(std::shared_ptr<b2World> world, shared_ptr<Sprite> obj, bool canKill, int level):
+Pad::Pad(std::shared_ptr<b2World> world, shared_ptr<Sprite> obj, bool canKill, int level) :
 	m_world(world),
 	m_body(NULL),
 	m_canKill(canKill),
@@ -19,8 +19,8 @@ Pad::Pad(std::shared_ptr<b2World> world, shared_ptr<Sprite> obj, bool canKill, i
 	if (m_iLevel == 1) m_position.y = PAD_Y_COORD_LEVEL_1;
 	m_scale = obj->getScale();
 	m_rotation = obj->getRotation();
-	m_iWidth = obj->getWidth();
-	m_iHeight = obj->getHeight();
+	m_fWidth = obj->getWidth();
+	m_fHeight = obj->getHeight();
 	calculateWorldMatrix();
 	calculateWVPmatrix();
 	InitBody(getPos2D(), { 0.0f, 0.0f });
@@ -40,18 +40,20 @@ bool Pad::isKiller()
 	return m_canKill;
 }
 
+void Pad::setLevel(int level)
+{
+	m_iLevel = level;
+}
+
 int Pad::getLevel()
 {
 	return m_iLevel;
 }
 
-void Pad::setPos2D(GLfloat x, GLfloat y)
+void Pad::setPos2D(Vector2 pos2D)
 {
-	Sprite::setPos2D(x, y);
-	m_body->SetTransform({
-			(getPos2D().x + getWidth() / 2.0f) / 100.0f,
-			(getPos2D().y + getHeight() / 2.0f) / 100.0f
-		}, 0);
+	Sprite::setPos2D(pos2D);
+	m_body->SetTransform(CoordinateConverter::to_b2coord(dynamic_cast<Sprite*>(this)), 0);
 }
 
 bool Pad::isBehindCharacter(shared_ptr<Character> character)
@@ -83,11 +85,13 @@ void Pad::InitBody(Vector2 pos2D, b2Vec2 velocity)
 {
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_kinematicBody;
-	bodyDef.position.Set((pos2D.x + m_iWidth / 2.0f) / 100.0f, (pos2D.y + m_iHeight / 2.0f) / 100.0f);
+	b2Vec2 b2pos = CoordinateConverter::to_b2coord(dynamic_cast<Sprite*>(this));
+	bodyDef.position.Set(b2pos.x, b2pos.y);
 	m_body = m_world->CreateBody(&bodyDef);
 
 	b2PolygonShape kinematicBox;
-	kinematicBox.SetAsBox(m_iWidth / 200.0f, m_iHeight / 200.0f);
+	m_hitbox = { PAD_HITBOX_WIDTH, PAD_HITBOX_HEIGHT };
+	kinematicBox.SetAsBox(getHitbox().x / 200.0f, getHitbox().y / 200.0f);
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &kinematicBox;
 	fixtureDef.density = 0.0;
@@ -101,9 +105,24 @@ void Pad::InitBody(Vector2 pos2D, b2Vec2 velocity)
 
 void Pad::Update(GLfloat dt)
 {
-	b2Vec2 pos2D = m_body->GetPosition();
-	setPos2D(pos2D.x * 100.0 - m_iWidth / 2.0, pos2D.y * 100.0 - m_iHeight / 2.0);
+	Sprite::Update(dt);
+	setPos2D(CoordinateConverter::to_glcoord(*m_body));
 	//printf("Pad: x = %f , y = %f\n", m_position.x, m_position.y);
 	//printf("dt = %f, Character velocity: x = %f , y = %f\n", dt, velocity.x, velocity.y);
-	Sprite::Update(dt);
+
+	shared_ptr<GSPlay> currentPlayScene = static_pointer_cast<GSPlay>(Singleton<GameStateMachine>::GetInstance()->CurrentState());
+	int currentPoint = currentPlayScene->getCharacter()->getPoint();
+	auto v = m_body->GetLinearVelocity();
+	v.x = PAD_VELOCITY_X*(1.0f + (PAD_SPEED_INCREASE_RATE * currentPoint / NUM_PAD_PER_INCREASE_SPEED));
+	// printf("velocity: %f\n", v.x);
+	if (abs(v.y) > EPSILON) {
+		float y = getPos2D().y;
+		if (y < PAD_Y_COORD_LEVEL_0) {
+			v.y = PAD_VELOCITY_Y;
+		}
+		if (y > PAD_Y_COORD_LEVEL_2) {
+			v.y = -PAD_VELOCITY_Y;
+		}
+	}
+	m_body->SetLinearVelocity(v);
 }

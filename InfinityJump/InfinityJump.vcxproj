@@ -22,6 +22,9 @@
     <ProjectReference Include="..\3DEngine\3DEngine.vcxproj">
       <Project>{b2ef2e06-dffc-4059-b29c-4fb4189aacd2}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\SoundEngine\SoundEngine.vcxproj">
+      <Project>{69ffa557-7fb1-4c35-93e5-94fceceac9bb}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\Utilities\Utilities.vcxproj">
       <Project>{a6aa245d-dba2-4f8c-bda7-fe123b398f6c}</Project>
     </ProjectReference>
@@ -30,22 +33,25 @@
     <ClInclude Include="Button.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="ContactListener.h" />
+    <ClInclude Include="CoordinateConverter.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameMap.h" />
     <ClInclude Include="GameStateBase.h" />
     <ClInclude Include="GameStateMachine.h" />
-    <ClInclude Include="GSCharacterSelection.h" />
-    <ClInclude Include="GSCredit.h" />
+    <ClInclude Include="GSGameOver.h" />
+    <ClInclude Include="GSLoading.h" />
+    <ClInclude Include="GSSelection.h" />
+    <ClInclude Include="GSInfo.h" />
     <ClInclude Include="GSHelp.h" />
-    <ClInclude Include="GSHighScore.h" />
     <ClInclude Include="GSMenu.h" />
-    <ClInclude Include="GSOption.h" />
     <ClInclude Include="GSPause.h" />
     <ClInclude Include="GSPlay.h" />
+    <ClInclude Include="GSSound.h" />
     <ClInclude Include="GSWelcom.h" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="Pad.h" />
     <ClInclude Include="PadPool.h" />
+    <ClInclude Include="SoundManager.h" />
     <ClInclude Include="StatesType.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -55,22 +61,25 @@
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="ContactListener.cpp" />
+    <ClCompile Include="CoordinateConverter.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameMap.cpp" />
     <ClCompile Include="GameStateBase.cpp" />
     <ClCompile Include="GameStateMachine.cpp" />
-    <ClCompile Include="GSCharacterSelection.cpp" />
-    <ClCompile Include="GSCredit.cpp" />
+    <ClCompile Include="GSGameOver.cpp" />
+    <ClCompile Include="GSLoading.cpp" />
+    <ClCompile Include="GSSelection.cpp" />
+    <ClCompile Include="GSInfo.cpp" />
     <ClCompile Include="GSHelp.cpp" />
-    <ClCompile Include="GSHighScore.cpp" />
     <ClCompile Include="GSMenu.cpp" />
-    <ClCompile Include="GSOption.cpp" />
     <ClCompile Include="GSPause.cpp" />
     <ClCompile Include="GSPlay.cpp" />
+    <ClCompile Include="GSSound.cpp" />
     <ClCompile Include="GSWelcom.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Pad.cpp" />
     <ClCompile Include="PadPool.cpp" />
+    <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="StatesType.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -181,7 +190,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libEGL.lib;libGLESv2.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libEGL.lib;libGLESv2.lib;freetype.lib;Box2D_r.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

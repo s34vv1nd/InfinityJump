@@ -16,15 +16,15 @@ Character::Character(shared_ptr<b2World> world, std::shared_ptr<AnimSprite> obj)
 	m_position = obj->getPosition();
 	m_scale = obj->getScale();
 	m_rotation = obj->getRotation();
-	m_iWidth = obj->getWidth();
-	m_iHeight = obj->getHeight();
-	
+	m_fWidth = obj->getWidth();
+	m_fHeight = obj->getHeight();
+
 	m_animations = obj->getAnimations();
 	for (auto& anim : m_animations) {
 		anim->setCurrentFrame(0);
 	}
 	m_currentAnimation = 0;
-	
+
 	calculateWorldMatrix();
 	calculateWVPmatrix();
 	InitBody();
@@ -33,6 +33,22 @@ Character::Character(shared_ptr<b2World> world, std::shared_ptr<AnimSprite> obj)
 Character::~Character()
 {
 	// m_world->DestroyBody(m_body);
+}
+
+inline GLfloat Character::getWidth() {
+	return Sprite::getWidth();
+	// return CHARACTER_HITBOX_WIDTH;
+}
+
+inline GLfloat Character::getHeight() {
+	return Sprite::getHeight();
+	// return CHARACTER_HITBOX_HEIGHT;
+}
+
+void Character::setPos2D(Vector2 pos2D)
+{
+	Sprite::setPos2D(pos2D);
+	m_body->SetTransform(CoordinateConverter::to_b2coord(dynamic_cast<Sprite*>(this)), 0);
 }
 
 b2Body* Character::getBody()
@@ -47,6 +63,11 @@ Pad* Character::getCurrentPad()
 
 void Character::setCurrentPad(Pad* pad)
 {
+	if (pad != NULL && (m_previousPad == NULL || pad->getID() != m_previousPad->getID())) {
+		Singleton<SoundManager>::GetInstance()->playSound(LAND);
+		//printf("new pad %d\n", pad->getID());
+		m_previousPad = pad;
+	}
 	m_currentPad = pad;
 	if (pad && pad->isKiller()) die();
 }
@@ -99,9 +120,9 @@ int Character::getHighScore()
 
 void Character::setHighScore(int score)
 {
-	FILE *fi = fopen(HIGHSCORE_FILE, "w");
-	fprintf(fi, "%d", score);
-	fclose(fi);
+	FILE *fo = fopen(HIGHSCORE_FILE, "w");
+	fprintf(fo, "%d", score);
+	fclose(fo);
 }
 
 void Character::getCurrentHighScore()
@@ -109,6 +130,8 @@ void Character::getCurrentHighScore()
 	FILE *fi = fopen(HIGHSCORE_FILE, "r");
 	if (!fi) {
 		printf("FAILED TO OPEN FILE \"%s\"\n", HIGHSCORE_FILE);
+		setHighScore(0);
+		return;
 	}
 	fscanf(fi, "%d", &m_HighScore);
 	fclose(fi);
@@ -118,11 +141,13 @@ void Character::InitBody()
 {
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_dynamicBody;
-	bodyDef.position.Set((m_position.x + CHARACTER_HITBOX_WIDTH / 2.0f) / 100.0f, (m_position.y + CHARACTER_HITBOX_HEIGHT / 2.0f) / 100.0f);
+	b2Vec2 b2pos = CoordinateConverter::to_b2coord(dynamic_cast<Sprite*>(this));
+	bodyDef.position.Set(b2pos.x, b2pos.y);
 	m_body = m_world->CreateBody(&bodyDef);
 
 	b2PolygonShape dynamicBox;
-	dynamicBox.SetAsBox(CHARACTER_HITBOX_WIDTH / 200.0f, CHARACTER_HITBOX_HEIGHT / 200.0f);
+	m_hitbox = { CHARACTER_HITBOX_WIDTH, CHARACTER_HITBOX_HEIGHT };
+	dynamicBox.SetAsBox(getHitbox().x / 200.0f, getHitbox().y / 200.0f);
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &dynamicBox;
 	fixtureDef.density = 1.0f;
@@ -134,13 +159,10 @@ void Character::InitBody()
 
 void Character::Update(GLfloat dt)
 {
-	b2Vec2 pos2D = m_body->GetPosition();
-	pos2D = { (m_position.x + CHARACTER_HITBOX_WIDTH / 2.0f) / 100.0f, pos2D.y };
-	m_body->SetTransform(pos2D, 0);
-	setPos2D(pos2D.x * 100.0 - CHARACTER_HITBOX_WIDTH / 2.0, pos2D.y * 100.0 - CHARACTER_HITBOX_HEIGHT / 2.0);
+	setPos2D({ CHARACTER_DEFAULT_X_COORD + getWidth(), CoordinateConverter::to_glcoord(*m_body).y});
 	
 	if (m_isDead) {
-		printf("Character: x = %f , y = %f\n", m_position.x, m_position.y);
+		//printf("Character: x = %f , y = %f\n", m_position.x, m_position.y);
 		setCurrentAnimation(2);
 		if (m_animations[m_currentAnimation]->getCurrentFrame() + 1 == m_animations[m_currentAnimation]->getCountFrames()) {
 			Pause();
@@ -159,8 +181,10 @@ void Character::Update(GLfloat dt)
 void Character::JumpFirst()
 {
 	if (!m_isDead && !m_isJumpingFirst && !m_isJumpingSecond) {
+		Singleton<SoundManager>::GetInstance()->playSound(JUMP);
 		m_isJumpingFirst = true;
 		setCurrentAnimation(1);
+		m_body->SetLinearVelocity({ 0, 0 });
 		m_body->ApplyLinearImpulseToCenter(b2Vec2(0, m_body->GetMass() * IMPULSE_FIRSTJUMP), true);
 	}
 }
@@ -168,10 +192,12 @@ void Character::JumpFirst()
 void Character::JumpSecond()
 {
 	if (!m_isDead && !m_isJumpingSecond && m_isJumpingFirst) {
+		Singleton<SoundManager>::GetInstance()->playSound(JUMP);
 		m_isJumpingFirst = false;
 		m_isJumpingSecond = true;
 		setCurrentAnimation(1);
 		m_body->SetLinearVelocity({ 0, 0 });
 		m_body->ApplyLinearImpulseToCenter(b2Vec2(0, m_body->GetMass() * IMPULSE_SECONDJUMP), true);
+		setCurrentPad(NULL);
 	}
 }

@@ -12,8 +12,8 @@ Sprite::~Sprite()
 
 void Sprite::Init(int spriteX, int spriteY, int spriteW, int spriteH, int textureW, int textureH, Vector2 origin)
 {
-	m_iWidth = spriteW * m_scale.x;
-	m_iHeight = spriteH * m_scale.y;
+	m_fWidth = spriteW * m_scale.x;
+	m_fHeight = spriteH * m_scale.y;
 
 	Vertex* verticesData = new Vertex[4];
 	Vector3 delta = Vector3(origin.x - (float)spriteW / 2, origin.y - (float)spriteH / 2, 0.0);
@@ -77,9 +77,9 @@ void Sprite::Update(GLfloat dt)
 	Object::Update(dt);
 }
 
-void Sprite::setPos2D(GLfloat x, GLfloat y)
+void Sprite::setPos2D(Vector2 pos2D)
 {
-	setPosition(Vector3(x, y, m_position.z));
+	setPosition(Vector3(pos2D.x, pos2D.y, m_position.z));
 }
 
 Vector2 Sprite::getPos2D()
@@ -89,19 +89,24 @@ Vector2 Sprite::getPos2D()
 
 void Sprite::setSize(GLfloat width, GLfloat height)
 {
-	m_scale.x *= width / m_iWidth;
-	m_scale.y *= height / m_iHeight;
+	m_scale.x *= width / m_fWidth;
+	m_scale.y *= height / m_fHeight;
 	setScale(m_scale);
-	m_iWidth = width;
-	m_iHeight = height;
+	m_fWidth = width;
+	m_fHeight = height;
 }
 
 GLfloat Sprite::getWidth()
 {
-	return m_iWidth;
+	return m_fWidth;
 }
 
 GLfloat Sprite::getHeight()
 {
-	return m_iHeight;
+	return m_fHeight;
+}
+
+Vector2 Sprite::getHitbox()
+{
+	return m_hitbox;
 }

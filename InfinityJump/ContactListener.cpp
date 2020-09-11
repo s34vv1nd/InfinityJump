@@ -37,24 +37,30 @@ void ContactListener::PreSolve(b2Contact* contact, const b2Manifold* oldManifold
 		return;
 	}
 
+	assert(padFixture != NULL);
+	assert(characterFixture != NULL);
+	
 	b2Body* padBody = padFixture->GetBody();
 	b2Body* characterBody = characterFixture->GetBody();
+
+	assert(padBody != NULL);
+	assert(characterBody != NULL);
+
 	auto character = static_cast<Character*>(characterBody->GetUserData());
 	auto pad = static_cast<Pad*>(padBody->GetUserData());
 	
 	b2Vec2 posCharacter = characterBody->GetPosition();
 	b2Vec2 posPad = padBody->GetPosition();
-	float width = (pad)->getWidth() / 200.0f;
-	float height = (pad)->getHeight() / 200.f;
+	float width = (pad)->getHitbox().x / 100.0f;
+	float height = (pad)->getHitbox().y / 100.f;
 
-	if (characterBody->GetLinearVelocity().y > EPSILON || 
-		posCharacter.x < posPad.x - width || 
-		posCharacter.x > posPad.x + width || 
-		posCharacter.y < posPad.y - height) {
-		//contact->SetEnabled(false);
-		character->setCurrentPad(NULL);
+	if (abs(characterBody->GetLinearVelocity().y - padBody->GetLinearVelocity().y) < EPSILON &&
+		posCharacter.x > posPad.x - width / 2.0f && 
+		posCharacter.x < posPad.x + width / 2.0f && 
+		posCharacter.y > posPad.y) {
+		character->setCurrentPad(pad);
 	}
 	else {
-		character->setCurrentPad(pad);
+		character->setCurrentPad(NULL);
 	}
 }

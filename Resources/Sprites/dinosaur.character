@@ -1,0 +1,15 @@
+#Animations: 3
+ID 0
+FILE ../Resources/Textures/Characters/dinosaur_png/Run
+TEXTURES 8
+SPF 0.12
+
+ID 1
+FILE ../Resources/Textures/Characters/dinosaur_png/Jump
+TEXTURES 12
+SPF 0.06
+
+ID 2
+FILE ../Resources/Textures/Characters/dinosaur_png/Dead
+TEXTURES 8
+SPF 0.06

@@ -4,6 +4,7 @@
 #include "GameStateBase.h"
 #include "Button.h"
 #include "Text.h"
+#include "SoundManager.h"
 
 class GSMenu : public GameStateBase
 {
@@ -11,13 +12,14 @@ class GSMenu : public GameStateBase
 	static shared_ptr<Button> m_playButton;
 	static shared_ptr<Button> m_helpButton;
 	static shared_ptr<Button> m_creditButton;
-	static shared_ptr<Button> m_settingButton;
+	static shared_ptr<Button> m_musicOnButton;
+	static shared_ptr<Button> m_musicOffButton;
 	static shared_ptr<Button> m_selectButton;
-	static void onClickHelpButton(int x, int y, bool isPressed);
-	static void onClickCreditButton(int x, int y, bool isPressed);
-	static void onClickPlayButton(int x, int y, bool isPressed);
-	static void onClickSettingButton(int x, int y, bool isPressed);
-	static void onClickSelectButton(int x, int y, bool isPressed);
+	static void onClickHelpButton(int x, int y, bool isPressed, void* context);
+	static void onClickCreditButton(int x, int y, bool isPressed, void* context);
+	static void onClickPlayButton(int x, int y, bool isPressed, void* context);
+	static void onClickMusicOnButton(int x, int y, bool isPressed, void* context);
+	static void onClickSelectButton(int x, int y, bool isPressed, void* context);
 
 public:
 	GSMenu();

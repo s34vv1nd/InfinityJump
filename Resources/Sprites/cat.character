@@ -1,0 +1,15 @@
+#Animations: 3
+ID 0
+FILE ../Resources/Textures/Characters/animals_png/cat/Run
+TEXTURES 8
+SPF 0.1
+
+ID 1
+FILE ../Resources/Textures/Characters/animals_png/cat/Jump
+TEXTURES 10
+SPF 0.06
+
+ID 2
+FILE ../Resources/Textures/Characters/animals_png/cat/Dead
+TEXTURES 10
+SPF 0.06

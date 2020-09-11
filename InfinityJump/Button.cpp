@@ -2,7 +2,7 @@
 #include "Button.h"
 
 
-Button::Button(shared_ptr<Sprite> obj, void(*onClick)(int x, int y, bool isPressed))
+Button::Button(shared_ptr<Sprite> obj, void(*onClick)(int x, int y, bool isPressed, void* context))
 {
 	m_model = obj->getModel();
 	m_textures = obj->getTextures();
@@ -10,8 +10,8 @@ Button::Button(shared_ptr<Sprite> obj, void(*onClick)(int x, int y, bool isPress
 	m_position = obj->getPosition();
 	m_scale = obj->getScale();
 	m_rotation = obj->getRotation();
-	m_iWidth = obj->getWidth();
-	m_iHeight = obj->getHeight();
+	m_fWidth = obj->getWidth();
+	m_fHeight = obj->getHeight();
 	calculateWorldMatrix();
 	calculateWVPmatrix();
 	m_onClickCallback = onClick;
@@ -30,13 +30,15 @@ bool Button::mouseInsideButton(int x, int y)
 		getPos2D().y + getHeight() > Globals::screenHeight - y;
 }
 
-bool Button::onClick(int x, int y, bool isPressed)
+bool Button::onClick(int x, int y, bool isPressed, void* context)
 {
 	if (m_onClickCallback) {
+		
 		//printf("Mouse: x = %d , y = %d\n", x, Globals::screenHeight - y);
-		//printf("Button: x = %f , y = %f , width = %f , height = %f\n", m_position.x, m_position.y, m_iWidth, m_iHeight);
+		//printf("Button: x = %f , y = %f , width = %f , height = %f\n", m_position.x, m_position.y, m_fWidth, m_fHeight);
 		if (mouseInsideButton(x, y)) {
-			(*m_onClickCallback)(x, y, isPressed);
+			Singleton<SoundManager>::GetInstance()->playSound(CLICK_BUTTON);
+			(*m_onClickCallback)(x, y, isPressed, context);
 			return true;
 		}
 	}

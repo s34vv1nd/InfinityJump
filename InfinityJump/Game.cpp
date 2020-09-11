@@ -19,19 +19,42 @@ void Game::Init()
 	make_shared<GSMenu>()->Init();
 	make_shared<GSSelection>()->Init();
 	make_shared<GSHelp>()->Init();
-	make_shared<GSCredit>()->Init();
+	make_shared<GSInfo>()->Init();
 	make_shared<GSPlay>()->Init();
+	make_shared<GSPause>()->Init();
+	make_shared<GSGameOver>()->Init();
+	make_shared<GSSound>()->Init();
 	Singleton<GameStateMachine>::GetInstance()->PushState(STATE_MENU);
+	//Singleton<GameStateMachine>::GetInstance()->PushState(STATE_LOADING);
+}
+
+void Game::DrawLoadingScreen()
+{
+
 }
 
 void Game::Draw()
 {
-	Singleton<GameStateMachine>::GetInstance()->CurrentState()->Draw();
+	//printf("Draw\n");
+	auto& state = Singleton<GameStateMachine>::GetInstance()->CurrentState();
+	if (state) {
+		state->Draw();
+	}
+	else {
+
+	}
 }
 
 void Game::Update(GLfloat dt)
 {
-	Singleton<GameStateMachine>::GetInstance()->CurrentState()->Update(dt);
+	//printf("Update\n");
+	auto& state = Singleton<GameStateMachine>::GetInstance()->CurrentState();
+	if (state) {
+		state->Update(dt);
+	}
+	else {
+
+	}
 }
 
 void Game::Key(unsigned char key, bool bIsPressed)

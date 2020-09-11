@@ -3,7 +3,10 @@
 #include "..\3DEngine\Sprite.h"
 #include "Box2D/Box2D.h"
 #include "Define.h"
+#include "GameStateMachine.h"
+#include "GSPlay.h"
 #include "Character.h"
+#include "CoordinateConverter.h"
 
 class Character;
 
@@ -23,9 +26,11 @@ public:
 
     b2Body* getBody();
     bool isKiller();
+
+	void setLevel(int level);
     int getLevel();
 
-    virtual void setPos2D(GLfloat x, GLfloat y);
+    virtual void setPos2D(Vector2 pos2D);
 
     bool isBehindCharacter(shared_ptr<Character> character);
     bool getPassedCharacter();

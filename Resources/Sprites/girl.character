@@ -1,0 +1,15 @@
+#Animations: 3
+ID 0
+FILE ../Resources/Textures/Characters/girl_png/Run
+TEXTURES 8
+SPF 0.1
+
+ID 1
+FILE ../Resources/Textures/Characters/girl_png/Jump
+TEXTURES 10
+SPF 0.06
+
+ID 2
+FILE ../Resources/Textures/Characters/girl_png/Dead
+TEXTURES 10
+SPF 0.06

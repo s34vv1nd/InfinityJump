@@ -1,0 +1,15 @@
+#Animations: 3
+ID 0
+FILE ../Resources/Textures/Characters/templerun/Run
+TEXTURES 9
+SPF 0.05
+
+ID 1
+FILE ../Resources/Textures/Characters/templerun/Jump
+TEXTURES 9
+SPF 0.06
+
+ID 2
+FILE ../Resources/Textures/Characters/templerun/Dead
+TEXTURES 9
+SPF 0.06

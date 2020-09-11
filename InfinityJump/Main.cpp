@@ -13,8 +13,9 @@ int Init ( ESContext *esContext )
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
+	
 	Singleton<Game>::GetInstance()->Init();
+	Singleton<SoundManager>::GetInstance()->playSoundTrack(SOUND_TRACK1);
 	return 0;
 }
 
@@ -58,6 +59,7 @@ void TouchActionMove(ESContext* esContext, int x, int y)
 void CleanUp()
 {
 	Singleton<Game>::GetInstance()->CleanUp();
+	Singleton<SoundManager>::GetInstance()->~SoundManager();
 }
 
 int _tmain(int argc, _TCHAR* argv[])

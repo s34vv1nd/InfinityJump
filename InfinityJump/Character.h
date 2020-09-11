@@ -3,6 +3,8 @@
 #include "Box2D/Box2D.h"
 #include "Define.h"
 #include "Pad.h"
+#include "CoordinateConverter.h"
+#include "SoundManager.h"
 
 class Pad;
 
@@ -12,6 +14,7 @@ class Character :
     std::shared_ptr<b2World> m_world;
     b2Body* m_body = NULL;
     Pad* m_currentPad = NULL;
+	Pad* m_previousPad = NULL;
     bool m_isOnTheGround = false;
     bool m_isJumpingFirst = false;
     bool m_isJumpingSecond = false;
@@ -22,6 +25,10 @@ class Character :
 public:
     Character(std::shared_ptr<b2World> world, std::shared_ptr<AnimSprite> obj);
     ~Character();
+
+	GLfloat getWidth();
+	GLfloat getHeight();
+	void setPos2D(Vector2 pos2D);
 
     b2Body* getBody();
     Pad* getCurrentPad();

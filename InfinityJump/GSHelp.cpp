@@ -5,10 +5,9 @@ std::shared_ptr<Sprite> GSHelp::m_background = NULL;
 std::shared_ptr<Sprite> GSHelp::m_textBoard = NULL;
 std::shared_ptr<Button> GSHelp::m_backmenuButton = NULL;
 
-void GSHelp::onCLickBackMenuButton(int x, int y, bool isPressed) {
+void GSHelp::onCLickBackMenuButton(int x, int y, bool isPressed, void* context) {
 	if (!isPressed) {
 		Singleton<GameStateMachine>::GetInstance()->PopState();
-		Singleton<GameStateMachine>::GetInstance()->PushState(STATE_MENU);
 	}
 }
 
@@ -20,6 +19,7 @@ GSHelp::GSHelp()
 GSHelp::~GSHelp()
 {
 }
+
 void GSHelp::Init() {
 	int exitcode = Singleton<SceneManager>::GetInstance()->Init(HELPSCENE_FILE);
 	if (exitcode) return;
@@ -54,7 +54,7 @@ void GSHelp::Key(unsigned char key, bool isPressed) {
 
 }
 void GSHelp::TouchActionDown(int x, int y) {
-	m_backmenuButton->onClick(x, y, true);
+
 }
 void GSHelp::TouchActionMove(int x, int y) {
 
@@ -63,9 +63,7 @@ void GSHelp::TouchActionUp(int x, int y) {
 	m_backmenuButton->onClick(x, y, false);
 }
 void GSHelp::Update(float dt) {
-	m_background->Update(dt);
-	m_backmenuButton->Update(dt);
-	m_textBoard->Update(dt);
+	
 }
 void GSHelp::Draw() {
 	m_background->Draw();

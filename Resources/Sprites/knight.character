@@ -1,0 +1,15 @@
+#Animations: 3
+ID 0
+FILE ../Resources/Textures/Characters/freeknight/png/Run
+TEXTURES 10
+SPF 0.07
+
+ID 1
+FILE ../Resources/Textures/Characters/freeknight/png/Jump
+TEXTURES 10
+SPF 0.06
+
+ID 2
+FILE ../Resources/Textures/Characters/freeknight/png/Dead
+TEXTURES 10
+SPF 0.06

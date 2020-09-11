@@ -7,7 +7,8 @@ class Sprite :
     public Object
 {
 protected:
-    GLfloat m_iWidth, m_iHeight;
+    GLfloat m_fWidth, m_fHeight;
+	Vector2 m_hitbox;
     //std::string m_strText;
 
 public:
@@ -17,12 +18,12 @@ public:
     virtual void Draw();
     virtual void Update(GLfloat dt);
 
-    virtual void setPos2D(GLfloat x, GLfloat y);
-    Vector2 getPos2D();
+    virtual void setPos2D(Vector2 pos2D);
+	virtual Vector2 getPos2D();
     virtual void setSize(GLfloat width, GLfloat height);
-    GLfloat getWidth();
-    GLfloat getHeight();
-
+	virtual GLfloat getWidth();
+	virtual GLfloat getHeight();
+	virtual Vector2 getHitbox();
 	//void setText(const std::string text);
 	//std::string getText();
 };
