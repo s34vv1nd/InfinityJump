@@ -10,7 +10,7 @@ class GSLoading :
 {
 	static shared_ptr<Sprite> m_background;
 	static bool m_done;
-	//static int m_draw;
+	static int m_draw;
 	static int m_update;
 
 public:

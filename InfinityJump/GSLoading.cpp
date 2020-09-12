@@ -5,7 +5,7 @@
 
 shared_ptr<Sprite> GSLoading::m_background = NULL;
 bool GSLoading::m_done = false;
-//int GSLoading::m_draw = 0;
+int GSLoading::m_draw = 0;
 int GSLoading::m_update = 0;
 
 GSLoading::GSLoading()
@@ -37,17 +37,22 @@ void GSLoading::Init() {
 }
 
 void GSLoading::Update(float dt) {
-	if (m_update < NUM_LOADING_STEP) {
+	if (m_update < m_draw && m_update < NUM_LOADING_STEP) {
 		esLogMessage("Load asset %d: ", m_update);
 		Singleton<Game>::GetInstance()->LoadAssets(m_update);
 		esLogMessage("Done\n");
 		m_update++;
-	} else {
+	}
+
+	if (m_done) {
 		Singleton<GameStateMachine>::GetInstance()->PopState();
 		Singleton<GameStateMachine>::GetInstance()->PushState(STATE_MENU);
 	}
 }
 
 void GSLoading::Draw() {
+	if (m_update == m_draw) {
+		++m_draw;
+	}
 	m_background->Draw();
 }
