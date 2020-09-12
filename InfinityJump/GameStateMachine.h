@@ -20,7 +20,7 @@ public:
 	void PushState(StateType stt);
 	void PopState();
 
-	std::shared_ptr<GameStateBase> CurrentState() const;
+	std::shared_ptr<GameStateBase>& CurrentState();
 	std::shared_ptr<GameStateBase> PreviousState() const;
 	bool CountStates() const;
 	void Cleanup();

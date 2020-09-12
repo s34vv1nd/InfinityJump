@@ -64,7 +64,7 @@ Pad* Character::getCurrentPad()
 void Character::setCurrentPad(Pad* pad)
 {
 	if (pad != NULL && (m_previousPad == NULL || pad->getID() != m_previousPad->getID())) {
-		Singleton<SoundManager>::GetInstance()->playSound(LAND);
+		Singleton<SoundManager>::GetInstance()->playSFX(LAND);
 		//printf("new pad %d\n", pad->getID());
 		m_previousPad = pad;
 	}
@@ -181,7 +181,7 @@ void Character::Update(GLfloat dt)
 void Character::JumpFirst()
 {
 	if (!m_isDead && !m_isJumpingFirst && !m_isJumpingSecond) {
-		Singleton<SoundManager>::GetInstance()->playSound(JUMP);
+		Singleton<SoundManager>::GetInstance()->playSFX(JUMP);
 		m_isJumpingFirst = true;
 		setCurrentAnimation(1);
 		m_body->SetLinearVelocity({ 0, 0 });
@@ -192,7 +192,7 @@ void Character::JumpFirst()
 void Character::JumpSecond()
 {
 	if (!m_isDead && !m_isJumpingSecond && m_isJumpingFirst) {
-		Singleton<SoundManager>::GetInstance()->playSound(JUMP);
+		Singleton<SoundManager>::GetInstance()->playSFX(JUMP);
 		m_isJumpingFirst = false;
 		m_isJumpingSecond = true;
 		setCurrentAnimation(1);

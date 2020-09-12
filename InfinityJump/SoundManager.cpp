@@ -5,83 +5,84 @@
 SoundManager::SoundManager()
 {
 	mSoloud.init();
-	loadSoundEffectSource(JUMP, "../Resources/Sound/jumping.wav");
-	loadSoundEffectSource(LAND, "../Resources/Sound/landing.wav");
-	loadSoundEffectSource(CLICK_BUTTON, "../Resources/Sound/button.wav");
-	loadSoundEffectSource(GAME_FAIL, "../Resources/Sound/game_fail1.wav");
-	loadSoundTrackSource(SOUND_TRACK1, "../Resources/Sound/soundtrack1.wav");
-	loadSoundTrackSource(SOUND_TRACK2, "../Resources/Sound/soundtrack2.wav");
-	loadSoundTrackSource(SOUND_TRACK3, "../Resources/Sound/soundtrack3.wav");
-	loadSoundTrackSource(SOUND_TRACK4, "../Resources/Sound/soundtrack4.wav");
+	loadSFX(JUMP, "../Resources/Sound/jumping.wav");
+	loadSFX(LAND, "../Resources/Sound/landing.wav");
+	loadSFX(CLICK_BUTTON, "../Resources/Sound/button.wav");
+	loadSFX(GAME_FAIL, "../Resources/Sound/game_fail1.wav");
+	loadBGM(SOUND_TRACK1, "../Resources/Sound/soundtrack1.wav");
+	loadBGM(SOUND_TRACK2, "../Resources/Sound/soundtrack2.wav");
+	loadBGM(SOUND_TRACK3, "../Resources/Sound/soundtrack3.wav");
+	loadBGM(SOUND_TRACK4, "../Resources/Sound/soundtrack4.wav");
 }
-
 
 SoundManager::~SoundManager()
 {
 	mSoloud.deinit();
 }
 
-void SoundManager::loadSoundEffectSource(SoundType type, const char * source)
+void SoundManager::loadSFX(SFXType type, const char * source)
 {
-	assert(mWavSoundEffectList.find(type) == mWavSoundEffectList.end());
-	mWavSoundEffectList[type] = SoLoud::Wav();
-	mWavSoundEffectList[type].load(source);
+	assert(mSFXList.find(type) == mSFXList.end());
+	mSFXList[type] = SoLoud::Wav();
+	mSFXList[type].load(source);
 }
 
-void SoundManager::loadSoundTrackSource(SoundTrackType type, const char * source)
+void SoundManager::loadBGM(BGMType type, const char * source)
 {
-	assert(mWavSoundTrackList.find(type) == mWavSoundTrackList.end());
-	mWavSoundTrackList[type] = SoLoud::Wav();
-	mWavSoundTrackList[type].load(source);
-	mWavSoundTrackList[type].setLooping(true);
+	assert(mBGMList.find(type) == mBGMList.end());
+	mBGMList[type] = SoLoud::Wav();
+	mBGMList[type].load(source);
+	mBGMList[type].setLooping(true);
 }
 
-
-void SoundManager::playSound(SoundType type)
+void SoundManager::playSFX(SFXType type)
 {
-	assert(mWavSoundEffectList.find(type) != mWavSoundEffectList.end());
-	mSoloud.play(mWavSoundEffectList[type]);
+	assert(mSFXList.find(type) != mSFXList.end());
+	if (m_SFXisON)
+		mSoloud.play(mSFXList[type], m_SFXVolume);
 }
 
-void SoundManager::playSoundTrack(SoundTrackType type)
+void SoundManager::playBGM(BGMType type)
 {
-	assert(mWavSoundTrackList.find(type) != mWavSoundTrackList.end());
-	mSoloud.playBackground(mWavSoundTrackList[type]);
-	mcPlayingSoundTrack = type;
-}
-
-void SoundManager::setVolume(float vol)
-{
-	mSoloud.setGlobalVolume(vol);
-	mCurrentVolume = vol;
-}
-
-void SoundManager::setMusicStatus(bool status)
-{
-	assert(mWavSoundTrackList.find(mcPlayingSoundTrack) != mWavSoundTrackList.end());
-	if (!status)
-		mSoloud.stopAudioSource(mWavSoundTrackList[mcPlayingSoundTrack]);
-	else
-		mSoloud.play(mWavSoundTrackList[mcPlayingSoundTrack]);
-}
-
-void SoundManager::setPlayingSoundTrack(SoundTrackType type)
-{
-	assert(mWavSoundTrackList.find(mcPlayingSoundTrack) != mWavSoundTrackList.end());
-	mSoloud.stopAudioSource(mWavSoundTrackList[mcPlayingSoundTrack]);
-	playSoundTrack(type);
-}
-
-void SoundManager::setSoundEffectStatus(bool status)
-{
-	std::map<SoundType, SoLoud::Wav>::iterator iterator;
-	if (!status) {
-		for (iterator = mWavSoundEffectList.begin(); iterator != mWavSoundEffectList.end(); iterator++)
-			iterator->second.setVolume(0.0f);
+	assert(mBGMList.find(type) != mBGMList.end());
+	if (m_BGMisON) {
+		m_currentBGMhandle = mSoloud.playBackground(mBGMList[type], m_BGMVolume);
+		m_currentBGM = type;
 	}
-	else
-	{
-		for (iterator = mWavSoundEffectList.begin(); iterator != mWavSoundEffectList.end(); iterator++)
-			iterator->second.setVolume(mCurrentVolume);
+}
+
+void SoundManager::setSFXVolume(float vol)
+{
+	m_SFXVolume = vol;
+}
+
+void SoundManager::setBGMVolume(float vol)
+{
+	if (m_BGMVolume == vol) return;
+	m_BGMVolume = vol;
+	mSoloud.setVolume(m_currentBGMhandle, vol);
+}
+
+void SoundManager::setSFXStatus(bool status)
+{
+	m_SFXisON = status;
+}
+
+void SoundManager::setBGMStatus(bool status)
+{
+	if (m_BGMisON == status) return;
+	m_BGMisON = status;
+	if (status) {
+		playBGM(m_currentBGM);
 	}
+	else {
+		mSoloud.stopAudioSource(mBGMList[m_currentBGM]);
+	}
+}
+
+void SoundManager::setCurrentBGM(BGMType type)
+{
+	assert(mBGMList.find(m_currentBGM) != mBGMList.end());
+	mSoloud.stopAudioSource(mBGMList[m_currentBGM]);
+	playBGM(type);
 }

@@ -2,7 +2,6 @@
 #include "GSSelection.h"
 
 
-std::shared_ptr<Sprite> GSSelection::m_background = NULL;
 std::shared_ptr<Button> GSSelection::m_homeButton = NULL;
 std::shared_ptr<Button> GSSelection::m_leftArrowButton1 = NULL;
 std::shared_ptr<Button> GSSelection::m_rightArrowButton1 = NULL;
@@ -47,16 +46,16 @@ void GSSelection::OnClickLeftArrowButton2(int x, int y, bool isPressed, void* co
 		switch (m_currentMap)
 		{
 		case 0:
-			Singleton<SoundManager>::GetInstance()->setPlayingSoundTrack(SOUND_TRACK1);
+			Singleton<SoundManager>::GetInstance()->setCurrentBGM(SOUND_TRACK1);
 			break;
 		case 1:
-			Singleton<SoundManager>::GetInstance()->setPlayingSoundTrack(SOUND_TRACK2);
+			Singleton<SoundManager>::GetInstance()->setCurrentBGM(SOUND_TRACK2);
 			break;
 		case 2:
-			Singleton<SoundManager>::GetInstance()->setPlayingSoundTrack(SOUND_TRACK3);
+			Singleton<SoundManager>::GetInstance()->setCurrentBGM(SOUND_TRACK3);
 			break;
 		case 3:
-			Singleton<SoundManager>::GetInstance()->setPlayingSoundTrack(SOUND_TRACK4);
+			Singleton<SoundManager>::GetInstance()->setCurrentBGM(SOUND_TRACK4);
 			break;
 		default:
 			break;
@@ -72,16 +71,16 @@ void GSSelection::OnClickRightArrowButton2(int x, int y, bool isPressed, void* c
 		switch (m_currentMap)
 		{
 		case 0:
-			Singleton<SoundManager>::GetInstance()->setPlayingSoundTrack(SOUND_TRACK1);
+			Singleton<SoundManager>::GetInstance()->setCurrentBGM(SOUND_TRACK1);
 			break;
 		case 1:
-			Singleton<SoundManager>::GetInstance()->setPlayingSoundTrack(SOUND_TRACK2);
+			Singleton<SoundManager>::GetInstance()->setCurrentBGM(SOUND_TRACK2);
 			break;
 		case 2:
-			Singleton<SoundManager>::GetInstance()->setPlayingSoundTrack(SOUND_TRACK3);
+			Singleton<SoundManager>::GetInstance()->setCurrentBGM(SOUND_TRACK3);
 			break;
 		case 3:
-			Singleton<SoundManager>::GetInstance()->setPlayingSoundTrack(SOUND_TRACK4);
+			Singleton<SoundManager>::GetInstance()->setCurrentBGM(SOUND_TRACK4);
 			break;
 		default:
 			break;
@@ -118,10 +117,7 @@ void GSSelection::Init() {
 
 	auto m_objList = Singleton<SceneManager>::GetInstance()->m_objList;
 	for (auto obj : m_objList) {
-		if (obj->getName() == "BACKGROUND") {
-			m_background = dynamic_pointer_cast<Sprite>(obj);
-		}
-		else if (obj->getName() == "BUTTON_HOME") {
+		if (obj->getName() == "BUTTON_HOME") {
 			m_homeButton = make_shared<Button>(dynamic_pointer_cast<Sprite>(obj), &GSSelection::OnClickHomeButton);
 		}
 		else if (obj->getName() == "CHARACTER") {

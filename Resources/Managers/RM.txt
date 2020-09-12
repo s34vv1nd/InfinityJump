@@ -1,6 +1,6 @@
 #Models: 0
 
-#2D Textures: 44
+#2D Textures: 45
 ID 0
 FILE ../Resources/Textures/MenuAndButtons/Menu/MenuBackground.png
 TILING REPEAT
@@ -132,6 +132,9 @@ FILE ../Resources/Textures/MenuAndButtons/Buttons/Button_75.png
 TILING REPEAT
 ID 37
 FILE ../Resources/Textures/MenuAndButtons/Buttons/Button_83.png
+TILING REPEAT
+ID 38
+FILE ../Resources/Textures/loadingScreen.png
 TILING REPEAT
 
 #Height Map: 0

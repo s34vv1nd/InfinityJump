@@ -7,6 +7,15 @@
 #include "Game.h"
 #include <time.h>
 
+//DWORD WINAPI LoadAssets(LPVOID lpParam) {
+//	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+//	glEnable(GL_DEPTH_TEST);
+//	glEnable(GL_BLEND);
+//	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+//	Singleton<Game>::GetInstance()->LoadAssets();
+//	return 0;
+//}
+
 int Init ( ESContext *esContext )
 {
 	glClearColor ( 1.0f, 1.0f, 1.0f, 1.0f );
@@ -15,7 +24,7 @@ int Init ( ESContext *esContext )
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	
 	Singleton<Game>::GetInstance()->Init();
-	Singleton<SoundManager>::GetInstance()->playSoundTrack(SOUND_TRACK1);
+	Singleton<SoundManager>::GetInstance()->playBGM(SOUND_TRACK1);
 	return 0;
 }
 
@@ -71,8 +80,12 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	esCreateWindow ( &esContext, "3D Training", Globals::screenWidth, Globals::screenHeight, ES_WINDOW_RGB | ES_WINDOW_DEPTH);
 
+
 	if ( Init ( &esContext ) != 0 )
 		return 0;
+
+	//DWORD loadAssetsThreadID;
+	//HANDLE loadAssetsThread = CreateThread(0, 0, LoadAssets, &esContext, 0, &loadAssetsThreadID);
 
 	esRegisterDrawFunc ( &esContext, Draw );
 	esRegisterUpdateFunc ( &esContext, Update );
@@ -82,7 +95,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	esRegisterMouseMoveFunc(&esContext, TouchActionMove);
 
 	esMainLoop ( &esContext );
-
+	//CloseHandle(loadAssetsThread);
 	//releasing OpenGL resources
 	CleanUp();
 

@@ -37,8 +37,8 @@ bool Button::onClick(int x, int y, bool isPressed, void* context)
 		//printf("Mouse: x = %d , y = %d\n", x, Globals::screenHeight - y);
 		//printf("Button: x = %f , y = %f , width = %f , height = %f\n", m_position.x, m_position.y, m_fWidth, m_fHeight);
 		if (mouseInsideButton(x, y)) {
-			Singleton<SoundManager>::GetInstance()->playSound(CLICK_BUTTON);
 			(*m_onClickCallback)(x, y, isPressed, context);
+			Singleton<SoundManager>::GetInstance()->playSFX(CLICK_BUTTON);
 			return true;
 		}
 	}

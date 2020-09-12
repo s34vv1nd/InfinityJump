@@ -47,7 +47,7 @@ void GameStateMachine::PopState()
 	else m_currentState = NULL;
 }
 
-std::shared_ptr<GameStateBase> GameStateMachine::CurrentState() const
+std::shared_ptr<GameStateBase>& GameStateMachine::CurrentState()
 {
 	return m_currentState;
 }

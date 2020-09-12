@@ -15,22 +15,44 @@ Game::~Game()
 void Game::Init()
 {
 	Singleton<ResourceManager>::GetInstance()->Init(RM_TXT_FILE);
-	Singleton<TextManager>::GetInstance()->Init();
-	make_shared<GSMenu>()->Init();
-	make_shared<GSSelection>()->Init();
-	make_shared<GSHelp>()->Init();
-	make_shared<GSInfo>()->Init();
-	make_shared<GSPlay>()->Init();
-	make_shared<GSPause>()->Init();
-	make_shared<GSGameOver>()->Init();
-	make_shared<GSSound>()->Init();
-	Singleton<GameStateMachine>::GetInstance()->PushState(STATE_MENU);
-	//Singleton<GameStateMachine>::GetInstance()->PushState(STATE_LOADING);
+	make_shared<GSLoading>()->Init();
+	Singleton<GameStateMachine>::GetInstance()->PushState(STATE_LOADING);
 }
 
-void Game::DrawLoadingScreen()
+void Game::LoadAssets(int index)
 {
-
+	switch (index) {
+	case 0:
+		Singleton<TextManager>::GetInstance()->Init();
+		break;
+	case 1:
+		make_shared<GSMenu>()->Init();
+		break;
+	case 2:
+		make_shared<GSSelection>()->Init();
+		break;
+	case 3:
+		make_shared<GSHelp>()->Init();
+		break;
+	case 4:
+		make_shared<GSInfo>()->Init();
+		break;
+	case 5:
+		make_shared<GSPlay>()->Init();
+		break;
+	case 6:
+		make_shared<GSPause>()->Init();
+		break;
+	case 7:
+		make_shared<GSGameOver>()->Init();
+		break;
+	case 8:
+		make_shared<GSSound>()->Init();
+		GSLoading::setDone(true);
+		break;
+	default:
+		break;
+	}
 }
 
 void Game::Draw()

@@ -3,24 +3,21 @@
 #include "../Utilities/utilities.h" // if you use STL, please include this line AFTER all other include
 #include "../3DEngine/3DEngine.h"
 #include "Define.h"
-#include "Character.h"
-#include "Pad.h"
-#include "ContactListener.h"
-#include "GSPlay.h"
-#include "GSPause.h"
-#include "GSGameOver.h"
-#include "GSMenu.h"
-#include "GSInfo.h"
-#include "GSHelp.h"
-#include "GSSelection.h"
-#include "GSSound.h"
+#include "Game.h"
 
 class GSLoading :
 	public GameStateBase
 {
+	static shared_ptr<Sprite> m_background;
+	static bool m_done;
+	//static int m_draw;
+	static int m_update;
+
 public:
 	GSLoading();
 	~GSLoading();
+
+	static void setDone(bool done);
 
 	virtual void Init();
 	virtual void Enter() {}

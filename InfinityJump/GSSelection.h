@@ -8,7 +8,6 @@
 class GSSelection :
 	public GameStateBase
 {
-	static std::shared_ptr<Sprite> m_background;
 	static std::shared_ptr<Button> m_homeButton;
 	static std::shared_ptr<Button> m_leftArrowButton1;
 	static std::shared_ptr<Button> m_rightArrowButton1;

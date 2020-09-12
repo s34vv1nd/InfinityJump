@@ -21,18 +21,19 @@ class GSSound : public GameStateBase
 	std::shared_ptr<Text> m_textSoundSetting = NULL;
 	std::shared_ptr<Text> m_textMusic = NULL;
 	std::shared_ptr<Text> m_textEffect = NULL;
-	std::shared_ptr<Text> m_Volume = NULL;
+	std::shared_ptr<Text> m_textVolume1 = NULL;
 	std::shared_ptr<Text> m_texton = NULL;
 	std::shared_ptr<Text> m_textoff = NULL;
 
-	static bool m_isMusic ;
-	static bool m_isEffect ;
+	static bool m_BGMisON;
+	static bool m_SFXisON;
+	static int m_volume;
 
-	static void OnClickHomeButton(int x, int y, bool isPressed, void* context);
-	static void OnClickMusicOnButton(int x, int y, bool isPressed, void* context);
-	static void OnClickMusicOffButton(int x, int y, bool isPressed, void* context);
-	static void OnClickEffectOnButton(int x, int y, bool isPressed, void* context);
-	static void OnClickEffectOffButton(int x, int y, bool isPressed, void* context);
+	static void OnClickBackButton(int x, int y, bool isPressed, void* context);
+	static void OnClickBGMOnButton(int x, int y, bool isPressed, void* context);
+	static void OnClickBGMOffButton(int x, int y, bool isPressed, void* context);
+	static void OnClickSFXOnButton(int x, int y, bool isPressed, void* context);
+	static void OnClickSFXOffButton(int x, int y, bool isPressed, void* context);
 	static void OnClickVolumeUpButton(int x, int y, bool isPressed, void* context);
 	static void OnClickVolumeDownButton(int x, int y, bool isPressed, void* context);
 
@@ -42,13 +43,13 @@ public:
 
 	void Init();
 	void Enter();
-	void Pause();
-	void Resume();
-	void Exit();
+	void Pause() {}
+	void Resume() {}
+	void Exit() {}
 
-	void Key(unsigned char key, bool bIsPressed);
-	void TouchActionDown(int x, int y);
-	void TouchActionMove(int x, int y);
+	void Key(unsigned char key, bool bIsPressed) {}
+	void TouchActionDown(int x, int y) {}
+	void TouchActionMove(int x, int y) {}
 	void TouchActionUp(int x, int y);
 
 	void Update(float dt);

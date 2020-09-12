@@ -3,6 +3,7 @@
 // File
 #define RM_TXT_FILE				"../Resources/Managers/RM.txt"
 #define SM_TXT_FILE				"../Resources/Managers/SM2.txt"
+#define LOADINGSCENE_FILE		"../Resources/Managers/LoadingScene.txt"
 #define MENUSCENE_FILE			"../Resources/Managers/MenuScene.txt"
 #define SOUNDSCENE_FILE			"../Resources/Managers/SoundScene.txt"
 #define PLAYSCENE_FILE			"../Resources/Managers/PlayScene.txt"
@@ -10,8 +11,10 @@
 #define GAMEOVERSCENE_FILE		"../Resources/Managers/GameOverScene.txt"
 #define HELPSCENE_FILE			"../Resources/Managers/HelpScene.txt"
 #define CREDITSCENE_FILE		"../Resources/Managers/CreditScene.txt"
-#define SELECTIONSCENE_FILE		"../Resources/Managers/CharacterSelectionScene.txt"
+#define SELECTIONSCENE_FILE		"../Resources/Managers/SelectionScene.txt"
 #define HIGHSCORE_FILE			"../Resources/Managers/HighScore.txt"
+
+#define NUM_LOADING_STEP 9
 
 #define WORLD_GRAVITY b2Vec2(0.0, -10.0)
 #define WORLD_VELOCITY_ITERATIONS 8 
@@ -42,3 +45,6 @@
 #define CHARACTER_INITIAL_Y_COORD 200
 #define CHARACTER_HITBOX_WIDTH 30.0f
 #define CHARACTER_HITBOX_HEIGHT 90.0f
+
+#define MAX_VOLUME 10
+#define MIN_VOLUME 0

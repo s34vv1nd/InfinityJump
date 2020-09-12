@@ -148,7 +148,7 @@ void GSPlay::TouchActionUp(int x, int y)
 void GSPlay::Update(float dt)
 {
 	if (m_character->isDead()) {
-		Singleton<SoundManager>::GetInstance()->playSound(GAME_FAIL);
+		Singleton<SoundManager>::GetInstance()->playSFX(GAME_FAIL);
 		Singleton<GameStateMachine>::GetInstance()->PushState(STATE_GAMEOVER);
 	}
 
