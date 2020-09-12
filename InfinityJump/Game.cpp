@@ -19,42 +19,6 @@ void Game::Init()
 	Singleton<GameStateMachine>::GetInstance()->PushState(STATE_LOADING);
 }
 
-void Game::LoadAssets(int index)
-{
-	switch (index) {
-	case 0:
-		Singleton<TextManager>::GetInstance()->Init();
-		break;
-	case 1:
-		make_shared<GSMenu>()->Init();
-		break;
-	case 2:
-		make_shared<GSSelection>()->Init();
-		break;
-	case 3:
-		make_shared<GSHelp>()->Init();
-		break;
-	case 4:
-		make_shared<GSInfo>()->Init();
-		break;
-	case 5:
-		make_shared<GSPlay>()->Init();
-		break;
-	case 6:
-		make_shared<GSPause>()->Init();
-		break;
-	case 7:
-		make_shared<GSGameOver>()->Init();
-		break;
-	case 8:
-		make_shared<GSSound>()->Init();
-		GSLoading::setDone(true);
-		break;
-	default:
-		break;
-	}
-}
-
 void Game::Draw()
 {
 	//printf("Draw\n");

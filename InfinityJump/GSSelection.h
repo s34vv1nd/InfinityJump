@@ -5,6 +5,14 @@
 #include "GameMap.h"
 #include "SoundManager.h"
 
+enum SelectionSceneInitStep {
+	LOAD_BUTTONS,
+	LOAD_BACKGROUNDS,
+	LOAD_PADS,
+	LOAD_CHARACTERS,
+	LOAD_FINISH
+};
+
 class GSSelection :
 	public GameStateBase
 {
@@ -33,7 +41,7 @@ public:
 	static std::shared_ptr<AnimSprite> getCurrentCharacterSprite();
 	static std::shared_ptr<GameMap> getCurrentMap();
 
-	virtual void Init();
+	virtual void Init(SelectionSceneInitStep step, int characterIndex = -1);
 	virtual void Enter();
 	virtual void Exit() {}
 	virtual void Pause() {}

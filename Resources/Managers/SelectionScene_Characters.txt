@@ -1,0 +1,28 @@
+#Characters: 9
+
+ID 0
+FILE ../Resources/Managers/SelectionScene_Characters_flatboy.txt
+
+ID 1
+FILE ../Resources/Managers/SelectionScene_Characters_cutegirl.txt
+
+ID 2
+FILE ../Resources/Managers/SelectionScene_Characters_girl.txt
+
+ID 3
+FILE ../Resources/Managers/SelectionScene_Characters_knight.txt
+
+ID 4
+FILE ../Resources/Managers/SelectionScene_Characters_robot.txt
+
+ID 5
+FILE ../Resources/Managers/SelectionScene_Characters_dinosaur.txt
+
+ID 6
+FILE ../Resources/Managers/SelectionScene_Characters_cat.txt
+
+ID 7
+FILE ../Resources/Managers/SelectionScene_Characters_dog.txt
+
+ID 8
+FILE ../Resources/Managers/SelectionScene_Characters_santa.txt

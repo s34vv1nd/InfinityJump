@@ -13,14 +13,20 @@ class GSLoading :
 	static int m_draw;
 	static int m_update;
 
+	shared_ptr<Text> m_textLoading = NULL;
+	int m_iPercentageLoaded = 0;
+
+
 public:
 	GSLoading();
 	~GSLoading();
 
 	static void setDone(bool done);
+	
+	void Loading(int index);
 
 	virtual void Init();
-	virtual void Enter() {}
+	virtual void Enter();
 	virtual void Exit() {}
 	virtual void Pause() {}
 	virtual void Resume() {}

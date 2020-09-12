@@ -107,55 +107,109 @@ std::shared_ptr<GameMap> GSSelection::getCurrentMap()
 	return m_gameMaps[m_currentMap];
 }
 
-void GSSelection::Init() {
-	int exitcode = Singleton<SceneManager>::GetInstance()->Init(SELECTIONSCENE_FILE);
-	if (exitcode) return;
+void GSSelection::Init(SelectionSceneInitStep step, int characterIndex) {
+	static std::vector<std::shared_ptr<Sprite>> backgroundSprites;
+	static std::vector<std::shared_ptr<Sprite>> normalPadSprites;
+	static std::vector<std::shared_ptr<Sprite>> killerPadSprites;
+	static std::vector<const char*> characterFiles;
+	static auto& m_objList = Singleton<SceneManager>::GetInstance()->m_objList;
+	int exitcode;
 
-	std::vector<std::shared_ptr<Sprite>> backgroundSprites;
-	std::vector<std::shared_ptr<Sprite>> normalPadSprites;
-	std::vector<std::shared_ptr<Sprite>> killerPadSprites;
+	switch (step)
+	{
+	case LOAD_BUTTONS:
+		exitcode = Singleton<SceneManager>::GetInstance()->Init(SELECTIONSCENE_BUTTONS_FILE);
+		if (exitcode) return;
+		for (auto obj : m_objList) {
+			if (obj->getName() == "BUTTON_HOME") {
+				m_homeButton = make_shared<Button>(dynamic_pointer_cast<Sprite>(obj), &GSSelection::OnClickHomeButton);
+			}
+			else if (obj->getName() == "BUTTON_LEFTARROW1") {
+				m_leftArrowButton1 = make_shared<Button>(dynamic_pointer_cast<Sprite>(obj), &GSSelection::OnClickLeftArrowButton1);
+			}
+			else if (obj->getName() == "BUTTON_RIGHTARROW1") {
+				m_rightArrowButton1 = make_shared<Button>(dynamic_pointer_cast<Sprite>(obj), &GSSelection::OnClickRightArrowButton1);
+			}
+			else if (obj->getName() == "BUTTON_LEFTARROW2") {
+				m_leftArrowButton2 = make_shared<Button>(dynamic_pointer_cast<Sprite>(obj), &GSSelection::OnClickLeftArrowButton2);
+			}
+			else if (obj->getName() == "BUTTON_RIGHTARROW2") {
+				m_rightArrowButton2 = make_shared<Button>(dynamic_pointer_cast<Sprite>(obj), &GSSelection::OnClickRightArrowButton2);
+			}
+		}
+		break;
 
-	auto m_objList = Singleton<SceneManager>::GetInstance()->m_objList;
-	for (auto obj : m_objList) {
-		if (obj->getName() == "BUTTON_HOME") {
-			m_homeButton = make_shared<Button>(dynamic_pointer_cast<Sprite>(obj), &GSSelection::OnClickHomeButton);
+	case LOAD_BACKGROUNDS:
+		exitcode = Singleton<SceneManager>::GetInstance()->Init(SELECTIONSCENE_BACKGROUNDS_FILE);
+		if (exitcode) return;
+		for (auto obj : m_objList) {
+			if (obj->getName() == "MAP_BACKGROUND") {
+				backgroundSprites.push_back(dynamic_pointer_cast<Sprite>(obj));
+			}
 		}
-		else if (obj->getName() == "CHARACTER") {
-			m_characterSprites.push_back(dynamic_pointer_cast<AnimSprite>(obj));
-		}
-		else if (obj->getName() == "MAP_BACKGROUND") {
-			backgroundSprites.push_back(dynamic_pointer_cast<Sprite>(obj));
-		}
-		else if (obj->getName() == "PAD_NORMAL") {
-			normalPadSprites.push_back(dynamic_pointer_cast<Sprite>(obj));
-		}
-		else if (obj->getName() == "PAD_KILLER") {
-			killerPadSprites.push_back(dynamic_pointer_cast<Sprite>(obj));
-		}
-		else if (obj->getName() == "BUTTON_LEFTARROW1") {
-			m_leftArrowButton1 = make_shared<Button>(dynamic_pointer_cast<Sprite>(obj), &GSSelection::OnClickLeftArrowButton1);
-		}
-		else if (obj->getName() == "BUTTON_RIGHTARROW1") {
-			m_rightArrowButton1 = make_shared<Button>(dynamic_pointer_cast<Sprite>(obj), &GSSelection::OnClickRightArrowButton1);
-		}
-		else if (obj->getName() == "BUTTON_LEFTARROW2") {
-			m_leftArrowButton2 = make_shared<Button>(dynamic_pointer_cast<Sprite>(obj), &GSSelection::OnClickLeftArrowButton2);
-		}
-		else if (obj->getName() == "BUTTON_RIGHTARROW2") {
-			m_rightArrowButton2 = make_shared<Button>(dynamic_pointer_cast<Sprite>(obj), &GSSelection::OnClickRightArrowButton2);
-		}
-	}
+		break;
 
-	for (int i = 0; i < backgroundSprites.size(); ++i) {
-		m_gameMaps.push_back(make_shared<GameMap>(
+	case LOAD_PADS:
+		exitcode = Singleton<SceneManager>::GetInstance()->Init(SELECTIONSCENE_PADS_FILE);
+		if (exitcode) return;
+		for (auto obj : m_objList) {
+			if (obj->getName() == "PAD_NORMAL") {
+				normalPadSprites.push_back(dynamic_pointer_cast<Sprite>(obj));
+			}
+			else if (obj->getName() == "PAD_KILLER") {
+				killerPadSprites.push_back(dynamic_pointer_cast<Sprite>(obj));
+			}
+		}
+		break;
+
+	case LOAD_CHARACTERS:
+		if (characterIndex == -1) {
+			FILE* fi = fopen(SELECTIONSCENE_CHARACTERS_FILENAMES_FILE, "r");
+			if (!fi) {
+				esLogMessage("UNABLE TO OPEN SELECTIONSCENE_CHARACTERS_FILENAMES_FILE\n");
+				return;
+			}
+			int numCharacters;
+			fscanf(fi, "#Characters: %d\n", &numCharacters);
+			for (int i = 0; i < numCharacters; ++i) {
+				fscanf(fi, "ID %*d\n");
+				char* filename = new char[64];
+				fscanf(fi, "FILE %s\n", filename);
+				//esLogMessage("FILE: %s\n", filename);
+				characterFiles.push_back(filename);
+			}
+		} else {
+			//esLogMessage("Character %d: %s\n", characterIndex, characterFiles[characterIndex]);
+			exitcode = Singleton<SceneManager>::GetInstance()->Init(characterFiles[characterIndex]);
+			if (exitcode) return;
+			for (auto obj : m_objList) {
+				if (obj->getName() == "CHARACTER") {
+					m_characterSprites.push_back(dynamic_pointer_cast<AnimSprite>(obj));
+				}
+			}
+		}
+		
+		break;
+
+	case LOAD_FINISH:
+		for (int i = 0; i < backgroundSprites.size(); ++i) {
+			m_gameMaps.push_back(make_shared<GameMap>(
 				backgroundSprites[i],
 				normalPadSprites[i],
 				killerPadSprites[i]
-			));
-	}
+				));
+		}
+		m_currentCharacterSprite = 0;
+		m_currentMap = 0;
+		while (!characterFiles.empty()) {
+			SAFE_DEL_ARRAY(characterFiles.back());
+			characterFiles.pop_back();
+		}
+		break;
 
-	m_currentCharacterSprite = 0;
-	m_currentMap = 0;
+	default:
+		break;
+	}
 }
 
 void GSSelection::Enter() {

@@ -27,7 +27,6 @@ public:
 	~Game();
 
 	void Init();
-	void LoadAssets(int index);
 	void Draw();
 	void Update(GLfloat dt);
 	void Key(unsigned char key, bool bIsPressed);

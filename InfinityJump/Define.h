@@ -12,9 +12,13 @@
 #define HELPSCENE_FILE			"../Resources/Managers/HelpScene.txt"
 #define CREDITSCENE_FILE		"../Resources/Managers/CreditScene.txt"
 #define SELECTIONSCENE_FILE		"../Resources/Managers/SelectionScene.txt"
+#define SELECTIONSCENE_BUTTONS_FILE			"../Resources/Managers/SelectionScene_Buttons.txt"
+#define SELECTIONSCENE_BACKGROUNDS_FILE		"../Resources/Managers/SelectionScene_Backgrounds.txt"
+#define SELECTIONSCENE_PADS_FILE			"../Resources/Managers/SelectionScene_Pads.txt"
+#define SELECTIONSCENE_CHARACTERS_FILENAMES_FILE	"../Resources/Managers/SelectionScene_Characters.txt"
 #define HIGHSCORE_FILE			"../Resources/Managers/HighScore.txt"
 
-#define NUM_LOADING_STEP 9
+#define NUM_LOADING_STEP 22
 
 #define WORLD_GRAVITY b2Vec2(0.0, -10.0)
 #define WORLD_VELOCITY_ITERATIONS 8 
