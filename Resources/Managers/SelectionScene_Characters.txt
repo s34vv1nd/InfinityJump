@@ -1,10 +1,10 @@
 #Characters: 9
 
 ID 0
-FILE ../Resources/Managers/SelectionScene_Characters_flatboy.txt
+FILE ../Resources/Managers/SelectionScene_Characters_cutegirl.txt
 
 ID 1
-FILE ../Resources/Managers/SelectionScene_Characters_cutegirl.txt
+FILE ../Resources/Managers/SelectionScene_Characters_flatboy.txt
 
 ID 2
 FILE ../Resources/Managers/SelectionScene_Characters_girl.txt

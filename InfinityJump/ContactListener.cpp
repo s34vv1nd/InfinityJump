@@ -51,16 +51,23 @@ void ContactListener::PreSolve(b2Contact* contact, const b2Manifold* oldManifold
 	
 	b2Vec2 posCharacter = characterBody->GetPosition();
 	b2Vec2 posPad = padBody->GetPosition();
-	float width = (pad)->getHitbox().x / 100.0f;
-	float height = (pad)->getHitbox().y / 100.f;
+	float characterHalfWidth = character->getHitbox().x / 200.f;
+	float padHalfWidth = (pad)->getHitbox().x / 200.0f;
 
-	if (abs(characterBody->GetLinearVelocity().y - padBody->GetLinearVelocity().y) < EPSILON &&
-		posCharacter.x > posPad.x - width / 2.0f && 
-		posCharacter.x < posPad.x + width / 2.0f && 
+	if (//abs(characterBody->GetLinearVelocity().y - padBody->GetLinearVelocity().y) < EPSILON &&
+		//posCharacter.x + characterHalfWidth >= posPad.x - padHalfWidth &&
+		//posCharacter.x - characterHalfWidth <= posPad.x + padHalfWidth &&
 		posCharacter.y > posPad.y) {
 		character->setCurrentPad(pad);
 	}
 	else {
 		character->setCurrentPad(NULL);
+		/*if (posCharacter.x + characterHalfWidth < posPad.x - padHalfWidth ||
+			posCharacter.x - characterHalfWidth > posPad.x + padHalfWidth) {
+			contact->SetEnabled(false);
+		}
+		else if (posCharacter.y > posPad.y) {
+			esLogMessage("Character velocity: %6f , Pad velocity: %6f\n", characterBody->GetLinearVelocity().y, padBody->GetLinearVelocity().y);
+		}*/
 	}
 }

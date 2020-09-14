@@ -69,6 +69,7 @@ void Character::setCurrentPad(Pad* pad)
 		m_previousPad = pad;
 	}
 	m_currentPad = pad;
+	//if (pad) esLogMessage("On Pad: %d\n", pad->getID());
 	if (pad && pad->isKiller()) die();
 }
 
@@ -169,20 +170,27 @@ void Character::Update(GLfloat dt)
 		}
 	}
 
-	if ((m_isJumpingFirst || m_isJumpingSecond) && m_currentPad != NULL) {
+	if (m_needToJump) {
+		m_needToJump = false;
+	}
+	else if ((m_isJumpingFirst || m_isJumpingSecond) && m_currentPad != NULL) {
+		//printf("RESET JUMP\n");
 		m_isJumpingFirst = false;
 		m_isJumpingSecond = false;
 		setCurrentAnimation(0);
 	}
-
+	setCurrentPad(NULL);
 	AnimSprite::Update(dt);
 }
 
 void Character::JumpFirst()
 {
 	if (!m_isDead && !m_isJumpingFirst && !m_isJumpingSecond) {
-		Singleton<SoundManager>::GetInstance()->playSFX(JUMP);
+		m_needToJump = true;
 		m_isJumpingFirst = true;
+		m_isJumpingSecond = false;
+		//printf("JUMP FIRST\n");
+		Singleton<SoundManager>::GetInstance()->playSFX(JUMP);
 		setCurrentAnimation(1);
 		m_body->SetLinearVelocity({ 0, 0 });
 		m_body->ApplyLinearImpulseToCenter(b2Vec2(0, m_body->GetMass() * IMPULSE_FIRSTJUMP), true);
@@ -192,12 +200,13 @@ void Character::JumpFirst()
 void Character::JumpSecond()
 {
 	if (!m_isDead && !m_isJumpingSecond && m_isJumpingFirst) {
-		Singleton<SoundManager>::GetInstance()->playSFX(JUMP);
+		m_needToJump = true;
 		m_isJumpingFirst = false;
 		m_isJumpingSecond = true;
+		//printf("JUMP SECOND\n");
+		Singleton<SoundManager>::GetInstance()->playSFX(JUMP);
 		setCurrentAnimation(1);
 		m_body->SetLinearVelocity({ 0, 0 });
 		m_body->ApplyLinearImpulseToCenter(b2Vec2(0, m_body->GetMass() * IMPULSE_SECONDJUMP), true);
-		setCurrentPad(NULL);
 	}
 }

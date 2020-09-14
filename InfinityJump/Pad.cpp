@@ -113,7 +113,7 @@ void Pad::Update(GLfloat dt)
 	shared_ptr<GSPlay> currentPlayScene = static_pointer_cast<GSPlay>(Singleton<GameStateMachine>::GetInstance()->CurrentState());
 	int currentPoint = currentPlayScene->getCharacter()->getPoint();
 	auto v = m_body->GetLinearVelocity();
-	v.x = PAD_VELOCITY_X*(1.0f + (PAD_SPEED_INCREASE_RATE * currentPoint / NUM_PAD_PER_INCREASE_SPEED));
+	v.x = max(-5.0, PAD_VELOCITY_X*(1.0f + (PAD_SPEED_INCREASE_RATE * currentPoint / NUM_PAD_PER_INCREASE_SPEED)));
 	// printf("velocity: %f\n", v.x);
 	if (abs(v.y) > EPSILON) {
 		float y = getPos2D().y;

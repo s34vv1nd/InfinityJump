@@ -4,11 +4,13 @@
 #include "../3DEngine/3DEngine.h"
 #include "Define.h"
 #include "Game.h"
+#include "Character.h"
 
 class GSLoading :
 	public GameStateBase
 {
 	static shared_ptr<Sprite> m_background;
+	static shared_ptr<AnimSprite> m_characterSprites;
 	static bool m_done;
 	static int m_draw;
 	static int m_update;

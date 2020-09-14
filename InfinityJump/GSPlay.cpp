@@ -137,10 +137,10 @@ void GSPlay::TouchActionUp(int x, int y)
 	if (m_isPaused && m_pauseButton2->onClick(x, y, false, this)) return;
 	if (m_isPaused) return;
 
-	if (m_character->isJumpingFirst()) {
+	if (m_character->isJumpingFirst() && !m_character->isJumpingSecond()) {
 		m_character->JumpSecond();
 	}
-	else {
+	else if (!m_character->isJumpingFirst() && !m_character->isJumpingSecond()) {
 		m_character->JumpFirst();
 	}
 }

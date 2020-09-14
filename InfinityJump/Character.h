@@ -18,6 +18,7 @@ class Character :
     bool m_isOnTheGround = false;
     bool m_isJumpingFirst = false;
     bool m_isJumpingSecond = false;
+	bool m_needToJump = false;
     bool m_isDead = false;
     int m_iPoint = 0;
 	int m_HighScore = 0;

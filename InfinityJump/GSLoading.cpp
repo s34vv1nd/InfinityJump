@@ -4,6 +4,7 @@
 
 
 shared_ptr<Sprite> GSLoading::m_background = NULL;
+shared_ptr<AnimSprite> GSLoading::m_characterSprites = NULL;
 bool GSLoading::m_done = false;
 int GSLoading::m_draw = 0;
 int GSLoading::m_update = 0;
@@ -32,12 +33,20 @@ void GSLoading::Init() {
 			if (obj->getName() == "LOADING_BACKGROUND_0") {
 				m_background = dynamic_pointer_cast<Sprite>(obj);
 			}
+			else if (obj->getName() == "CHARACTER") {
+				m_characterSprites = dynamic_pointer_cast<AnimSprite>(obj);
+			}
 		}
 	}
 }
 
 void GSLoading::Enter() {
-	m_textLoading = make_shared<Text>(string("LOADING ..."), Vector4(1.0f, 0.0f, 0.0f, 1.0f), Vector2(300.0f, 300.0f), Vector2(2.0f, 2.0f));
+	
+	m_textLoading = make_shared<Text>(string("LOADING ..."), Vector4(1.0f, 0.0f, 0.0f, 1.0f), Vector2(300.0f, 250.0f), Vector2(2.0f, 2.0f));
+	for (auto& anim : m_characterSprites->getAnimations()) {
+		anim->setCurrentFrame(0);
+	}
+	m_characterSprites->setCurrentAnimation(0);
 }
 
 void GSLoading::Loading(int index)
@@ -90,6 +99,7 @@ void GSLoading::Loading(int index)
 }
 
 void GSLoading::Update(float dt) {
+	
 	if (m_update < m_draw && m_update < NUM_LOADING_STEP) {
 		esLogMessage("Load asset %d: ", m_update);
 		Loading(m_update);
@@ -99,7 +109,7 @@ void GSLoading::Update(float dt) {
 	}
 
 	m_textLoading->setText("LOADING: " + to_string(m_iPercentageLoaded) + "%");
-
+	m_characterSprites->Update(dt);
 	if (m_done) {
 		Singleton<GameStateMachine>::GetInstance()->PopState();
 		Singleton<GameStateMachine>::GetInstance()->PushState(STATE_MENU);
@@ -111,5 +121,6 @@ void GSLoading::Draw() {
 		++m_draw;
 	}
 	m_background->Draw();
+	m_characterSprites->Draw();
 	m_textLoading->Draw();
 }
