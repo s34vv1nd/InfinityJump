@@ -63,13 +63,18 @@ Pad* Character::getCurrentPad()
 
 void Character::setCurrentPad(Pad* pad)
 {
-	if (pad != NULL && (m_previousPad == NULL || pad->getID() != m_previousPad->getID())) {
-		Singleton<SoundManager>::GetInstance()->playSFX(LAND);
-		//printf("new pad %d\n", pad->getID());
-		m_previousPad = pad;
+	if (pad != NULL && (m_previousPad == NULL || pad->getID() != m_previousPad->getID())) 
+	{
+		if (getPos2D().x >= pad->getPos2D().x - pad->getHitbox().x / 2.0f && 
+			getPos2D().x <= pad->getPos2D().x + pad->getHitbox().x / 2.0f) 
+		{
+			Singleton<SoundManager>::GetInstance()->playSFX(LAND);
+			m_previousPad = pad;
+			//printf("new pad %d\n", pad->getID());
+		}
 	}
 	m_currentPad = pad;
-	//if (pad) esLogMessage("On Pad: %d\n", pad->getID());
+	//if (pad) esLogMessage("On Pad: %d\n", pad->getID()); else esLogMessage("On Pad: NULL\n");
 	if (pad && pad->isKiller()) die();
 }
 

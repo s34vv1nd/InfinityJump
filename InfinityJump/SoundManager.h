@@ -31,8 +31,8 @@ public:
 	void playBGM(BGMType type);
 	void setSFXVolume(float vol);
 	void setBGMVolume(float vol);
-	void setBGMStatus(bool status);
-	void setSFXStatus(bool status);
+	void setBGMisON(bool status);
+	void setSFXisON(bool status);
 	void setCurrentBGM(BGMType type);
 
 private:

@@ -17,8 +17,8 @@ public:
 	~GSGameOver();
 
 	virtual void Init();
-	virtual void Enter() {}
-	virtual void Exit() {}
+	virtual void Enter();
+	virtual void Exit();
 	virtual void Pause() {}
 	virtual void Resume() {}
 

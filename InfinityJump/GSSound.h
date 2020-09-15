@@ -41,6 +41,9 @@ public:
 	GSSound();
 	~GSSound();
 
+	static bool getSFXisON();
+	static bool getBGMisON();
+
 	void Init();
 	void Enter();
 	void Pause() {}

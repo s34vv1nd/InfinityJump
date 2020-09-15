@@ -58,7 +58,7 @@ void Pad::setPos2D(Vector2 pos2D)
 
 bool Pad::isBehindCharacter(shared_ptr<Character> character)
 {
-	return getPos2D().x + getWidth() / 2 < character->getPos2D().x;
+	return getPos2D().x + getWidth() / 2.0f < character->getPos2D().x - character->getHitbox().x / 2.0f;
 }
 
 bool Pad::getPassedCharacter()

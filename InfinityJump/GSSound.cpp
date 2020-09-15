@@ -22,28 +22,28 @@ void GSSound::OnClickBackButton(int x, int y, bool isPressed, void* context) {
 void GSSound::OnClickBGMOnButton(int x, int y, bool isPressed, void* context) {
 	if (!isPressed) {
 		m_BGMisON = false;
-		Singleton<SoundManager>::GetInstance()->setBGMStatus(m_BGMisON);
+		Singleton<SoundManager>::GetInstance()->setBGMisON(m_BGMisON);
 	}
 }
 
 void GSSound::OnClickBGMOffButton(int x, int y, bool isPressed, void* context) {
 	if (!isPressed) {
 		m_BGMisON = true;
-		Singleton<SoundManager>::GetInstance()->setBGMStatus(m_BGMisON);
+		Singleton<SoundManager>::GetInstance()->setBGMisON(m_BGMisON);
 	}
 }
 
 void GSSound::OnClickSFXOnButton(int x, int y, bool isPressed, void* context) {
 	if (!isPressed) {
 		m_SFXisON = false;
-		Singleton<SoundManager>::GetInstance()->setSFXStatus(m_SFXisON);
+		Singleton<SoundManager>::GetInstance()->setSFXisON(m_SFXisON);
 	}
 }
 
 void GSSound::OnClickSFXOffButton(int x, int y, bool isPressed, void* context) {
 	if (!isPressed) {
 		m_SFXisON = true;
-		Singleton<SoundManager>::GetInstance()->setSFXStatus(m_SFXisON);
+		Singleton<SoundManager>::GetInstance()->setSFXisON(m_SFXisON);
 	}
 }
 
@@ -69,6 +69,16 @@ GSSound::GSSound()
 
 GSSound::~GSSound()
 {
+}
+
+bool GSSound::getSFXisON()
+{
+	return m_SFXisON;
+}
+
+bool GSSound::getBGMisON()
+{
+	return m_BGMisON;
 }
 
 void GSSound::Init(){

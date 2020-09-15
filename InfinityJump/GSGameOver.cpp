@@ -35,7 +35,6 @@ void GSGameOver::Init() {
 	int exitcode = Singleton<SceneManager>::GetInstance()->Init(GAMEOVERSCENE_FILE);
 	if (exitcode) return;
 
-
 	auto m_objList = Singleton<SceneManager>::GetInstance()->m_objList;
 	for (auto obj : m_objList) {
 		if (obj != NULL) {
@@ -46,6 +45,20 @@ void GSGameOver::Init() {
 				m_exitButton = make_shared<Button>(dynamic_pointer_cast<Sprite>(obj), &GSGameOver::OnClickExitButton);
 			}
 		}
+	}
+}
+
+inline void GSGameOver::Enter() {
+	if (GSSound::getBGMisON()) {
+		Singleton<SoundManager>::GetInstance()->setBGMisON(false);
+	}
+	Singleton<SoundManager>::GetInstance()->playSFX(GAME_FAIL);
+
+}
+
+inline void GSGameOver::Exit() {
+	if (GSSound::getBGMisON()) {
+		Singleton<SoundManager>::GetInstance()->setBGMisON(true);
 	}
 }
 

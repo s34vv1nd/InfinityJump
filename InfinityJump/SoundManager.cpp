@@ -5,14 +5,14 @@
 SoundManager::SoundManager()
 {
 	mSoloud.init();
-	loadSFX(JUMP, "../Resources/Sound/jumping.wav");
-	loadSFX(LAND, "../Resources/Sound/landing.wav");
-	loadSFX(CLICK_BUTTON, "../Resources/Sound/button.wav");
-	loadSFX(GAME_FAIL, "../Resources/Sound/game_fail1.wav");
-	loadBGM(SOUND_TRACK1, "../Resources/Sound/soundtrack1.wav");
-	loadBGM(SOUND_TRACK2, "../Resources/Sound/soundtrack2.wav");
-	loadBGM(SOUND_TRACK3, "../Resources/Sound/soundtrack3.wav");
-	loadBGM(SOUND_TRACK4, "../Resources/Sound/soundtrack4.wav");
+	loadSFX(JUMP,			"../Resources/Sound/jumping3.wav");
+	loadSFX(LAND,			"../Resources/Sound/landing.wav");
+	loadSFX(CLICK_BUTTON,	"../Resources/Sound/button.wav");
+	loadSFX(GAME_FAIL,		"../Resources/Sound/gameover2.wav");
+	loadBGM(SOUND_TRACK1,	"../Resources/Sound/soundtrack1.wav");
+	loadBGM(SOUND_TRACK2,	"../Resources/Sound/soundtrack2.wav");
+	loadBGM(SOUND_TRACK3,	"../Resources/Sound/soundtrack3.wav");
+	loadBGM(SOUND_TRACK4,	"../Resources/Sound/soundtrack4.wav");
 }
 
 SoundManager::~SoundManager()
@@ -63,12 +63,12 @@ void SoundManager::setBGMVolume(float vol)
 	mSoloud.setVolume(m_currentBGMhandle, vol);
 }
 
-void SoundManager::setSFXStatus(bool status)
+void SoundManager::setSFXisON(bool status)
 {
 	m_SFXisON = status;
 }
 
-void SoundManager::setBGMStatus(bool status)
+void SoundManager::setBGMisON(bool status)
 {
 	if (m_BGMisON == status) return;
 	m_BGMisON = status;
